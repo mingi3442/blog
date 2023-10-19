@@ -1,3 +1,4 @@
+//project data for the projects page
 const projectsData = [
   {
     title: 'A Search Engine',
