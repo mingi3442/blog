@@ -33,10 +33,6 @@ export default function Home({ posts }) {
               <li key={slug} className="py-12">
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    {/* <div className="justify-center">
-                      {images ? <img src={images} alt={slug} width={'85%'} height={'85%'} /> : ''}
-                    </div> */}
-
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>

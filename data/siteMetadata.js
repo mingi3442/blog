@@ -13,7 +13,7 @@ const siteMetadata = {
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'mingi3442@gmail.com',
   github: 'https://github.com/mingi3442',
-  twitter: 'https://twitter.com/Twitter',
+  twitter: 'https://twitter.com/min_71_dev',
   facebook: 'https://facebook.com',
   youtube: 'https://youtube.com',
   linkedin: 'https://www.linkedin.com',
