@@ -15,8 +15,8 @@ const siteMetadata = {
   github: 'https://github.com/mingi3442',
   twitter: 'https://twitter.com/min_71_dev',
   facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  // youtube: 'https://youtube.com',
+  // linkedin: 'https://www.linkedin.com',
   locale: 'ko-KR',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
@@ -69,7 +69,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'en',
+      lang: 'ko',
     },
   },
   search: {
