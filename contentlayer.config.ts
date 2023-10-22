@@ -13,6 +13,7 @@ import {
   extractTocHeadings,
 } from 'pliny/mdx-plugins/index.js'
 // Rehype packages
+import rehypeRemark from 'rehype-remark'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
@@ -77,7 +78,7 @@ function createSearchIndex(allBlogs) {
 
 export const Blog = defineDocumentType(() => ({
   name: 'Blog',
-  filePathPattern: 'blog/**/*.{md,mdx}',
+  filePathPattern: 'blog/*.mdx',
   contentType: 'mdx',
   fields: {
     title: { type: 'string', required: true },
