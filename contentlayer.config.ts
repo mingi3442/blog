@@ -13,7 +13,6 @@ import {
   extractTocHeadings,
 } from 'pliny/mdx-plugins/index.js'
 // Rehype packages
-import rehypeRemark from 'rehype-remark'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeKatex from 'rehype-katex'
