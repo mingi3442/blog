@@ -6,7 +6,7 @@ const siteMetadata = {
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'ko-KR',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://min71dev.com',
+  siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi/blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
