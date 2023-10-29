@@ -23,7 +23,7 @@ const Tag = ({ text, count }: Props) => {
             <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {text.split(' ').join('-')}
             <span>&nbsp;</span>
-            {count && `[${count}]`}
+            {count && `[ ${count} ]`}
             <span>&nbsp;</span>
           </span>
         </div>

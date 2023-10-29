@@ -3,8 +3,8 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import Tag from '@/components/Tag'
 import Image from 'next/image'
-
 import { Authors } from 'contentlayer/generated'
+
 export default function BlogCard({
   post,
   author,
@@ -24,17 +24,23 @@ export default function BlogCard({
   return (
     <div className="container ">
       <div className="lg:-mx-6 lg:flex lg:items-center">
-        <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72">
-          <Link href={`/blog/${slug}`} aria-label={`Read "${title}"`}>
-            <Image
-              className="w-full rounded-xl "
-              sizes="100vw"
-              src={Array.isArray(images) ? images[0] : ''}
-              alt=""
-              fill
-              style={{ objectFit: 'cover' }}
-            />
-          </Link>
+        <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border ">
+          {Array.isArray(images) && (
+            <Link
+              className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 border-gray-300/40 border"
+              href={`/blog/${slug}`}
+              aria-label={`Read "${title}"`}
+            >
+              <Image
+                className="w-full h-72"
+                sizes="auto"
+                src={Array.isArray(images) ? images[0] : ''}
+                alt={slug}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </Link>
+          )}
         </div>
 
         <div className="mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
@@ -83,10 +89,10 @@ export default function BlogCard({
             <div className="flex items-center ">
               <div className="relative w-10 h-10 rounded-full bg-slate-600">
                 <Image
-                  className="w-10 h-10 rounded-full"
-                  sizes="100vw"
+                  className="w-10 h-10 rounded-full static"
+                  sizes="auto"
                   src={author.avatar as string}
-                  alt=""
+                  alt={author.name}
                   fill
                   style={{ objectFit: 'cover' }}
                 />
