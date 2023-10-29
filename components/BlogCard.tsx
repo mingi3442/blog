@@ -3,8 +3,11 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import Tag from '@/components/Tag'
 import Image from 'next/image'
+
+import { Authors } from 'contentlayer/generated'
 export default function BlogCard({
   post,
+  author,
 }: {
   post: {
     slug: string
@@ -14,8 +17,10 @@ export default function BlogCard({
     tags: Array<string>
     images: Array<string>
   }
+  author: Authors
 }) {
   const { slug, date, title, summary, tags, images } = post
+
   return (
     <div className="container">
       <div className="lg:-mx-6 lg:flex lg:items-center">
@@ -29,7 +34,7 @@ export default function BlogCard({
             style={{ objectFit: 'cover' }}
           />
         </div>
-        <div className="mt-2 lg:w-1/2 lg:mt-0 flex flex-col items-start justify-start h-full">
+        <div className="mt-2 lg:w-1/2 lg:mt-0 flex flex-col items-start justify-start min-h-full">
           <p className="block text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
             {title}
           </p>
@@ -67,11 +72,20 @@ export default function BlogCard({
             </svg>
           </button>
           <div className="flex items-center mt-6">
-            <div className="object-cover object-center w-10 h-10 rounded-full bg-slate-600"></div>
+            <div className="relative w-10 h-10 rounded-full bg-slate-600">
+              <Image
+                className="w-10 h-10 rounded-full"
+                sizes="100vw"
+                src={author.avatar as string}
+                alt=""
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
 
             <div className="mx-4">
-              <h1 className="text-sm text-gray-700 dark:text-gray-200">Amelia. Anderson</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Lead Developer</p>
+              <h1 className="text-sm text-gray-700 dark:text-gray-200">{author.name}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{author.occupation}</p>
             </div>
           </div>
 

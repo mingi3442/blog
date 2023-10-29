@@ -8,7 +8,7 @@ import BlogCard from '@/components/BlogCard'
 
 const MAX_DISPLAY = 6
 
-export default function Home({ posts }) {
+export default function Home({ posts, author }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -31,7 +31,7 @@ export default function Home({ posts }) {
                 key={slug}
                 className="divide-y divide-gray-200 dark:divide-gray-700 py-8  w-[100%] flex items-center justify-center"
               >
-                <BlogCard post={post} />
+                <BlogCard post={post} author={author} />
               </li>
             )
           })}
