@@ -29,7 +29,7 @@ export default function Home({ posts, author }) {
             return (
               <li
                 key={slug}
-                className="divide-y divide-gray-200 dark:divide-gray-700 py-8  w-[100%] flex items-center justify-center"
+                className="divide-y divide-gray-200 dark:divide-gray-700 py-8 pb-4 lg:py-8 w-[100%] flex items-center justify-center"
               >
                 <BlogCard post={post} author={author} />
               </li>
