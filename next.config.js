@@ -1,4 +1,5 @@
 const { withContentlayer } = require('next-contentlayer')
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -60,8 +61,8 @@ module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
     il8n: {
-      locales: ['ko-KR', 'en-US'],
-      defaultLocale: 'ko-KR',
+      locales: ['en', 'ko'],
+      defaultLocale: 'ko',
     },
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
@@ -71,7 +72,6 @@ module.exports = () => {
     images: {
       domains: ['picsum.photos'],
     },
-
     async headers() {
       return [
         {
