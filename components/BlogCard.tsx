@@ -3,22 +3,9 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import Tag from '@/components/Tag'
 import Image from 'next/image'
-import { Authors } from 'contentlayer/generated'
+import { Authors, Blog } from 'contentlayer/generated'
 
-export default function BlogCard({
-  post,
-  author,
-}: {
-  post: {
-    slug: string
-    date: string
-    title: string
-    summary: string
-    tags: Array<string>
-    images: Array<string>
-  }
-  author: Authors
-}) {
+export default function BlogCard({ post, author }: { post: Blog; author: Authors }) {
   const { slug, date, title, summary, tags, images } = post
 
   return (
@@ -73,7 +60,7 @@ export default function BlogCard({
                 width="12"
                 xmlns="http://www.w3.org/2000/svg"
                 id="arrow-horizontal"
-                className="-translate-x-2 fill-slate-700 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:scale-x-105 group-hover:fill-white"
+                className="-translate-x-2 ml-1 mb-1 fill-primary-500 dark:fill-primary-400 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:scale-x-105 group-hover:fill-primary-5000"
               >
                 <path
                   transform="translate(30)"
@@ -97,11 +84,25 @@ export default function BlogCard({
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-
-              <div className="mx-4">
+              <dl className="ml-2 whitespace-nowrap text-sm font-medium leading-5">
+                <dt className="sr-only">Name</dt>
+                <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
+                <dt className="sr-only">Github</dt>
+                <dd>
+                  {author.github && (
+                    <Link
+                      href={author.github as string}
+                      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                    >
+                      {author?.github?.replace('https://github.com/', '@')}
+                    </Link>
+                  )}
+                </dd>
+              </dl>
+              {/* <div className="mx-4">
                 <h1 className="text-sm text-gray-500 dark:text-gray-200">{author.name}</h1>
                 <p className="text-sm text-gray-300 dark:text-gray-400">{author.occupation}</p>
-              </div>
+              </div> */}
             </div>
 
             <div className="h-full flex items-end">

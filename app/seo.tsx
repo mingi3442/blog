@@ -21,11 +21,11 @@ export function genPageMetadata({ title, description, image, ...rest }: PageSEOP
       locale: 'ko_KR',
       type: 'website',
     },
-    twitter: {
-      title: `${title} | ${siteMetadata.title}`,
-      card: 'summary_large_image',
-      images: image ? [image] : [siteMetadata.socialBanner],
-    },
+    // twitter: {
+    //   title: `${title} | ${siteMetadata.title}`,
+    //   card: 'summary_large_image',
+    //   images: image ? [image] : [siteMetadata.socialBanner],
+    // },
     ...rest,
   }
 }

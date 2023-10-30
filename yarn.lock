@@ -8657,6 +8657,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-translate-plugin@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "next-translate-plugin@npm:2.6.1"
+  dependencies:
+    typescript: 4.5.2
+  peerDependencies:
+    next-translate: ">= 2.4.1"
+  checksum: a8422ac02b88aa66269ca30c49081b0085ae882af3eb4e54e80193720e3c45940acae8de701b1a859ae70035a3a507db9e2da9e69068dc70972be676d82609ae
+  languageName: node
+  linkType: hard
+
+"next-translate@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "next-translate@npm:2.6.1"
+  peerDependencies:
+    next: ">= 13.2.5"
+    react: ">= 18.0.0"
+  checksum: b8e0e1d9dadfa9818465c981e396f417737df806467e82f640a147b21b507b07d32a5b18f4b297c97e8f0ac75f54f969614905f3b818680fdacd4686b2b40321
+  languageName: node
+  linkType: hard
+
 "next@npm:13.5.4":
   version: 13.5.4
   resolution: "next@npm:13.5.4"
@@ -11024,6 +11045,8 @@ __metadata:
     next: 13.5.4
     next-contentlayer: 0.3.4
     next-themes: ^0.2.1
+    next-translate: ^2.6.1
+    next-translate-plugin: ^2.6.1
     pliny: 0.1.4
     postcss: ^8.4.24
     prettier: ^3.0.0
@@ -11326,6 +11349,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:4.5.2":
+  version: 4.5.2
+  resolution: "typescript@npm:4.5.2"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 74f9ce65d532bdf5d0214b3f60cf37992180023388c87a11ee6f838a803067ef0b63c600fa501b0deb07f989257dce1e244c9635ed79feca40bbccf6e0aa1ebc
+  languageName: node
+  linkType: hard
+
 "typescript@npm:^5.1.3":
   version: 5.2.2
   resolution: "typescript@npm:5.2.2"
@@ -11333,6 +11366,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.5.2#~builtin<compat/typescript>":
+  version: 4.5.2
+  resolution: "typescript@patch:typescript@npm%3A4.5.2#~builtin<compat/typescript>::version=4.5.2&hash=bcec9a"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: e25e689eba64f7da7cfc43f8ea76cac7176b56caba42655f0a4cb29c0b7c36e67ca54f33df95902859f56108464245d8b45bcdfe21e3d66d9560feb8db780246
   languageName: node
   linkType: hard
 

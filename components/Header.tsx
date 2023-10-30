@@ -1,3 +1,4 @@
+'use client'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -40,6 +41,22 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
+        {/* <select
+          onChange={(e) => {
+            const value = e.target.value
+            const correctPathname = pathname.replace(`/${lang}`, `/${value}`)
+            router.push(correctPathname)
+          }}
+          defaultValue={lang}
+        >
+          {i18n.locales
+            .filter((x) => x !== 'default')
+            .map((res) => (
+              <option key={res} value={res}>
+                {res}
+              </option>
+            ))}
+        </select> */}
       </div>
     </header>
   )

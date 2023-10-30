@@ -39,13 +39,32 @@ export default function Home({ posts, author }) {
       </div>
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
-          >
-            All Posts &rarr;
-          </Link>
+          <button className="mt-3 btn group flex items-center bg-transparent tracking-widest text-base font-medium leading-6">
+            <span className="relative pb-1 pr-2 text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary-500 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 ">
+              <Link
+                href={`/blog`}
+                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                aria-label={`All Post`}
+              >
+                All Posts
+              </Link>
+            </span>
+            <svg
+              viewBox="0 0 46 16"
+              height="8"
+              width="12"
+              xmlns="http://www.w3.org/2000/svg"
+              id="arrow-horizontal"
+              className="-translate-x-2 ml-1 mb-1 fill-primary-500 dark:fill-primary-400 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:scale-x-105 group-hover:fill-primary-5000"
+            >
+              <path
+                transform="translate(30)"
+                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                data-name="Path 10"
+                id="Path_10"
+              ></path>
+            </svg>
+          </button>
         </div>
       )}
       {/* {siteMetadata.newsletter?.provider && (
