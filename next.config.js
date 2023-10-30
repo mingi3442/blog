@@ -60,9 +60,8 @@ module.exports = () => {
   const plugins = [withContentlayer, withBundleAnalyzer]
   return plugins.reduce((acc, next) => next(acc), {
     il8n: {
-      locales: ['en', 'ko'],
-      defaultLocale: 'ko',
-      localeDetection: false,
+      locales: ['ko-KR', 'en-US'],
+      defaultLocale: 'ko-KR',
     },
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
