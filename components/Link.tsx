@@ -1,21 +1,17 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
+'use client'
 import Link from 'next/link'
-import type { LinkProps } from 'next/link'
-import { AnchorHTMLAttributes } from 'react'
+import { useParams, useRouter } from 'next/navigation'
 
-const CustomLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  const isInternalLink = href && href.startsWith('/')
-  const isAnchorLink = href && href.startsWith('#')
+const LocaleLink = ({ href, ...props }) => {
+  const params = useParams()
 
-  if (isInternalLink) {
-    return <Link href={href} {...rest} />
-  }
+  // locale을 href와 as에 추가합니다.
+  const localeHref = `/${params.locale}${href}`
+  // const localeAs = as ? `/${locale}${as}` : as
+  // const localeHref = `/${href}`
+  // const localeAs = as ? `/${as}` : as
 
-  if (isAnchorLink) {
-    return <a href={href} {...rest} />
-  }
-
-  return <a target="_blank" rel="noopener noreferrer" href={href} {...rest} />
+  return <Link href={localeHref} {...props} />
 }
 
-export default CustomLink
+export default LocaleLink

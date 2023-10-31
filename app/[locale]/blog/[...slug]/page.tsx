@@ -81,7 +81,6 @@ export const generateStaticParams = async () => {
 }
 
 export default async function Page({ params }: { params: { slug: string[]; locale: string } }) {
-  console.log(params.locale)
   const slug = decodeURI(params.slug.join('/'))
 
   // Filter out drafts in production
