@@ -57,10 +57,16 @@ export const metadata: Metadata = {
   // },
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+  params: { lang },
+}: {
+  children: React.ReactNode
+  params: { lang: string }
+}) {
   return (
     <html
-      lang={siteMetadata.language}
+      lang={lang}
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
@@ -70,6 +76,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="manifest" href="/static/favicons/site.webmanifest" />
       <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#000000" />
+      <meta
+        httpEquiv="Content-Security-Policy"
+        content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com"
+      />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />

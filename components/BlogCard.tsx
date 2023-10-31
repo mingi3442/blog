@@ -4,6 +4,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import Tag from '@/components/Tag'
 import Image from 'next/image'
 import { Authors, Blog } from 'contentlayer/generated'
+import LocaleLink from './LocaleLink'
 
 export default function BlogCard({ post, author }: { post: Blog; author: Authors }) {
   const { slug, date, title, summary, tags, images } = post
@@ -13,7 +14,7 @@ export default function BlogCard({ post, author }: { post: Blog; author: Authors
       <div className="lg:-mx-6 lg:flex lg:items-center">
         <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border ">
           {Array.isArray(images) && (
-            <Link
+            <LocaleLink
               className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 border-gray-300/40 border"
               href={`/blog/${slug}`}
               aria-label={`Read "${title}"`}
@@ -26,7 +27,7 @@ export default function BlogCard({ post, author }: { post: Blog; author: Authors
                 fill
                 style={{ objectFit: 'cover' }}
               />
-            </Link>
+            </LocaleLink>
           )}
         </div>
 
@@ -46,13 +47,13 @@ export default function BlogCard({ post, author }: { post: Blog; author: Authors
             </p>
             <button className="mt-3 btn group flex items-center bg-transparent tracking-widest text-base font-medium leading-6">
               <span className="relative pb-1 pr-2 text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary-500 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 ">
-                <Link
+                <LocaleLink
                   href={`/blog/${slug}`}
                   className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                   aria-label={`Read "${title}"`}
                 >
                   Read more
-                </Link>
+                </LocaleLink>
               </span>
               <svg
                 viewBox="0 0 46 16"

@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
+import { useRouter } from 'next/navigation'
+import { getLocationOrigin } from 'next/dist/shared/lib/utils'
 
 interface PageSEOProps {
   title: string
@@ -18,7 +20,7 @@ export function genPageMetadata({ title, description, image, ...rest }: PageSEOP
       url: './',
       siteName: siteMetadata.title,
       images: image ? [image] : [siteMetadata.socialBanner],
-      locale: 'ko_KR',
+      locale: 'ko',
       type: 'website',
     },
     // twitter: {

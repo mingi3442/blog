@@ -5,6 +5,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
 import BlogCard from '@/components/BlogCard'
+import LocaleLink from '@/components/LocaleLink'
 
 const MAX_DISPLAY = 6
 
@@ -41,13 +42,13 @@ export default function Home({ posts, author }) {
         <div className="flex justify-end text-base font-medium leading-6">
           <button className="mt-3 btn group flex items-center bg-transparent tracking-widest text-base font-medium leading-6">
             <span className="relative pb-1 pr-2 text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary-500 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 ">
-              <Link
+              <LocaleLink
                 href={`/blog`}
                 className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                 aria-label={`All Post`}
               >
                 All Posts
-              </Link>
+              </LocaleLink>
             </span>
             <svg
               viewBox="0 0 46 16"

@@ -12,6 +12,7 @@ import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
+import { useRouter } from 'next/navigation'
 
 const defaultLayout = 'PostLayout'
 const layouts = {
@@ -23,7 +24,7 @@ const layouts = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[] }
+  params: { slug: string[]; locale: string }
 }): Promise<Metadata | undefined> {
   const slug = decodeURI(params.slug.join('/'))
   const post = allBlogs.find((p) => p.slug === slug)
@@ -79,8 +80,10 @@ export const generateStaticParams = async () => {
   return paths
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
+export default async function Page({ params }: { params: { slug: string[]; locale: string } }) {
+  console.log(params.locale)
   const slug = decodeURI(params.slug.join('/'))
+
   // Filter out drafts in production
   const sortedCoreContents = allCoreContent(sortPosts(allBlogs))
   const postIndex = sortedCoreContents.findIndex((p) => p.slug === slug)
