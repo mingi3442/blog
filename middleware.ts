@@ -35,6 +35,10 @@ export function middleware(request: NextRequest) {
       url.pathname = `/ko${nextUrl.pathname}`
       return NextResponse.redirect(url)
     }
+    if (language === 'en') {
+      url.pathname = `/en${nextUrl.pathname}`
+      return NextResponse.redirect(url)
+    }
 
     if (!['ko'].includes(language)) {
       url.pathname = `/en${nextUrl.pathname}`

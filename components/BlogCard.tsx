@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import Tag from '@/components/Tag'
+import Link from '@/components/Link'
 import Image from 'next/image'
 import { Authors, Blog } from 'contentlayer/generated'
 
