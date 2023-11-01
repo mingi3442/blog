@@ -21,7 +21,7 @@ interface ListLayoutProps {
   title: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
-  author: Authors
+  author?: Authors
 }
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
@@ -131,7 +131,7 @@ export default function ListLayoutWithTags({
               const { path, date, title, summary, tags } = post
               return (
                 <li key={path} className="py-6">
-                  <BlogCard post={post} author={author} />
+                  <BlogCard post={post} author={author as Authors} />
                   {/* <article className="space-y-2 flex flex-col xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
