@@ -27,8 +27,7 @@ export default function LanguageSwitcher() {
       return router.push(newPath)
     }
   }
-  console.log('lang :', lang)
-  // URL 변경 이벤트 감지하여 언어 변경
+
   usePushStateListener((url) => {
     setLang(url.startsWith('/en') ? 'en' : 'ko')
   })
