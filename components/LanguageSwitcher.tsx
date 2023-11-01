@@ -5,12 +5,17 @@ import { useEffect, useState } from 'react'
 export default function LanguageSwitcher() {
   const router = useRouter()
   const pathname = usePathname()
-
-  const [lang, setLang] = useState(pathname.replace('/', ''))
+  const regex = /(\/en\/|\/ko\/)/
+  const [lang, setLang] = useState<string>(() => {
+    const match = pathname.match(regex)
+    const initialLang =
+      match && match[1] === '/en/' ? 'en' : match && match[1] === '/ko/' ? 'ko' : pathname
+    return initialLang.replaceAll('/', '')
+  })
 
   const handleLanguageChange = (newLanguage) => {
     document.cookie = `selectedLanguage=${newLanguage}; path=/; samesite=None; secure`
-    const regex = /(\/en\/|\/ko\/)/
+
     const newPath = pathname.replace(regex, (match) => {
       if (match === '/en/') {
         return '/ko/'
@@ -19,7 +24,7 @@ export default function LanguageSwitcher() {
       }
     })
     if (pathname === '/en') {
-      // setLang('ko')
+      console.log('here')
       return router.push('/ko')
     } else if (pathname === '/ko') {
       return router.push('/en')
