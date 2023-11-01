@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'LeeMingi',
   headerTitle: 'Min._.71 Dev',
   description: 'A blog created with Next.js and Tailwind.css',
-  language: 'ko-KR',
+  language: 'en',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi/blog',
@@ -16,8 +16,6 @@ const siteMetadata = {
   twitter: 'https://twitter.com/min_71_dev',
   facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',
-  // linkedin: 'https://www.linkedin.com',
-  locale: 'ko-KR',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -69,7 +67,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'ko',
+      lang: 'en',
     },
   },
   search: {
