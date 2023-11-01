@@ -6,11 +6,13 @@ const PUBLIC_FILE = /\.(.*)$/
 
 export function middleware(request: NextRequest) {
   const { nextUrl, headers } = request
-  // Cloned url to work with
+
   const url = nextUrl.clone()
-  // Client language, defaults to en
+  // const languageCookie = request.cookies.get('selectedLanguage')?.value // 쿠키에서 언어 읽기
+
   const language =
-    headers.get('accept-language')?.split(',')?.[0].split('-')?.[0].toLowerCase() || 'en'
+    request.cookies.get('selectedLanguage')?.value ||
+    headers.get('accept-language')?.split(',')?.[0].split('-')?.[0].toLowerCase()
 
   try {
     if (nextUrl.pathname.startsWith('/_next/image')) {
@@ -26,7 +28,6 @@ export function middleware(request: NextRequest) {
       return undefined
     }
 
-    // Proceed without redirection if on a localized path
     if (nextUrl.pathname.startsWith('/en') || nextUrl.pathname.startsWith('/ko')) {
       return undefined
     }
@@ -40,10 +41,24 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(url)
     }
 
-    if (!['ko'].includes(language)) {
-      url.pathname = `/en${nextUrl.pathname}`
-      return NextResponse.redirect(url)
+    // if (!['ko'].includes(language)) {
+    //   url.pathname = `/en${nextUrl.pathname}`
+    //   return NextResponse.redirect(url)
+    // }
+
+    // if (nextUrl.pathname.startsWith('/en') && languageCookie === 'ko') {
+    //   url.pathname = nextUrl.pathname.replace(/^\/(en|ko)\//, '/ko/')
+    //   return NextResponse.redirect(url)
+    // }
+    // if (nextUrl.pathname.startsWith('/ko') && languageCookie === 'en') {
+    //   url.pathname = nextUrl.pathname.replace(/^\/(en|ko)\//, '/en/')
+    //   return NextResponse.redirect(url)
+    // }
+    if (nextUrl.pathname.startsWith('/en') || nextUrl.pathname.startsWith('/ko')) {
+      return undefined
     }
+
+    // Proceed without redirection if on a localized path
 
     return undefined
   } catch (error) {

@@ -6,6 +6,7 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const Header = () => {
   return (
@@ -41,6 +42,7 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
+        <LanguageSwitcher />
         {/* <select
           onChange={(e) => {
             const value = e.target.value
