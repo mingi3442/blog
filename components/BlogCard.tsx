@@ -4,14 +4,21 @@ import Tag from '@/components/Tag'
 import Link from '@/components/Link'
 import Image from 'next/image'
 import { Authors, Blog } from 'contentlayer/generated'
+import { CoreContent } from 'pliny/utils/contentlayer'
 
-export default function BlogCard({ post, author }: { post: Blog; author: Authors }) {
+export default function BlogCard({
+  post,
+  author,
+}: {
+  post: Blog | CoreContent<Blog>
+  author: Authors
+}) {
   const { slug, date, title, summary, tags, images } = post
 
   return (
-    <div className="container ">
+    <div className="container">
       <div className="lg:-mx-6 lg:flex lg:items-center">
-        <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border ">
+        <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border-[0.5px]">
           {Array.isArray(images) && (
             <Link
               className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 border-gray-300/40 border"

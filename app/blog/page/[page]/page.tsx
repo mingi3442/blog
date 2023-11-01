@@ -1,7 +1,7 @@
 import ListLayout from '@/layouts/ListLayoutWithTags'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
-
+import { Authors, allAuthors } from 'contentlayer/generated'
 const POSTS_PER_PAGE = 5
 
 export const generateStaticParams = async () => {
@@ -12,6 +12,7 @@ export const generateStaticParams = async () => {
 }
 
 export default function Page({ params }: { params: { page: string } }) {
+  const author = allAuthors.find((p) => p.slug === 'default') as Authors
   const posts = allCoreContent(sortPosts(allBlogs))
   const pageNumber = parseInt(params.page as string)
   const initialDisplayPosts = posts.slice(
@@ -25,6 +26,7 @@ export default function Page({ params }: { params: { page: string } }) {
 
   return (
     <ListLayout
+      author={author}
       posts={posts}
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}

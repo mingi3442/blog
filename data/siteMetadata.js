@@ -3,7 +3,7 @@ const siteMetadata = {
   title: 'Min._.71 Dev Blog',
   author: 'LeeMingi',
   headerTitle: 'Min._.71 Dev',
-  description: 'A blog created with Next.js and Tailwind.css',
+  description: 'Step by step, but Steadily and Consistently 📝',
   language: 'en',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
