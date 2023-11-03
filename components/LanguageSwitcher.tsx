@@ -24,7 +24,6 @@ export default function LanguageSwitcher() {
       }
     })
     if (pathname === '/en') {
-      console.log('here')
       return router.push('/ko')
     } else if (pathname === '/ko') {
       return router.push('/en')

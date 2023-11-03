@@ -5,20 +5,53 @@ import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
 import BlogCard from '@/components/BlogCard'
-
+import ProfileCard from '@/components/ProfileCard'
+import { TypedIntroduce } from '@/components/TypedIntroduce'
+import { RoughNotation } from 'react-rough-notation'
 const MAX_DISPLAY = 3
 
 export default function Home({ posts, author }) {
   return (
     <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="">
+        {/* <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+            Profile
+          </h1>
+        </div> */}
+        <div className="flex p-0 md:p-8 w-auto items-center justify-between h-auto">
+          <div className="flex flex-col items-start justify-start h-auto flex-1">
+            <div className="flex text-3xl font-extrabold leading-9 tracking-tight sm:text-5xl sm:leading-10 md:text-6xl md:leading-14 mb-4 ">
+              <h1 className=" bg-gradient-to-r from-slate-500 to-slate-800 text-transparent bg-clip-text dark:from-gray-200 dark:to-slate-300 ">
+                Hi There
+              </h1>
+              <p>&nbsp;👋🏻</p>
+            </div>
+            <div></div>
+            {/* <div className="flex flex-col flex-1">
+              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+                여기는 저의 &nbsp;
+                <RoughNotation type="circle" show color="#1d4ed8">
+                  개인 블로그
+                </RoughNotation>
+                &nbsp;입니다.
+              </p>
+              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+                저는 &nbsp;
+                <RoughNotation type="underline" show color="#1d4ed8">
+                  2년자 Web Developer
+                </RoughNotation>
+                &nbsp;입니다.
+              </p>
+            </div> */}
+            <TypedIntroduce />
+          </div>
+          {/* <ProfileCard author={author} /> */}
+        </div>
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Latest
+            Latest Posts
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
         </div>
 
         <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-6">
@@ -29,10 +62,10 @@ export default function Home({ posts, author }) {
             return (
               <li key={slug} className="">
                 <div className="container rounded-xl shadow-md bg-slate-200  dark:bg-slate-700 flex flex-col justify-center items-center p-4 ">
-                  <div className="relative overflow-hidden bg-clip-border w-full mb-4 rounded-xl h-72 border-gray-300/40 border-[0.5px]">
+                  <div className="relative overflow-hidden bg-clip-border w-full mb-4 rounded-xl h-72 shadow-md">
                     {Array.isArray(images) && (
                       <Link
-                        className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 border-gray-300/40 border"
+                        className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72"
                         href={`/blog/${slug}`}
                         aria-label={`Read "${title}"`}
                       >

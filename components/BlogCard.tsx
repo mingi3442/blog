@@ -21,7 +21,7 @@ export default function BlogCard({
         <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border-[0.5px]">
           {Array.isArray(images) && (
             <Link
-              className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 border-gray-300/40 border"
+              className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 "
               href={`/blog/${slug}`}
               aria-label={`Read "${title}"`}
             >
