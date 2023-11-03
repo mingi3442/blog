@@ -59,6 +59,7 @@
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "react-rough-notation": "^1.0.5",
+    "twemoji": "^14.0.2",
     "typed.js": "^2.0.16",
     "typescript": "^5.1.3"
   },

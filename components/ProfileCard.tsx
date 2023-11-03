@@ -22,14 +22,14 @@ export default function ProfileCard({ author }: { author: Authors }) {
           {author.name}
         </h4>
         <p className="block bg-gradient-to-tr from-blue-600 to-blue-400 bg-clip-text font-sans text-base font-medium leading-relaxed text-transparent antialiased">
-          {/* Front-end Developer */}
+          Web Developer
         </p>
       </div>
-      <div className="flex justify-center gap-7 p-6 pt-2">
+      <div className="flex justify-center gap-7 p-6 pt-0">
         <div className="flex space-x-3 pt-6 text-primary-600">
           <SocialIcon kind="mail" href={`mailto:${author.email}`} />
           <SocialIcon kind="github" href={author.github} />
-          <SocialIcon kind="linkedin" href={author.linkedin} />
+          {/* <SocialIcon kind="linkedin" href={author.linkedin} /> */}
           {/* <SocialIcon kind="twitter" href={twitter} /> */}
         </div>
       </div>

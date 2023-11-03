@@ -8,47 +8,49 @@ import BlogCard from '@/components/BlogCard'
 import ProfileCard from '@/components/ProfileCard'
 import { TypedIntroduce } from '@/components/TypedIntroduce'
 import { RoughNotation } from 'react-rough-notation'
+import MyInformation from '@/components/MyInformation'
+
 const MAX_DISPLAY = 3
+
+const INTERESTED_TECH_TAGS = ['cosmos-network']
 
 export default function Home({ posts, author }) {
   return (
     <>
       <div className="">
-        {/* <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Profile
-          </h1>
-        </div> */}
         <div className="flex p-0 md:p-8 w-auto items-center justify-between h-auto">
           <div className="flex flex-col items-start justify-start h-auto flex-1">
             <div className="flex text-3xl font-extrabold leading-9 tracking-tight sm:text-5xl sm:leading-10 md:text-6xl md:leading-14 mb-4 ">
-              <h1 className=" bg-gradient-to-r from-slate-500 to-slate-800 text-transparent bg-clip-text dark:from-gray-200 dark:to-slate-300 ">
+              <h1 className="bg-gradient-to-r from-slate-500 to-slate-800 text-transparent bg-clip-text dark:from-gray-200 dark:to-slate-300 mb-2">
                 Hi There
               </h1>
               <p>&nbsp;👋🏻</p>
             </div>
-            <div></div>
-            {/* <div className="flex flex-col flex-1">
-              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-                여기는 저의 &nbsp;
-                <RoughNotation type="circle" show color="#1d4ed8">
-                  개인 블로그
+            <div className="h-auto flex flex-col">
+              <div className="flex text-lg bg-gradient-to-r from-slate-500 to-slate-800 text-transparent bg-clip-text dark:from-gray-200 dark:to-slate-300 mb-2">
+                <div className="pr-1">Interested Tech&nbsp;</div>
+                <RoughNotation type="box" show color="#1d4ed8">
+                  Tags
                 </RoughNotation>
-                &nbsp;입니다.
-              </p>
-              <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-                저는 &nbsp;
-                <RoughNotation type="underline" show color="#1d4ed8">
-                  2년자 Web Developer
-                </RoughNotation>
-                &nbsp;입니다.
-              </p>
-            </div> */}
-            <TypedIntroduce />
+              </div>
+              <div className="pt-4 flex flex-col lg:flex-row gap-2">
+                {INTERESTED_TECH_TAGS.map((tag, index) => {
+                  return (
+                    <div key={index} className="flex-1">
+                      <Tag text={tag} />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            <div className="min-h-42 py-4">
+              <TypedIntroduce />
+            </div>
+            <div className="p-2">{/* <MyInformation /> */}</div>
           </div>
-          {/* <ProfileCard author={author} /> */}
+          <ProfileCard author={author} />
         </div>
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+        <div className="space-y-2 pb-2 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest Posts
           </h1>
