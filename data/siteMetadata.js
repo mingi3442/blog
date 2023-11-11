@@ -9,7 +9,7 @@ const siteMetadata = {
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi/blog',
   siteLogo: '/static/images/logo.png',
-  socialBanner: '/static/images/social-banner.jpeg',
+  socialBanner: '/static/images/banner.jpeg',
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'mingi3442@gmail.com',
   github: 'https://github.com/mingi3442',
