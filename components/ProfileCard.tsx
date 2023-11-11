@@ -1,8 +1,16 @@
+// 'use client'
 import { Authors } from 'contentlayer/generated'
 import Image from 'next/image'
 import SocialIcon from './social-icons'
+import { useEffect } from 'react'
+// import { getNowPlaying } from 'app/api/spotify'
 
 export default function ProfileCard({ author }: { author: Authors }) {
+  // useEffect(() => {
+  //   getNowPlaying().then((data) => {
+  //     console.log(data)
+  //   })
+  // }, [])
   return (
     <div className="relative md:flex w-72 flex-col rounded-xl bg-slate-200/20 dark:bg-primary-100/20 bg-clip-border text-gray-700 shadow-md hidden">
       <div className="flex items-center justify-center">
