@@ -1,10 +1,10 @@
 ---
-title: Cosmos Introduction
+title: '[Cosmos] Introduction'
 date: '2023-07-07'
 lastmod: '2023-07-07'
 tags: ['Cosmos-network', 'CometBFT', 'IBC']
 draft: false
-summary: 'AppChain이란 무엇이며 AppChain 생태계 중 대표적인 Cosmos EcoSystem은 어떤 생태계일까?'
+summary: 'AppChain과 AppChain 생태계 중 대표적인 Cosmos Ecosystem에 대하여'
 images: ['/static/images/cosmos.png']
 ---
 
@@ -12,21 +12,15 @@ images: ['/static/images/cosmos.png']
 
 # Introduction
 
-UniSwap이 자체 AppChain을 운영할 예정이 있다는 뉴스를 보았다
+UniSwap이 자체 AppChain을 운영할 예정이 있다는 뉴스를 보았습니다.
 
-AppChain이란 무엇일까 ..?
+AppChain이란
 
-간단하게 정의하면 <u>**특정 애플리케이션을 목적으로 설계된 블록체인**</u> 이라고 정리 가능하다
-
-그렇다면 AppChain 생태계 중 대표적인 Cosmos EcoSystem에 대해서도 궁금하다..!
-
-그래서 시작된 포스팅!
+간단하게 정의하면 <u>**특정 애플리케이션을 목적으로 설계된 블록체인**</u> 이라고 정리 가능합니다.
 
 ---
 
-<TOCInline toc={props.toc} exclude="Introduction" />
-
----
+## <TOCInline toc={props.toc} exclude="Introduction" />
 
 # What is Cosmos?
 
@@ -44,15 +38,17 @@ Cosmos 네트워크는 Cosmos Hub, Tendermint 합의 알고리즘 및 IBC(Inter-
 
 ## CometBFT
 
-**기존 `Tendermint` 에서 개선된 합의 알고리즘**
+**기존 <u>Tendermint</u> 에서 개선된 합의 알고리즘**
 
-> Tendermint ❓
+> What is Tendermint ?
 
 - Cosmos의 합의 레이어이며 **DPOS**와 **BFT**를 결합한 합의 알고리즘
 - Finality를 우선시 하여 블록이 생성되자 마자 Finality를 갖는다는 특징이 있음.
 - 100~130개의 대표노드들에게 위임하여 동작하며 검증인이 많아질 수록 합의 속도 증가
 - 그러나 각 AppChain으로 Staking된 금액들이 나누어 지면서 보안성 ↓
-  ↪ **_Interchain Security를 통해 보완_**
+
+  ⤷ **_Interchain Security를 통해 보완_**
+
   ⤷ **Interchain Security** : 새로 만들어지는 체인들이 런칭을 할 때 DPOS 악용 문제 해결을 위해 Total Stake가 큰 체인들(cosmos hub)의 validate set과 voting power를 빌려와 검증에 사용
 
 ### Feature
@@ -68,7 +64,7 @@ Cosmos의 합의알고리즘의 즉각적인 최종성 속성을 활용하여 �
 
 ### How it works?
 
-체인 A의 계정이 체인 B의 계정에게 10개의 `✪Token`을 보내는 시나리오
+체인 A의 계정이 체인 B의 계정에게 10개의 **✪Token**을 보내는 시나리오
 
 #### Tracking
 
@@ -80,14 +76,14 @@ _체인 A에서 토큰을 전송하기 위해 IBC 전송이 시작되면 `✪Tok
 
 #### Proof Relay
 
-_그 후 10개의 `✪Token`이 결합되어 있다는 **`Proof`**가 체인 A에서 체인 B로 전달_ ![](https://v1.cosmos.network/images/intro/05-ibc-02.svg)
+_그 후 10개의 `✪Token`이 결합되어 있다는 **Proof**가 체인 A에서 체인 B로 전달_ ![](https://v1.cosmos.network/images/intro/05-ibc-02.svg)
 
 #### Validation
 
 _증명은 체인 B에서 체인 A의 헤더에 대해 검증되며, 유효하면 체인 B에서 10개의 `✪Token`바우처를 생성_ ![](https://v1.cosmos.network/images/intro/05-ibc-04.svg)
 
-> **𖤐𖤐** 체인 B에 생성된 `✪Token`은 체인 A에만 존재하기 때문에 실제 `✪Token`이 아니며 체인B에 대한 체인A`✪Token`이 체인A에 동결되어 있다는 증명으로 사용
-> `✪Token`이 원래 체인으로 돌아올 때 역시 유사한 메커니즘을 사용하여 `✪Token`의 잠금을 해제하고 체인 B의 `✪Token`을 소각
+> 𖤐𖤐 체인 B에 생성된 **✪Token**은 체인 A에만 존재하기 때문에 실제 체인 B의 **✪Token**이 아니며 체인B에 대한 체인A**✪Token**이 체인A에 동결되어 있다는 증명으로 사용
+> **✪Token**이 원래 체인으로 돌아올 때 역시 유사한 메커니즘을 사용하여 **✪Token**의 잠금을 해제하고 체인 B의 **✪Token**을 소각
 
 ## Cosmos SDK (Software Develop Kit)
 
@@ -109,7 +105,7 @@ Zone은 Cosmos 네트워크의 핵심 구성 요소 중 하나로, 블록체인�
 
 ---
 
-# Outro
+# Review
 
 백서가 나온지 7년이 넘었으나, 생각보다 강의 또는 자료는 여전히 찾기가 쉽지가 않습니다 ㅠㅠ
 

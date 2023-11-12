@@ -12,7 +12,7 @@ import MyInformation from '@/components/MyInformation'
 
 const MAX_DISPLAY = 3
 
-const INTERESTED_TECH_TAGS = ['cosmos-network']
+const INTERESTED_TECH_TAGS = ['cosmos-network', 'Cryptography']
 
 export default function Home({ posts, author }) {
   return (
@@ -33,10 +33,10 @@ export default function Home({ posts, author }) {
                   Tags
                 </RoughNotation>
               </div>
-              <div className="pt-4 flex flex-col lg:flex-row gap-2">
+              <div className="pt-4 flex flex-col xl:flex-row gap- w-full">
                 {INTERESTED_TECH_TAGS.map((tag, index) => {
                   return (
-                    <div key={index} className="flex-1">
+                    <div key={index} className="mx-1">
                       <Tag text={tag} />
                     </div>
                   )
@@ -56,7 +56,7 @@ export default function Home({ posts, author }) {
           </h1>
         </div>
 
-        <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 pt-6">
+        <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6">
           {/* <ul className="flex-col md:flex-row gap-6"> */}
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
@@ -64,20 +64,20 @@ export default function Home({ posts, author }) {
             return (
               <li key={slug} className="">
                 <div className="container rounded-xl shadow-md bg-slate-200  dark:bg-slate-700 flex flex-col justify-center items-center p-4 ">
-                  <div className="relative overflow-hidden bg-clip-border w-full mb-4 rounded-xl h-72 shadow-md">
+                  <div className="relative overflow-hidden bg-clip-border w-full mb-4 rounded-xl h-72 shadow-md bg-white">
                     {Array.isArray(images) && (
                       <Link
-                        className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72"
+                        className="block relative overflow-hidden bg-clip-border w-auto rounded-xl h-72"
                         href={`/blog/${slug}`}
                         aria-label={`Read "${title}"`}
                       >
                         <Image
-                          className="w-full h-72"
+                          className="w-full h-auto"
                           sizes="auto"
                           src={Array.isArray(images) ? images[0] : ''}
                           alt={slug}
                           fill
-                          style={{ objectFit: 'cover' }}
+                          style={{ objectFit: 'contain' }}
                         />
                       </Link>
                     )}
