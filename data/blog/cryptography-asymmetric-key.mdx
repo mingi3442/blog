@@ -1,10 +1,10 @@
 ---
-title: '[Cryptography] Asymmetric Key and RSA'
+title: '[Cryptography] Asymmetric Key and RSA, ECC'
 date: '2022-04-27'
 lastmod: '2022-04-27'
-tags: ['Cryptography', 'AsymmetricKey', 'RSA']
+tags: ['Cryptography', 'AsymmetricKey', 'RSA', 'ECC']
 draft: false
-summary: '비대칭키 암호와 RSA'
+summary: '비대칭키 암호와 RSA, ECC'
 images: ['/static/images/cryptography.png']
 ---
 
@@ -83,3 +83,55 @@ _⤷ 1 < e < φ⒩_
 - $P^1 = P^{k × φ⒩ + 1} mod n = P mod n$
 
   ⇒ ✏️ _[φ⒩ 오일러의 정리](https://min71.dev/blog/cryptography-mathematics-in-cryptography#%CF%86) 마지막 부분 참고하시면 됩니다._
+
+---
+
+## ECC (Elliptic Curve Cryptosystem)
+
+타원 곡선 암호 시스템으로 유한체상의 타원곡선 이론에 기반한 공개키 암호입니다.
+
+### 타원 곡선 암호 시스템의 특징
+
+- RSA의 키는 보통 1024bits 이상이지만 ECC는 256bit 이상의 크기를 갖으며 상대적으로 짧은 키의 길이로 같은 보안 수준을 제공할 수 있습니다.
+
+- 실수 상의 타원곡선에서는 모든 근이 실근일 경우, 좌표의 수평선과 곡선이 3점에서 교차합니다.
+
+> $y^2 = x^3 + ax + b$ 그래프
+>
+> ![](/static/images/cryptography/ecc.png)
+
+### 타원 곡선 상의 덧셈 연산
+
+**_타원곡선 상에서 두 점($P$,$Q$)을 정한 후 두 점을 지나가는 직선이 타원 곡선과 만나는 3번째 교점을 $x$축 기준으로 대칭되는 점을 $R$로 정의하여 계산하는 것을 기초한다_**
+
+> $P$ = ($x_1$, $y_1$) , Q = ($x_2$, $y_2$)
+> $R$ = $P + Q$
+
+> ![](/static/images/cryptography/ecc-add.jpeg)
+
+✏️ $R$ = ($x_3$, $y_3$) **계산 방법**
+
+- $a$ . $P ≠ Q$
+  > $m$(기울기) = $(y_2 - y_1) / (x_2 - x_1)$ > $x_3 = m^2 - x_1 - x_2$ > $y_3 = m(x_1 - x_3) - y_1$
+- $b$ . $P = Q$
+  > $m$(기울기) = $(3x_1^2 + a) / (2y_1)$ > $x_3 = m^2 - x_1 - x_2$ > $y_3 = m(x_1 - x_3) - y_1$
+
+### GF($p$)상의 타원 곡선
+
+**_GF는 Galois Field, 유한체를 의미하며 $p$는 Prime Number 즉 소수를 의미합니다._**
+
+**_Modulo $p$를 이용한 타원곡선 특징_**
+
+- $x$의 값은 0~ $p$-1 사이에 존재합니다.
+
+- 덧셈연산은 덧셈 결과를 mod $p$연산 합니다.
+
+- 역원은 $(x,y)$ 기준 $(x, -y)$이며 여기서 $-y$는 $y$의 덧셈에 대한 역원입니다.
+
+  ⤷**_$p$가 13일때 $(1,4)$의 역원은 $(1,-4)$이며 즉 $(1,9)$_**
+
+---
+
+**Reference**
+
+- [해시넷-타원 곡선 암호](http://wiki.hash.kr/index.php/%ED%83%80%EC%9B%90%EA%B3%A1%EC%84%A0%EC%95%94%ED%98%B8)

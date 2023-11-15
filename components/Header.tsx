@@ -7,9 +7,7 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import { useTheme } from 'next-themes'
-import Image from 'next/image'
-import Logo from '@/data/logo.png'
-import DarkModeLogo from '@/data/logo-dark.png'
+import HeaderMainIcon from './HeaderMainIcon'
 
 const Header = () => {
   const { theme, setTheme, resolvedTheme } = useTheme()
@@ -18,13 +16,7 @@ const Header = () => {
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
-            <div className="mr-3">
-              {theme === 'dark' || resolvedTheme === 'dark' ? (
-                <Image src={DarkModeLogo} alt="Logo" width={40} height={40} />
-              ) : (
-                <Image src={Logo} alt="Logo" width={40} height={40} />
-              )}
-            </div>
+            <HeaderMainIcon />
             {typeof siteMetadata.headerTitle === 'string' ? (
               <div className="hidden h-6 text-2xl font-semibold sm:block">
                 {siteMetadata.headerTitle}
