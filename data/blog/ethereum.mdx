@@ -1,0 +1,311 @@
+---
+title: 'Ethereum Basic'
+date: '2022-06-04'
+lastmod: '2022-06-04'
+tags: ['Ethereum']
+draft: false
+summary: 'Ethereum에 대한 기본적인 것들을 정리해보았습니다. 🥲'
+images: ['/static/images/ethereum.jpeg']
+---
+
+![](/static/images/ethereum.jpeg)
+
+# Ethereum
+
+**_Vitalik Buterin이 2013년에 제안한 BlockChain 시스템이며 Bitcoin을 확장했다고 볼 수 있습니다. 대표적인 특징으로 EVM(Ethereum Virtual Machine)과 Smart Contract 등이 있습니다._**
+
+## Ethereum의 특징
+
+- 한 블록의 평균 크기는 **2KB**입니다.
+
+- **EVM**을 통해 **Smart Contract**실행이 가능합니다.
+
+  ⤷ _Smart Contract는 **Turing Complete**하다고 표현됩니다._
+
+- BitCoin은 총 발행량이 2,100만개로 반감기가 있지만 이더리움은 정해진 **총 발행량이 없습니다**.
+
+- Bitcoin은 Longest Chain을 선택하는 프로토콜을 사용하지만 **Ehereum은 Heaviest Chain을 선택하는 프로토콜을 사용**합니다.
+
+  ⤷ _Bitcoin은 height가 제일 높은 Chain을 선택하지만, **Etereum같은 경우는 Subtree**가 많은 체인을 선택합니다._
+
+- Uncle Block을 채굴한 Miner에게도 어느정도 보상을 제공합니다.
+
+  ⤷ _**Uncle Block**이란 Bitcoin에서 Orphan Block과 메인 네트워크에 영향을 주지 않는다는 점은 비슷합니다._ 🥲
+
+---
+
+## Account
+
+### EOA(Externally owned accounts)
+
+**_Private Key를 통해 사용하며 새로운 transaction을 생성할 수 있습니다._**
+
+### CA(Contract accounts)
+
+**_Contract Code를 통해 사용하며 CA는 스스로 새로운 transaction을 생성할 수 없습니다._**
+
+### Account State
+
+- **nonce** : _**EOA**에서의 `nonce`는 EOA에서 Tx를 생성할 때 마다 증가하며, **CA**에서의 `nonce`는 account에 의해 Contract가 생성될 때 마다 증가합니다._
+
+- **balance** : _해당 주소의 소유 `Wei`의 총 합을 의미합니다._
+
+- **storageRoot** : _**Storage trie**의 Root Node를 hashing한 값입니다._
+
+- **codeHash** : _**CA**에서의 `codeHash`는 EVM을 통해 만들어진 hash값이며 **EOA**에서는 빈 문자열을 hashing한 값입니다._
+
+---
+
+## Trie
+
+**이더리움에서 트리는 [Merkle Patricia Trie](https://min71.dev/blog/cryptography-data-structure-for-verification#merkle-patricia-trie-mpt)를 이용하며 모든 block의 header에는 `State Trie`, `Transaction Trie`, `Recipts Trie`의 root값이 존재합니다.**
+
+- **State Trie** : _위에서 알아본 Account State들이 주로 저장됩니다._
+
+  ⤷ _`key`값은 account 값이고 `value`값은 accout의 state로 [nonce, ..., storageRoot]값으로 구성되어 있다._
+
+- **Transaction Trie** : _각각의 block으로부터 구분되어 있으며 block이 mining된 이후엔 update되지 않습니다._
+
+  ⤷ _`key`값은 block내에서 transaction의 index값이며 `value`값은 nonce, gas price 등으로 구성되어 있다_
+
+- **Recipts Trie** : _transaction의 결과에 대해 저장하며 transaction의 영수증과 같은 역할을 합니다._
+
+  ⤷ _`key`값은 **`Transaction Trie`**와 같이 block내에서 transaction의 index값이며 `value`값은 gas used, post-trx state 등으로 구성되어 있습니다._
+
+- **Storage Trie** : _Contract상의 유지되는 데이터 등이 저장됩니다._
+
+---
+
+## Fee
+
+**Ethereum에서는 transaction의 gas fee와 storage fee를 이용하여 반복문의 무한반복, 네트워크 공격 등에 대한 문제를 대비했습니다.**
+
+### Gas & Gas limit
+
+- **Gas** : _Transaction을 실행하기 위한 `fee`_
+
+- **Gas Price** : _Transaction을 위해 사용할 Gas의 단위_
+
+- **Gas limit** : _Transaction을 위해 사용할 최대 Gas량을 의미하며 Transaction실행 후 잔액은 반환_
+
+- **Max transaction fee** : _Transaction실행을 위해 사용할 Gas와 Gas limit을 곱한 값으로 Transaction실행 후 잔액은 반환_
+
+> **_📌 Max transaction fee `0.001 eth` = Gas Price `20gwei` × Gas limit `50,000`_**
+
+### Storage fee
+
+**_사용한 Storage 만큼의 fee가 사용되며 최소 32byte에 비례해서 fee가 사용됩니다._**
+
+> **_Contract를 이용해 사용한 storage를 초기화 한다면 일부 gas fee를 반환받을 수 있습니다.
+> 자세한 내용은 [이더리움 황서](https://ethereum.github.io/yellowpaper/paper.pdf)에서 `Appendix G`부분에서 확인 가능합니다._**
+
+---
+
+## Transaction & Messages
+
+**이더리움에서는 Transaction뿐만 아니라 Internal Transaction(Messages)으로 구분되는 Transaction이 있습니다.**
+
+### Transaction
+
+**Transaction의 구성 요소**
+
+- **nonce** : _sender가 보낸 Transacion의 counting된 수_
+
+- **gas Price** : _Transaction을 위해 사용할 Gas의 단위_
+
+- **gas Limit** : _Transaction을 위해 사용할 최대 Gas량을 의미하며 Transaction실행 후 잔액은 반환_
+
+- **to** : _Transaction을 받는 주소_
+
+- **value** : _보내는 `Eth`, 혹은 `Wei`의 양_
+
+  ⤷ ✏️ _Contract를 생성하는 Transaction에도 사용가능하며 이 경우, Contract의 최초 셋팅 balance입니다._
+
+- **v, r, s** : _서명한 sender를 식별할 수 있는 요소_
+
+- **init** : _Contract를 생성하는 Transaction에만 존재하며 최초의 Contract의 셋팅값을 포함해 CA를 초기화하며 이후 byte code를 리턴_
+
+- **data** : _message call에만 존재하는 optional Field이며 parameter등이 들어갑니다._
+
+<div
+  style={{
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '8px',
+    boxShadow:'0px 1px 1px 0px rgba(0,0,0,0.08) 0px 2px 2px 0px rgba(0,0,0,0.12) 0px 4px 4px 0px rgba(0,0,0,0.16) 0px 8px 8px 0px rgba(0,0,0,0.2)',   
+    padding:"0.1rem 1.5rem",
+    margin:"1rem 0"
+  }}
+>
+
+✅ _Transaction을 검증 하기 위해서 누가 보낸 Transaction인지를 알아야 하지만 from항목이 없습니다._
+
+_이더리움 Transaction에서는 from 대신 `v`, `r`, `s`라는 요소를 넣어 검증을 하는데 `v`, `r`, `s`는 각각 ECDSA에 의해 생성된 전자 서명 `r`, `s`와 어떤 공개키인지를 추측할 수 있는 `v`로 구성되어 있습니다._
+
+> ECDSA를 검증하는 자세한 과정은 [여기](https://cryptobook.nakov.com/digital-signatures/ecdsa-sign-verify-examples)에서 찾아보시면 됩니다. 🤔
+
+</div>
+
+### Internal Transaction (Messages)
+
+**Internal Transaction은 Contract에 의해 호출된 Transaction을 의미합니다.**
+
+> **_Internal Transaction에서 연산 등을 위한 gas는 최초의 실행시킨 EOA가 지불합니다._**
+
+### Execution
+
+**모든 Transaction 실행 조건**
+
+- RLP 포멧으로 셋팅
+
+- Transaction의 Signature 검증
+
+- Transaction의 nonce와 sender account의 nonce와 같은지 확인
+
+- Transaction의 gas Limit이 기본적으로 사용되는 gas들의 합보다 많은지 확인
+  ⤷ _Transaction을 실행하기 위해 필요한 기본 21,000gas를 포함해 사용할 Storage fee 등을 계산한다_
+
+- sender의 account에 있는 balance가 지불할 금액보다 많은지 확인
+
+<div
+  style={{
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '8px',
+    boxShadow:'0px 1px 1px 0px rgba(0,0,0,0.08) 0px 2px 2px 0px rgba(0,0,0,0.12) 0px 4px 4px 0px rgba(0,0,0,0.16) 0px 8px 8px 0px rgba(0,0,0,0.2)',   
+    padding:"0.1rem 1.5rem",
+    margin:"1rem 0"
+  }}
+>
+
+**𖤐** **_Transaction의 Storage fee는 `4 * X + 68 * Y`로 계산합니다._**
+
+⤷ **_X는 byte code로 변경했을 때 0인 값이고, Y는 0이 아닌 다른 수인 값입니다._**
+
+</div>
+
+**𖤐** **조건이 확인되면 Transaction은 아래와 같은 순서로 실행됩니다.**
+
+1. **sender의 balance에서 지불할 금액과 Gas를 제한합니다.**
+
+2. **sender의 account nonce의 값에 1을 더합니다.**
+
+3. **subState을 추척합니다.**
+
+   ⤷ _Transaction을 실행시키는 중에 trie에 직접 접근할 수 없으므로 trie에서 필요한 데이터를 불러와 임시로 저장하는 subState를 사용합니다._
+
+4. **필요한 여러가지 연산을 한 후 refund amount를 계산하여 sender에게 반환합니다.**
+
+   ⤷ _`refund amount`는 사용하지 않은 gas(`unused gas`) + 사용하던 storage 초기화하여 받는 refund(`refund of clearing up storage`)로 계산합니다._
+
+5. **반환받지 않은 gas는 Miner에게 지급되며 이를 위해 Block에 `gas counter`에 더합니다.**
+
+6. **Transaction이 종료되며 subState에 있는 지워질 account들은 삭제합니다.**
+
+   ⤷ _삭제라는 표현을 사용했지만 실제로 삭제가 아닌 Account State에서 nonce와 balance는 0으로, storageRoot는 NULL값, codeHash는 빈 문자열을 hashing한 값을 넣어 초기화 합니다._
+
+> subState에는 `Self-destruct set`, `Log series`, `Refund balance`가 있습니다.
+
+- **Self-destruct set** : _Transaction 실행 후 삭제될 amount의 리스트_
+- **Log series** : _log 리스트_
+- **Refund balance** : _sender가 반환받을 금액_
+
+---
+
+## Block
+
+**이더리움의 Block은 `BlockHeader`, `Transaction의 정보`, `ommer Block의 header` 등으로 구성되어 있습니다.**
+
+### Block Header
+
+**_Block Header의 구성 요소_**
+
+- **parentHash** : _previous Hsah를 의미하며 이전 블록의 주소값_
+
+- **uncleHash** : _현재 블록의 uncle block 리스트_
+
+- **beneficiary** : _Miner의 주소_
+
+- **stateRoot** : _state trie의 root Node를 hashing한 값_
+
+- **transactionRoot** : _transaction trie의 root Node를 hashing한 값_
+
+- **reciptseRoot** : _recipts trie의 root Node를 hashing한 값_
+
+- **logsBloom** : _log 정보를 담은 Bloom filter_
+
+- **difficulty** : _해당 블록의 난이도_
+
+- **number** : _현재 블록의 번호_
+
+- **gasLimit** : _블록에 포함된 Transaction들의 총 Gas Limit 값_
+
+- **gasUsed** : _블록에 포함된 Transaction들에서 사용한 총 Gas 값_
+
+- **timestamp** : _현재 블록 생성시간을 Unix timeStamp로_
+
+- **extraData** : _Block의 여유 공간_
+
+- **mixHash** : _이더리움의 PoW 알고리즘 Ethash의 mixing된 값을 저장_
+
+- **nonce** : _이더리움의 PoW 알고리즘 Ethash에서 사용하는 값_
+
+### Uncle (Ommer, Stale) Block
+
+**fork된 Block으로 메인 네트워크에는 영향을 주지 못하는 Block입니다.**
+
+- **메인 네트워크에 존재하는 Block은 Stale Block을 Uncle Block으로 제안할 수 있습니다.**
+
+  ⤷ _Uncle Block을 제안할 수 있는 최대 갯수는 2개이며 검증을 통해 진행되고 Uncle Block으로 확정되면 블록 체굴보상의 1/32를 보상받습니다._
+
+- **Uncle Block을 Mining한 Miner도 보상을 받습니다.**
+
+  ⤷ **_Uncle Block Mining Reward_**
+
+      $( (U_n + 8 - B_n) / 8)$ × _기존의 채굴 보상_
+
+  ⤷ $U_n$ : Uncle Block의 nonce , $B_n$ : 현재 Block의 nonce
+
+  > ✓ 현재 Block의 nonce와 Uncle Block의 nonce가 같을 경우 기존의 채굴 보상을 받는 것이 이닌 fork로 처리 되어 어떤 체인을 선택하느냐로 나뉘기 때문에 Uncle Block Mining Reward는 없습니다.
+
+---
+
+## EVM & Contact
+
+### Contract
+
+**_solidity를 이용한 어떤 상태를 다른 상태로 변환 시킬수 있는 기능을 포함한 계약을 위한 스크립트 언어로 작성된 프로그램_**
+
+**_Contract 생성시 초기화_**
+
+- _nonce는 0으로 설정합니다._
+
+- _Contract를 생성하는 Transaction에 value값이 있다면 value값을 넣어 balance를 설정하고 sender의 balance에서 제합니다._
+
+- _storage는 null값을 넣고, codeHash에는 빈 문자열을 hashing한 값을 넣어 설정합니다._
+
+<div
+  style={{
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: '8px',
+    boxShadow:'0px 1px 1px 0px rgba(0,0,0,0.08) 0px 2px 2px 0px rgba(0,0,0,0.12) 0px 4px 4px 0px rgba(0,0,0,0.16) 0px 8px 8px 0px rgba(0,0,0,0.2)',   
+    padding:"0.1rem 1.5rem",
+    margin:"1rem 0"
+  }}
+>
+
+✅ **_최초의 생성시 [이더리움 황서](https://ethereum.github.io/yellowpaper/paper.pdf)에 나와있는 Gas비가 사용되며 사용하는 Storage용량에 비례하여 추가로 더 Gas를 사용합니다._**
+
+𖤐 _만약 가스비가 모자른 상황(`out-of-gas`)이 발생할 경우 상태는 Transaction이 실행되기 전으로 돌아가지만 sender는 Gas를 반환받을 수 없습니다._
+
+</div>
+
+### Ethereum Virtual Machine (EVM)
+
+**_EVM을 통해 모든 Node들은 Contract를 실행할 수 있으며 32bytes 스택기반의 아키텍쳐입니다._**
+
+**특징**
+
+- **volatile memory** : _실행 중에만 사용하는 변수들이 들어가며 `stack`, `arguments`, `memory`를 사용합니다._
+
+- **non-volatile memory** : _실행 이후에도 지속되는 변수들이 들어가며 `code`, `storage`를 사용합니다._
+
+  ⤷ ✓ _실행 이후에도 지속되는 변수는 Storage Trie에 저장되므로 용량의 크기에 따라 Storage fee가 발생합니다._
