@@ -58,7 +58,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.summary,
       siteName: siteMetadata.title,
-      locale: 'ko_KR',
+      locale: 'ko',
       type: 'article',
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
