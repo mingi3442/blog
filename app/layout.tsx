@@ -84,6 +84,8 @@ export default function RootLayout({
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
+        <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
+
         <ThemeProviders>
           <Analytics />
           <SectionContainer>
