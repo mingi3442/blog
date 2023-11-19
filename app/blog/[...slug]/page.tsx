@@ -27,8 +27,7 @@ export async function generateMetadata({
   params: { slug: string[]; locale: string }
 }): Promise<Metadata | undefined> {
   const slug = decodeURI(params.slug.join('/'))
-
-  const post = allBlogs.find((p) => p.slug === `/${params.locale}/` + slug)
+  const post = allBlogs.find((p) => p.slug === slug)
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
@@ -47,7 +46,7 @@ export async function generateMetadata({
   }
   const ogImages = imageList.map((img) => {
     return {
-      url: img.includes('http') ? img : siteMetadata.siteUrl + '/' + params.locale + '/' + img,
+      url: img.includes('http') ? img : siteMetadata.siteUrl + img,
     }
   })
 
