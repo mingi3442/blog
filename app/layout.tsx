@@ -11,6 +11,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
@@ -88,6 +89,7 @@ export default function RootLayout({
 
         <ThemeProviders>
           <Analytics />
+          <GoogleAnalytics />
           <SectionContainer>
             <div className="flex h-screen flex-col justify-between font-sans">
               <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>

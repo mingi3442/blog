@@ -21,6 +21,7 @@
       "@/data/*": ["data/*"],
       "@/layouts/*": ["layouts/*"],
       "@/css/*": ["css/*"],
+      "@/libs/*": ["lib/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     },
     "typeRoots": ["./types", "./node_modules/@types"],
