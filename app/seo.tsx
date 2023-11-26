@@ -20,7 +20,7 @@ export function genPageMetadata({ title, description, image, ...rest }: PageSEOP
       url: './',
       siteName: siteMetadata.title,
       images: image ? [image] : [siteMetadata.socialBanner],
-      locale: 'ko',
+      locale: 'ko_KR',
       type: 'website',
     },
     // twitter: {
