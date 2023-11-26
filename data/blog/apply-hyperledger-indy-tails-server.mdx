@@ -1,0 +1,79 @@
+---
+title: 'Apply Hyperledger Indy Tails Server'
+date: '2023-05-26'
+lastmod: '2023-05-26'
+tags: ['HyperLedger', 'Indy', 'DID', 'Tails file']
+draft: false
+summary: 'Hyperledger VON (Verifiable Organizations Networks) 신원 정보를 관리하고 검증할 수 있는 탈중앙화 분산 신원 시스템을 구축하기 위한 오픈 소스 프로젝트실행'
+images: ['/static/images/thumbnail/indy-tails-server.png']
+canonicalUrl: 'https://min71.dev/blog/apply-hyperledger-indy-tails-server/'
+---
+
+![](/static/images/thumbnail/indy-tails-server.png)
+
+## HyperLedger Indy Tails
+
+[GitHub - bcgov/indy-tails-server](https://github.com/bcgov/indy-tails-server)
+
+**Hyperledger Indy 프로젝트에서 사용되는 라이브러리로, revocation registry delta(회수 레지스트리 델타)의 크기를 줄이는 데 도움이 되는 기능을 제공합니다.**
+
+      ⤷ _공간 절약 및 처리 속도 증가_
+
+**해당 Repository에서는 tails file을 Uplaod, Download하는 기능을 제공한다고 합니다.**
+
+> 💡 **tails file** : revocation registry(회수 레지스트리)에 대한 delta를 저장할 때, 효율적인 형식의 파일로 저장 및 처리
+
+### Docker로 실행하기
+
+> 🚨 ~~2023.04.19 현재 `reqiurement.txt`와 `requirements.dev.txt`안에 indy_vdr설치가 되지 않아서 정상 작동이 안되므로, indy_vdr의 버젼을 지정하여 **indy_vdr==0.4.0.dev1**로 사용해야합니다.~~
+>
+> **2022.07.01**
+>
+> **_해당 Issue는 수정해서 PR을 날렸고, Merge되어 이제는 그냥 사용해도 문제가 발생하지 않습니다._ ☻**
+>
+> **자세한 내용은 [Contribute & DCO](https://velog.io/@moment_log/DCO) 게시글에 작성했습니다.**
+
+1. **Git clone**
+
+   ```bash
+   git clone https://github.com/bcgov/indy-tails-server.git
+   ```
+
+2. **docker Folder로 이동**
+
+   ```bash
+   cd docker
+   ```
+
+3. **Build**
+
+   ```bash
+   ./manage build
+   ```
+
+4. **실행**
+   ```bash
+   ./manage start
+   #로그와 함께 실행하기
+   ./manage start --logs
+   ```
+
+### Tails Server Url 확인
+
+```bash
+docker logs docker_ngrok-tails-server_1 | grep url
+#or
+./manage logs docker_ngrok-tails-server_1 | grep url
+```
+
+### 실행 화면
+
+> **_터미널 실행 화면_**
+>
+> ![](/static/images/hyperledger/execute-indy-tails-server-in-terminal.png)
+
+---
+
+**Refer**
+
+- [[ACA-PY] Von-네트워크 & indy-tails-server](https://velog.io/@sunminky/Von-네트워크indy-tails-server)
