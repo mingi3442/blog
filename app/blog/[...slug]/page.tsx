@@ -24,7 +24,7 @@ const layouts = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[]; locale: string }
+  params: { slug: string[] }
 }): Promise<Metadata | undefined> {
   const slug = decodeURI(params.slug.join('/'))
   const post = allBlogs.find((p) => p.slug === slug)
@@ -57,7 +57,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.summary,
       siteName: siteMetadata.title,
-      locale: 'ko',
+      locale: 'ko_KR',
       type: 'article',
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
@@ -73,7 +73,6 @@ export async function generateMetadata({
     },
   }
 }
-
 export const generateStaticParams = async () => {
   const paths = allBlogs.map((p) => ({ slug: p.slug.split('/') }))
 
@@ -115,7 +114,6 @@ export default async function Page({ params }: { params: { slug: string[]; local
       name: author.name,
     }
   })
-
   const Layout = layouts[post.layout || defaultLayout]
 
   return (
