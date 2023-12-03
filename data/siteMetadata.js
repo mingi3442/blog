@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'LeeMingi',
   headerTitle: 'Min71 Dev',
   description: 'Step by step, but Steadily and Consistently 📝',
-  language: 'ko',
+  language: 'ko-KR',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi/blog',
