@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'LeeMingi',
   headerTitle: 'Min71 Dev',
   description: 'Step by step, but Steadily and Consistently 📝',
-  language: 'ko-KR',
+  language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi/blog',
@@ -67,7 +67,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'ko',
+      lang: 'en',
     },
   },
   search: {
