@@ -9,6 +9,7 @@ import ProfileCard from '@/components/ProfileCard'
 import { TypedIntroduce } from '@/components/TypedIntroduce'
 import { RoughNotation } from 'react-rough-notation'
 import MyInformation from '@/components/MyInformation'
+import SEO from '@/components/SEO'
 
 const MAX_DISPLAY = 3
 
@@ -17,6 +18,7 @@ const INTERESTED_TECH_TAGS = ['cosmos-network', 'Cryptography']
 export default function Home({ posts, author }) {
   return (
     <>
+      <SEO />
       <div className="">
         <div className="flex p-0 md:p-8 w-auto items-center justify-between h-auto">
           <div className="flex flex-col items-start justify-start h-auto flex-1">

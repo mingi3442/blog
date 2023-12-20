@@ -12,6 +12,10 @@ export default function Head() {
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
+      <meta
+        http-equiv="Content-Security-Policy"
+        content="script-src 'self' https://www.googletagmanager.com"
+      />
     </>
   )
 }
