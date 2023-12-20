@@ -21,11 +21,10 @@
     "github-slugger": "^1.4.0",
     "gray-matter": "^4.0.2",
     "image-size": "1.0.0",
-    "kbar": "^0.1.0-beta.40",
     "next": "13.5.4",
     "next-contentlayer": "0.3.4",
     "next-themes": "^0.2.1",
-    "pliny": "0.1.4",
+    "pliny": "0.1.6",
     "postcss": "^8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -71,7 +70,8 @@
     "@opentelemetry/resources": "1.13.0",
     "@opentelemetry/sdk-trace-base": "1.13.0",
     "@opentelemetry/sdk-trace-node": "1.13.0",
-    "@opentelemetry/semantic-conventions": "1.13.0"
+    "@opentelemetry/semantic-conventions": "1.13.0",
+    "kbar": "0.1.0-beta.44"
   },
   "lint-staged": {
     "*.+(js|jsx|ts|tsx)": [
