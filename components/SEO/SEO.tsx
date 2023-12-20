@@ -21,7 +21,6 @@ function SEO({ title, description, ogImage }: Props) {
 
   return (
     <Head>
-      <title>{TITLE}</title>
       <link rel="canonical" href={URL} />
       <meta name="description" content={DESCRIPTION} />
       <meta property="og:title" content={TITLE} />
