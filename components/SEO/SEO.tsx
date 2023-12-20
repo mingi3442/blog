@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import siteMetadata from '@/data/siteMetadata'
 
 interface Props {
@@ -9,13 +9,13 @@ interface Props {
 }
 
 function SEO({ title, description, ogImage }: Props) {
-  const router = useRouter()
+  const pathname = usePathname()
 
   const TITLE = title
     ? `${title} - ${siteMetadata.author}`
     : `${siteMetadata.title} - ${siteMetadata.author}`
   const DESCRIPTION = description ? description : siteMetadata.description
-  const URL = siteMetadata.siteUrl + router.asPath
+  const URL = siteMetadata.siteUrl + pathname
   const IMAGE = ogImage ? ogImage : siteMetadata.socialBanner
 
   return (
