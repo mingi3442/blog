@@ -11,6 +11,7 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+// import { KBarProvider } from 'kbar'
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
