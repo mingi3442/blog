@@ -12,6 +12,7 @@ const siteMetadata = {
   socialBanner: '/static/images/banner.jpeg',
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'mingi3442@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/min71',
   github: 'https://github.com/mingi3442',
   twitter: 'https://twitter.com/min_71_dev',
   facebook: 'https://facebook.com',
