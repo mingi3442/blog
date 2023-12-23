@@ -104,10 +104,6 @@ export default function BlogCard({
                   )}
                 </dd>
               </dl>
-              {/* <div className="mx-4">
-                <h1 className="text-sm text-gray-500 dark:text-gray-200">{author.name}</h1>
-                <p className="text-sm text-gray-300 dark:text-gray-400">{author.occupation}</p>
-              </div> */}
             </div>
 
             <div className="h-full flex items-end">
