@@ -19,22 +19,20 @@ export default function BlogCard({
     <div className="container">
       <div className="lg:-mx-6 lg:flex lg:items-center">
         <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border-[0.5px]">
-          {Array.isArray(images) && (
-            <Link
-              className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 "
-              href={`/blog/${slug}`}
-              aria-label={`Read "${title}"`}
-            >
-              <Image
-                className="w-full h-72"
-                sizes="auto"
-                src={Array.isArray(images) ? images[0] : ''}
-                alt={slug}
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-            </Link>
-          )}
+          <Link
+            className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 "
+            href={`/blog/${slug}`}
+            aria-label={`Read "${title}"`}
+          >
+            <Image
+              className="w-full h-72"
+              sizes="auto"
+              src={Array.isArray(images) ? images[0] : '/static/images/banner.jpeg'}
+              alt={slug}
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+          </Link>
         </div>
 
         <div className="mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">

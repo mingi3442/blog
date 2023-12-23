@@ -31,12 +31,16 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags, images, summary } = content
+  const { filePath, path, slug, date, title, tags, summary, images } = content
   const basePath = path.split('/')[0]
 
   return (
     <SectionContainer>
-      <SEO title={title} description={summary} ogImage={images[0]} />
+      <SEO
+        title={title}
+        description={summary}
+        ogImage={images ? images[0] : '/static/images/banner.jpeg'}
+      />
       <ScrollTopAndComment />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
