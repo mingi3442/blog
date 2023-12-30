@@ -4,14 +4,12 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Image from 'next/image'
-import BlogCard from '@/components/BlogCard'
-import ProfileCard from '@/components/ProfileCard'
 import { TypedIntroduce } from '@/components/TypedIntroduce'
 import { RoughNotation } from 'react-rough-notation'
-import MyInformation from '@/components/MyInformation'
+
 import SEO from '@/components/SEO'
 
-const MAX_DISPLAY = 3
+const MAX_DISPLAY = 4
 
 const INTERESTED_TECH_TAGS = ['cosmos-network', 'Cryptography']
 
@@ -50,7 +48,6 @@ export default function Home({ posts, author }) {
             </div>
             <div className="p-2">{/* <MyInformation /> */}</div>
           </div>
-          {/* <ProfileCard author={author} /> */}
         </div>
         <div className="space-y-2 pb-2 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
@@ -61,11 +58,16 @@ export default function Home({ posts, author }) {
         <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6">
           {/* <ul className="flex-col md:flex-row gap-6"> */}
           {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
+          {posts.slice(0, MAX_DISPLAY).map((post, index) => {
             const { slug, date, title, summary, tags, images } = post
+            const isLastElement = index === MAX_DISPLAY - 1
+
             return (
-              <li key={slug} className="">
-                <div className="container rounded-xl shadow-md bg-slate-200  dark:bg-slate-700 flex flex-col justify-center items-center p-4 ">
+              <li
+                key={slug}
+                className={`${isLastElement ? 'hidden md:block lg:block xl:hidden' : ''}`}
+              >
+                <div className="container rounded-xl shadow-md bg-slate-200  dark:bg-slate-700 flex flex-col justify-center items-center p-4">
                   <div className="relative overflow-hidden bg-clip-border w-full mb-4 rounded-xl h-72 shadow-md bg-white">
                     {Array.isArray(images) && (
                       <Link
