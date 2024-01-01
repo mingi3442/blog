@@ -24,7 +24,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
 
   return (
     <SectionContainer>
-      <SEO title={title} description={summary} ogImage={images[0]} />
+      {/* <SEO title={title} description={summary} ogImage={images[0]} /> */}
       <ScrollTopAndComment />
       <article>
         <div>
