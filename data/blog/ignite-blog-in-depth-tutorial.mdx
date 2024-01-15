@@ -1,0 +1,598 @@
+---
+title: '[Cosmos]Ignite CLI Tutorial (2)'
+date: '2024-01-15'
+lastmod: '2024-01-15'
+tags: ['Cosmos', 'Ignite', Cosmos SDK]
+draft: false
+summary: 'Ignite CLI Tutorial에 대한 첫 번째 내용 실습 및 정리 글입니다.'
+images: ['/static/images/thumbnail/ignite.png']
+canonicalUrl: 'https://min71.dev/blog/ignite-blog-in-depth-tutorial/'
+---
+
+# Blog In Depth Intro
+
+해당 게시글은 Ignite CLI Tutorial에 대한 두 번째 내용 실습 및 정리 글입니다.
+
+이 튜토리얼에서는 처음부터 Ignite CLI를 사용하여 블로그 애플리케이션을 Cosmos SDK 블록체인으로 생성하는 방법을 배웁니다.
+
+필요한 유형, 메시지 및 쿼리를 설정하고 블록체인에서 블로그 게시물을 생성, 읽기, 업데이트 및 삭제하는 로직을 직접 작성합니다.
+
+구축할 기능은 이전 게시물과 같지만 해당 프로세스의 이해도 증진을 위해서 수동으로 직접 작업할 예정입니다.
+
+각 코드에 대한 설명은 해당 코드가 포함된 파일에 주석으로 작성했습니다.
+
+---
+
+# Creating the Structure
+
+## Create Project
+
+### 1. 프로젝트 생성
+
+먼저 프로젝트를 생성한 후 이동합니다.
+
+```bash
+ignite scaffold chain blog
+cd blog
+```
+
+### 2. 게시물 타입 생성
+
+프로젝트 블로그에 필요한 게시물의 타입을 선언합니다
+다음 명령어를 이용하여 제목, 본문, 작성자, ID 필드가 있는 게시물을 생성합니다.
+
+```bash
+ignite scaffold type post title body creator id:uint
+```
+
+### 3. 게시물 CRUD 생성
+
+다음으로 블로그 게시물에 대한 CRUD를 생성합니다.
+읽기 작업을 제외한 생성, 업데이트 및 삭제는 애플리케이션의 상태를 변경합니다. 그러므로 Cosmos SDK 블록체인에서는 상태전환을 트리거하는 message가 포함된 트랜잭션을 브로드캐스트해야합니다.
+
+**Create**
+
+먼저 다음 명령어로 제목과 본문을 이용한 create post 메세지를 만들 수 있습니다.
+
+```bash
+ignite scaffold message create-post title body --response id:uint
+```
+
+> `--response` 플래그를 이용해서 응답값을 반환할 수 있습니다.
+
+**Update**
+
+게시물을 업데이트하기 위해서 id, 제목, 본문을 받는 메세지를 생성하는 명령어는 다음과 같습니다.
+
+```bash
+ignite scaffold message update-post title body id:uint
+```
+
+**Delete**
+
+게시물의 id를 받아서 삭제를 수행하는 메세지를 생성하는 명령어는 다음과 같습니다.
+
+```bash
+ignite scaffold message delete-post id:uint
+```
+
+### 4. Query 생성
+
+쿼리를 통해 사용자는 블록체인 상태에서 정보를 검색할 수 있습니다. 해당 프로젝트에서는 `게시물 상세 조회`, `게시물 전체 조회`라는 두 가지 쿼리를 생성합니다.
+
+**게시물 상세 조회**
+
+게시물의 Id를 받아 해당 게시글을 반환하는 쿼리는 다음 명령어로 생성할 수 있습니다.
+
+```bash
+ignite scaffold query show-post id:uint --response post:Post
+```
+
+**게시물 전체 조회**
+
+전체 게시물을 조회하는 쿼리는 다음 명령어로 생성할 수 있습니다.
+
+```
+ignite scaffold query list-post --response post:Post --paginated
+```
+
+> `--paginated` 플래그를 이용해서 사용자가 한 번에 특정 결과 페이지를 검색할 수 있도록 쿼리가 페이지 포함한 결과를 반환할 수 있습니다.
+
+---
+
+# Create Post
+
+해당 챕터에서는 게시물을 생성하는 메시지를 처리하는 과정에서 Keeper Method를 사용합니다. Keeper Method는 Cosmos SDK에서 블록체인과 상호 작용하며 메시지에 제공된 파라미터에 따라 상태를 수정하는 일을 담당합니다.
+
+`create post`메시지가 수신되면 해당 Keeper Method가 호출되며 메시지를 인수로 전달합니다. 그 후 저장소 객체가 제공하는 다양한 getter, setter 기능을 사용하여 메시지를 효과적으로 처리하고 블록체인에 필요한 업데이트를 수행할 수 있습니다.
+
+Keeper Method에 구현된 논리와 별도로 유지하기 위해 `post.go`를 만듭니다. 해당 파일에는 블록체인 내 게시물 생성 및 관리와 관련된 작업을 처리하도록 구성합니다.
+
+## AppendPost
+
+```go
+// x/blog/keeper/post.go
+package keeper
+
+import (
+    "encoding/binary"
+
+    "blog/x/blog/types"
+
+    "cosmossdk.io/store/prefix"
+    "github.com/cosmos/cosmos-sdk/runtime"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+)
+
+func (k Keeper) AppendPost(ctx sdk.Context, post types.Post) uint64 {
+	// 현재 게시물 수를 검색
+    count := k.GetPostCount(ctx)
+    // post.Id에 식별자 할당
+    post.Id = count
+    // KeeperStore에 저장 후 리턴 받은 값을 KVStoreAdapter 타입 캐스팅
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    // types.PostKey를 prefix로 사용하는 Store 생성
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.PostKey))
+    // byte slice로 인코딩
+    appendedValue := k.cdc.MustMarshal(&post)
+    // appendedValue를 Store에 저장
+    store.Set(GetPostIDBytes(post.Id), appendedValue)
+    // Keeper의 전체 게시물 count 업데이트
+    k.SetPostCount(ctx, count+1)
+    // 이전 count값 리턴
+    return count
+}
+```
+
+위의 코드는 Keeper Type에 속하는 `AppendPost`라는 함수를 정의합니다.
+`AppendPost` 함수는 Context와 Post Object를 사용합니다.
+Context Object는 Cosmos SDK의 현재 블록 height에 대한 상태 Context정보를 받아오는데 사용하며, Post Object는 블록체인에 추가될 게시물로 사용합니다.
+`AppendPost`는 현재 게시물 수를 검색 후 id 필드에 count값을 할당하는 것으로 시작하며 `SetPostCount`를 이용해서 블록체인에 저장하는 것으로 함수는 종료 됩니다.
+`AppendPost`에 대한 구현을 위해 다음 코드들이 추가되어야 합니다.
+
+- DB에서 게시물을 저장하고 검새하는데 사용할 **PostKey 정의**
+- DB에 저장된 현재 게시물 수를 검색할 **GetPostCount 구현**
+- 게시물 Id를 byte slice로 반환하는 **GetPostIDBytes 구현**
+- DB에 저장된 게시물 수를 업데이트하는 **SetPostCount 구현**
+
+## Post Key
+
+```go
+// x/blog/types/keys.go
+const (
+    PostKey = "Post/value/"
+)
+const (
+    PostCountKey = "Post/count/"
+)
+```
+
+해당 경로의 `keys.go`에 **PostKey**와 **PostCountKey** Prefix를 정의합니다.
+
+**PostKey**는 각 게시물에 대한 키의 시작부분으로 고유 식별자를 만들 때 사용되며, **PostCountKey**는 Store에 최근 추가된 게시물의 ID를 추적하는 데 사용됩니다
+
+## GetPostCount
+
+```go
+// x/blog/keeper/post.go
+func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenK VStore(ctx))
+    // storeAdapter를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, []byte{})
+    // types.PostCountKey를 Prefix로 생성
+    byteKey := types.KeyPrefix(types.PostCountKey)
+    //생성된 키 byteKey를 사용하여 store에서 현재 게시물 수에 대한 데이터를 조회
+    bz := store.Get(byteKey)
+    // bz가 없을 경우 0 반환
+    if bz == nil {
+        return 0
+    }
+    // bz가 있을 경우 uint64로 변환해서 반환
+    return binary.BigEndian.Uint64(bz)
+}
+```
+
+위의 코드는 Keeper Struct에 속하는 `GetPostCount`라는 함수를 정의합니다.
+이 함수는 단일 인수인 sdk.Context 유형의 컨텍스트 객체 ctx를 사용하고 uint64 유형의 값을 반환합니다.  
+GetPostCount 함수는 uint64 값으로 표시되는 키-값 저장소에 저장된 총 게시물 수를 검색하는 데 사용됩니다.
+
+## PostIDBytes
+
+```go
+// x/blog/keeper/post.go
+func GetPostIDBytes(id uint64) []byte {
+	// 8byte 길이의 byte slice 생성
+    bz := make([]byte, 8)
+    // uint64 타입의 id를 bz에 저장
+    binary.BigEndian.PutUint64(bz, id)
+    return bz
+}
+```
+
+`GetPostIDBytes`는 uint64 유형의 값 id를 가져와 []byte 유형의 값을 반환합니다.
+
+이 함수는 make를 사용해서 길이가 8인 byte slice를 만든 후 id값을 uint64로 저장 후 반환합니다.
+해당 반환값은 Store에서 키로 사용합니다.
+
+## SetPostCount
+
+```go
+// x/blog/keeper/post.go
+func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    // storeAdapter를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, []byte{})
+    // 게시물 수 저장을 위한 types.PostCountKey를 byte slice로 변환
+    byteKey := types.KeyPrefix(types.PostCountKey)
+    // 8byte 길이의 byte slice 생성
+    bz := make([]byte, 8)
+    // uint64타입의 count를 bz에 저장
+    binary.BigEndian.PutUint64(bz, count)
+    // byteKey와 인코딩된 데이터 bz를 사용하여 store에 저장
+    store.Set(byteKey, bz)
+}
+```
+
+`SetPostCount` 함수는 sdk.Context 유형의 컨텍스트 ctx와 uint64 유형의 값 개수를 사용하고 값을 반환하지 않습니다.
+
+## Create Post Message
+
+```go
+// x/blog/keeper/msg_server_create_post.go
+package keeper
+
+import (
+    "context"
+
+    "blog/x/blog/types"
+
+    sdk "github.com/cosmos/cosmos-sdk/types"
+)
+
+func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (*types.MsgCreatePostResponse, error) {
+	// Go Context -> Cosmos SDK Context
+    ctx := sdk.UnwrapSDKContext(goCtx)
+    // Post 인스턴스 생성
+    var post = types.Post{
+        Creator: msg.Creator,
+        Title:   msg.Title,
+        Body:    msg.Body,
+    }
+    // post 추가 및 게시물의 id 반환
+    id := k.AppendPost(
+        ctx,
+        post,
+    )
+    return &types.MsgCreatePostResponse{
+        Id: id,
+    }, nil
+}
+```
+
+`CreatePost` 함수는 MsgCreatePost 메시지 유형에 대한 message handler입니다.
+MsgCreatePost 메시지에 제공된 정보를 기반으로 블록체인에 새 게시물을 생성하는 역할을 담당합니다.
+
+---
+
+# Update Post
+
+해당 챕터에서는 게시물을 업데이트하는 프로세스를 알아봅니다.
+게시물을 업데이트하기 위해서는 게시물을 조회 후 다시 저장하는 로직이 필요하므로 해당 로직에 대해 알아봅니다!
+
+## Getting Post
+
+```go
+// x/blog/keeper/post.go
+func (k Keeper) GetPost(ctx sdk.Context, id uint64) (val types.Post, found bool) {
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	// storeAdapter와 PostKey Prefix를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.PostKey))
+    // 게시물 조회
+    b := store.Get(GetPostIDBytes(id))
+    // 조회된 게시물이 없을 경우
+    if b == nil {
+        return val, false
+    }
+    // 조회된 게시물이 있을 경우 디코딩 후 리턴
+    k.cdc.MustUnmarshal(b, &val)
+    return val, true
+}
+```
+
+`GetPost`는 Context와 검색할 게시물의 ID를 나타내는 uint64 유형의 ID를 사용합니다.
+게시물 값이 포함된 type.Post 구조체와 게시물이 데이터베이스에서 발견되었는지 여부를 나타내는 Boolean 값을 반환합니다.
+
+## Setting Post
+
+```go
+// x/blog/keeper/post.go
+func (k Keeper) SetPost(ctx sdk.Context, post types.Post) {
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    // storeAdapter와 PostKey Prefix를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.PostKey))
+    // 인수로 받은 post를 Byte slice로 변환
+    b := k.cdc.MustMarshal(&post)
+    // 변환한 post를 store에 저장
+    store.Set(GetPostIDBytes(post.Id), b)
+}
+```
+
+`SetPost`는 Context와 게시물에 대한 업데이트된 값을 포함하는 type.Post 구조체를 사용합니다.
+이 함수는 아무것도 반환하지 않습니다.
+
+## Update Post Message
+
+```go
+// x/blog/keeper/msg_server_update_post.go
+package keeper
+
+import (
+    "context"
+    "fmt"
+
+    "blog/x/blog/types"
+
+    errorsmod "cosmossdk.io/errors"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
+func (k msgServer) UpdatePost(goCtx context.Context, msg *types.MsgUpdatePost) (*types.MsgUpdatePostResponse, error) {
+	// Go Context -> Cosmos SDK Context
+    ctx := sdk.UnwrapSDKContext(goCtx)
+    //Post 인스턴스 생성
+    var post = types.Post{
+        Creator: msg.Creator,
+        Id:      msg.Id,
+        Title:   msg.Title,
+        Body:    msg.Body,
+    }
+    // msg.Id가 존재하는지 확인
+    val, found := k.GetPost(ctx, msg.Id)
+    if !found {
+        return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+    }
+    // msg.Creator가 게시글의 Creator가 맞는지 확인
+    if msg.Creator != val.Creator {
+        return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+    }
+    k.SetPost(ctx, post)
+    return &types.MsgUpdatePostResponse{}, nil
+}
+```
+
+`UpdatePost`는 Context와 MsgUpdatePost 메시지에 제공된 정보를 통해 해당 게시물이 존재하는지, msg.Creator가 게시글의 소유자가 맞는지 확인 후 게시글을 업데이트합니다.
+
+---
+
+# Delete Post
+
+해당 챕터에서는 게시글을 삭제하는 로직을 알아봅니다.
+
+## Remove Post
+
+```go
+// x/blog/keeper/post.go
+func (k Keeper) RemovePost(ctx sdk.Context, id uint64) {
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    // storeAdapter와 PostKey Prefix를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.PostKey))
+    // 해당 게시글 삭제
+    store.Delete(GetPostIDBytes(id))
+}
+```
+
+`RemovePost`함수는 Context와 id를 사용해서 지정된 id와 연결된 key-value를 KVStore에서 삭제합니다.
+
+## Remove Post Message
+
+```go
+// x/blog/keeper/msg_server_delete_post.go
+package keeper
+
+import (
+    "context"
+    "fmt"
+
+    "blog/x/blog/types"
+
+    errorsmod "cosmossdk.io/errors"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+)
+
+func (k msgServer) DeletePost(goCtx context.Context, msg *types.MsgDeletePost) (*types.MsgDeletePostResponse, error) {
+	// Go Context -> Cosmos SDK Context
+    ctx := sdk.UnwrapSDKContext(goCtx)
+    // msg.Id를 이용해 해당 게시글이 있는지 확인
+    val, found := k.GetPost(ctx, msg.Id)
+    // 게시글이 없을 경우
+    if !found {
+        return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
+    }
+    // 게시글의 Creator와 msg.Creator가 다를 경우
+    if msg.Creator != val.Creator {
+        return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+    }
+    // 해당 게시글 삭제
+    k.RemovePost(ctx, msg.Id)
+    return &types.MsgDeletePostResponse{}, nil
+}
+```
+
+`DeletePost`는 Context와 MsgDeletePost 메시지에 제공된 정보를 통해 msg.id를 조회하고 msg.Creator가 해당 게시글의 Creator인지 확인 후 게시글을 삭제합니다.
+
+---
+
+# Show a Post
+
+해당 챕터에서는 사용자가 고유 ID로 게시글을 검색하는 기능을 알아봅니다.
+
+## Show Post
+
+```go
+// x/blog/keeper/query_show_post.go
+package keeper
+
+import (
+    "context"
+
+    "blog/x/blog/types"
+
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+    "google.golang.org/grpc/codes"
+    "google.golang.org/grpc/status"
+)
+
+func (k Keeper) ShowPost(goCtx context.Context, req *types.QueryShowPostRequest) (*types.QueryShowPostResponse, error) {
+	// request가 존재하는 지 확인
+    if req == nil {
+        return nil, status.Error(codes.InvalidArgument, "invalid request")
+    }
+	// Go Context -> Cosmos SDK Context
+    ctx := sdk.UnwrapSDKContext(goCtx)
+    // request.Id를 통해 게시물 검색
+    post, found := k.GetPost(ctx, req.Id)
+    // 해당하는 게시물이 없을 경우
+    if !found {
+        return nil, sdkerrors.ErrKeyNotFound
+    }
+
+    return &types.QueryShowPostResponse{Post: &post}, nil
+}
+```
+
+`ShowPost`함수는 블록체인 상태에서 단일 게시물을 검색하는 기능을 수행합니다.
+
+---
+
+# List Posts
+
+해당 챕터에서는 사용자가 블록체인 애플리케이션에 저장된 모든 게시물을 검색할 수 있는 기능을 알아봅니다.
+
+## List Posts
+
+```go
+// x/blog/keeper/query_list_post.go
+package keeper
+
+import (
+    "context"
+
+    "blog/x/blog/types"
+
+    "cosmossdk.io/store/prefix"
+    "github.com/cosmos/cosmos-sdk/runtime"
+    sdk "github.com/cosmos/cosmos-sdk/types"
+    "github.com/cosmos/cosmos-sdk/types/query"
+    "google.golang.org/grpc/codes"
+    "google.golang.org/grpc/status"
+)
+
+func (k Keeper) ListPost(ctx context.Context, req *types.QueryListPostRequest) (*types.QueryListPostResponse, error) {
+	// request가 존재하는 지 확인
+    if req == nil {
+        return nil, status.Error(codes.InvalidArgument, "invalid request")
+    }
+	// 현재 Context에 대한 KVStore를 열어서 KVStoreAdapter 타입으로 반환
+    storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+    // storeAdapter와 PostKey Prefix를 이용해서 Store생성
+    store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.PostKey))
+	// 게시물 저장을 위한 slice 초기화
+    var posts []types.Post
+    // requset에 포함된 Pagination을 이용해서 각 게시물 조회
+    pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
+	    // 각 게시물 저장을 위한 변수 초기화
+        var post types.Post
+        // byte slice를 디코딩하며, 디코딩 과정에서 에러가 발생할 경우 에러 반환
+        if err := k.cdc.Unmarshal(value, &post); err != nil {
+            return err
+        }
+		// posts slice에 추가
+        posts = append(posts, post)
+        return nil
+    })
+	// 에러가 발생할 경우
+    if err != nil {
+        return nil, status.Error(codes.Internal, err.Error())
+    }
+
+    return &types.QueryListPostResponse{Post: posts, Pagination: pageRes}, nil
+}
+```
+
+`ListPost`함수는 Context와 QueryListPostRequest를 사용하여 게시물 목록 및 pagination 정보를 반환하는 기능을 수행합니다.
+
+---
+
+# Execute
+
+다음 명령어들을 이용해 태스트를 할 수 있습니다.
+
+결과는 이전 게시글처럼 잘 작동하는 것을 확인할 수 있습니다.
+
+### Create a blog post by Alice
+
+```bash
+blogd tx blog create-post hello world --from alice --chain-id blog
+```
+
+### Show a blog post
+
+```bash
+blogd q blog show-post 0
+```
+
+### Create a blog post by Bob
+
+```bash
+blogd tx blog create-post foo bar --from bob --chain-id blog
+```
+
+### List all blog posts with pagination
+
+```bash
+blogd q blog list-post
+```
+
+### Update a blog post
+
+```bash
+blogd tx blog update-post hello cosmos 0 --from alice --chain-id blog
+```
+
+```bash
+blogd q blog show-post 0
+```
+
+### Delete a blog post
+
+```bash
+blogd tx blog delete-post 0 --from alice --chain-id blog
+```
+
+```bash
+blogd q blog list-post
+```
+
+### Delete a blog post unsuccessfully
+
+```bash
+blogd tx blog delete-post 1 --from alice --chain-id blog
+```
+
+---
+
+# Outro
+
+---
+
+**References**
+
+- [Ignite CLI](https://docs.ignite.com/)
