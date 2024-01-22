@@ -5,11 +5,10 @@ import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
-import { useTheme } from 'next-themes'
+
 import HeaderMainIcon from './HeaderMainIcon'
 
 const Header = () => {
-  const { theme, setTheme, resolvedTheme } = useTheme()
   return (
     <header className="flex items-center justify-between py-10">
       <div>
