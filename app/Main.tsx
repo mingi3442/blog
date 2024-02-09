@@ -1,10 +1,9 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
-import Image from 'next/image'
 import { TypedIntroduce } from '@/components/TypedIntroduce'
+import siteMetadata from '@/data/siteMetadata'
+import Image from 'next/image'
+import { formatDate } from 'pliny/utils/formatDate'
 import { RoughNotation } from 'react-rough-notation'
 
 import SEO from '@/components/SEO'
@@ -133,12 +132,12 @@ export default function Home({ posts, author }) {
                       <div className="flex items-center ">
                         <div className="relative w-10 h-10 rounded-full bg-slate-600">
                           <Image
-                            className="w-10 h-10 rounded-full static"
                             sizes="auto"
                             src={author.avatar as string}
-                            alt={author.name}
-                            fill
-                            style={{ objectFit: 'cover' }}
+                            width={38}
+                            height={38}
+                            alt="avatar"
+                            className="h-10 w-10 rounded-full"
                           />
                         </div>
                         <dl className="ml-2 whitespace-nowrap text-sm font-medium leading-5">
