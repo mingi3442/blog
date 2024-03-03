@@ -1,17 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 'use client'
 
-import { usePathname } from 'next/navigation'
-import { slug } from 'github-slugger'
-import { formatDate } from 'pliny/utils/formatDate'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import { allAuthors, type Authors, type Blog } from 'contentlayer/generated'
+import BlogCard from '@/components/BlogCard'
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
+import SEO from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
-import BlogCard from '@/components/BlogCard'
-import SEO from '@/components/SEO'
+import { allAuthors, type Authors, type Blog } from 'contentlayer/generated'
+import { usePathname } from 'next/navigation'
+import { CoreContent } from 'pliny/utils/contentlayer'
 
 interface PaginationProps {
   totalPages: number

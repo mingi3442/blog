@@ -1,10 +1,10 @@
-import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
-import Tag from '@/components/Tag'
 import Link from '@/components/Link'
-import Image from 'next/image'
+import Tag from '@/components/Tag'
+import siteMetadata from '@/data/siteMetadata'
 import { Authors, Blog } from 'contentlayer/generated'
+import Image from 'next/image'
 import { CoreContent } from 'pliny/utils/contentlayer'
+import { formatDate } from 'pliny/utils/formatDate'
 
 export default function BlogCard({
   post,
@@ -20,7 +20,7 @@ export default function BlogCard({
       <div className="lg:-mx-6 lg:flex lg:items-center">
         <div className="relative overflow-hidden bg-clip-border w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border-[0.5px]">
           <Link
-            className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 "
+            className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-72 bg-white"
             href={`/blog/${slug}`}
             aria-label={`Read "${title}"`}
           >
