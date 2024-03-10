@@ -1,14 +1,14 @@
-import { ReactNode } from 'react'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SectionContainer from '@/components/SectionContainer'
-import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import type { Authors, Blog } from 'contentlayer/generated'
+import { CoreContent } from 'pliny/utils/contentlayer'
+import { ReactNode } from 'react'
 // import SEO from '@/components/SEO'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
@@ -117,7 +117,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                       Tags
                     </h2>
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap mt-2">
                       {tags.map((tag) => (
                         <Tag key={tag} text={tag} />
                       ))}
@@ -149,6 +149,13 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </div>
                 )}
               </div>
+              {/* <img
+                alt="Hits"
+                src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
+                style={{ width: '100px', height: 'auto' }}
+                width={100}
+                height={25}
+              /> */}
               <div className="pt-4 xl:pt-8">
                 <Link
                   href={`/${basePath}`}

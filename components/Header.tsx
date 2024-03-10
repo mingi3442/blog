@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable @next/next/no-img-element */
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
 import Link from './Link'
@@ -7,7 +8,6 @@ import SearchButton from './SearchButton'
 import ThemeSwitch from './ThemeSwitch'
 
 import HeaderMainIcon from './HeaderMainIcon'
-import Image from './Image'
 
 const Header = () => {
   return (
@@ -17,8 +17,17 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <HeaderMainIcon />
             {typeof siteMetadata.headerTitle === 'string' ? (
-              <div className="hidden h-6 text-2xl font-semibold sm:block">
-                {siteMetadata.headerTitle}
+              <div className="hidden sm:flex flex-col ">
+                <div className="hidden h-6 text-xl font-semibold sm:block">
+                  {siteMetadata.headerTitle}
+                </div>
+                <img
+                  alt="Hits"
+                  src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
+                  style={{ width: '80px', height: 'auto' }}
+                  width={100}
+                  height={25}
+                />
               </div>
             ) : (
               siteMetadata.headerTitle
@@ -41,13 +50,7 @@ const Header = () => {
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />
-        <Image
-          alt="Hits"
-          src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
-          style={{ width: '100px', height: 'auto' }}
-          width={100}
-          height={30}
-        />
+
         {/* <a href="https://hits.sh/min71.dev/"> */}
         {/* <Link
           className="block relative overflow-hidden bg-clip-border w-full rounded-xl h-fit bg-white"
