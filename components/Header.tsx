@@ -17,14 +17,14 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <HeaderMainIcon />
             {typeof siteMetadata.headerTitle === 'string' ? (
-              <div className="hidden sm:flex flex-col ">
-                <div className="hidden h-6 text-xl font-semibold sm:block">
+              <div className="hidden sm:flex flex-col">
+                <div className="hidden h-6 text-xl font-semibold sm:block ">
                   {siteMetadata.headerTitle}
                 </div>
                 <img
                   alt="Hits"
                   src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
-                  style={{ width: '80px', height: 'auto' }}
+                  style={{ width: '80px', height: 'auto', paddingTop: '1px' }}
                   width={100}
                   height={25}
                 />
