@@ -9,7 +9,7 @@ const Tag = ({ text, count }: Props) => {
   return (
     <Link href={`/tags/${slug(text)}`} className="mr-2 my-1 text-sm font-medium uppercase">
       <div>
-        <div className="inline-block relative py-1 text-xs group"> {/* Add the group class to the parent div */}
+        <div className="inline-block relative py-1 text-xs group">
           <div className="absolute inset-0 text-primary-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 flex">
             <svg height="100%" viewBox="0 0 50 100">
               <path
@@ -17,7 +17,7 @@ const Tag = ({ text, count }: Props) => {
                 fill="currentColor"
               />
             </svg>
-            <div className="flex-grow h-full -ml-px bg-primary-500 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 rounded-md rounded-l-none"></div> {/* Adjusted for group hover */}
+            <div className="flex-grow h-full -ml-px bg-primary-500 group-hover:bg-primary-600 dark:group-hover:bg-primary-400 rounded-md rounded-l-none"></div>
           </div>
           <span className="relative text-white uppercase font-semibold pr-px">
             <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
