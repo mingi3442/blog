@@ -3,7 +3,7 @@ import Tag from '@/components/tags/Tag'
 import { RoughNotation } from 'react-rough-notation'
 
 import SEO from '@/components/SEO'
-import NavigationButton from '@/components/common/NavigationButton'
+import NavigationButton from '@/components/common/molecules/NavigationButton'
 import MainBlogCard from '@/components/main/MainBlogCard'
 import { Authors, Blog } from 'contentlayer/generated'
 import { CoreContent } from 'pliny/utils/contentlayer'

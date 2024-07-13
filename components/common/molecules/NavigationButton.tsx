@@ -1,14 +1,15 @@
 import Link from 'next/link'
-import ArrowIcon from './atoms/ArrowIcon'
+import ArrowIcon from '../atoms/ArrowIcon'
 
 interface NavigationButtonProps {
   href: string
   title: string
   color: 'primary' | 'slate'
   isArrow?: boolean
+  children?: React.ReactNode
 }
 
-const NavigationButton = ({ href, title, color, isArrow }: NavigationButtonProps) => {
+const NavigationButton = ({ href, title, color, isArrow, children }: NavigationButtonProps) => {
   return (
     <button className="btn group flex items-center bg-transparent tracking-widest text-base font-medium leading-6">
       <span
@@ -19,7 +20,7 @@ const NavigationButton = ({ href, title, color, isArrow }: NavigationButtonProps
           className={`text-${color}-500 hover:text-${color}-600 dark:hover:text-${color}-400`}
           aria-label={`Read "${title}"`}
         >
-          {title}
+          {children ? children : title}
         </Link>
       </span>
       {isArrow && <ArrowIcon color={color} />}

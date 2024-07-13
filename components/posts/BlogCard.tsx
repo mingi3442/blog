@@ -5,7 +5,7 @@ import { Authors, Blog } from 'contentlayer/generated'
 import Image from 'next/image'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { formatDate } from 'pliny/utils/formatDate'
-import NavigationButton from '../common/NavigationButton'
+import NavigationButton from '../common/molecules/NavigationButton'
 
 export default function BlogCard({
   post,

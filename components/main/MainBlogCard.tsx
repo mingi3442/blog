@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { formatDate } from 'pliny/utils/formatDate'
-import NavigationButton from '../common/NavigationButton'
+import NavigationButton from '../common/molecules/NavigationButton'
 import Tag from '../tags/Tag'
 
 interface MainBlogCardProps {

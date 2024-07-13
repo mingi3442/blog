@@ -2,14 +2,14 @@
 /* eslint-disable @next/next/no-img-element */
 import headerNavLinks from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
-import Link from '../common/atoms/Link'
-import MobileNav from '../navigation/MobileNav'
-import SearchButton from '../navigation/SearchButton'
-import ThemeSwitch from '../navigation/ThemeSwitch'
+import Link from '../../common/atoms/Link'
+import MobileNav from '../../navigation/MobileNav'
+import SearchButton from '../molecules/SearchButton'
+import ThemeSwitchWrapper from '../molecules/ThemeSwitchWrapper'
 
-import NavigationButton from '../common/NavigationButton'
-import Hits from '../common/atoms/Hits'
-import HeaderMainIcon from './HeaderMainIcon'
+import Hits from '../../common/atoms/Hits'
+import NavigationButton from '../../common/molecules/NavigationButton'
+import LogoIcon from '../atoms/LogoIcon'
 
 const Header = () => {
   return (
@@ -17,7 +17,7 @@ const Header = () => {
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
-            <HeaderMainIcon />
+            <LogoIcon />
             {typeof siteMetadata.headerTitle === 'string' ? (
               <div className="hidden sm:flex flex-col">
                 <div className="hidden h-6 text-xl font-semibold sm:block ">
@@ -36,15 +36,13 @@ const Header = () => {
           .filter((link) => link.href !== '/')
           .map((link) => (
             <div key={link.title} className="hidden sm:flex font-medium items-start">
-              <NavigationButton
-                href={link.href}
-                title={link.title}
-                color="slate"
-              ></NavigationButton>
+              <NavigationButton href={link.href} title={link.title} color="slate">
+                <p className="font-medium text-gray-900 dark:text-gray-100">{link.title}</p>
+              </NavigationButton>
             </div>
           ))}
         <SearchButton />
-        <ThemeSwitch />
+        <ThemeSwitchWrapper />
         <MobileNav />
       </div>
     </header>

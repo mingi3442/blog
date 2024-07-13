@@ -1,8 +1,8 @@
-import Image from 'next/image'
-import Logo from '@/data/logo.png'
 import DarkModeLogo from '@/data/logo-dark.png'
+import Logo from '@/data/logo.png'
+import Image from 'next/image'
 
-const HeaderMainIcon = () => {
+const LogoIcon = () => {
   return (
     <div className="mr-3">
       <Image className="hidden dark:block" src={DarkModeLogo} alt="Logo" width={30} height={30} />
@@ -11,4 +11,4 @@ const HeaderMainIcon = () => {
   )
 }
 
-export default HeaderMainIcon
+export default LogoIcon
