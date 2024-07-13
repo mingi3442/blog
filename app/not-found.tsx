@@ -1,4 +1,4 @@
-import Link from '@/components/Link'
+import Link from '@/components/common/atoms/Link'
 
 export default function NotFound() {
   return (

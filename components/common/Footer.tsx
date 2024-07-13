@@ -1,24 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import Link from 'next/link'
+import Hits from './atoms/Hits'
 
 export default function Footer() {
   return (
     <footer>
       <div className="mt-16 flex flex-col items-center">
-        <img
-          alt="Hits"
-          src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
-          style={{ width: '100px', height: 'auto' }}
-          width={100}
-          height={25}
-          className="block sm:hidden"
-        />
+        <Hits />
         <div className="my-3 flex space-x-4">
           <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
           <SocialIcon kind="github" href={siteMetadata.github} size={6} />
-
           <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
           <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} />
         </div>

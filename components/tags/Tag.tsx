@@ -27,7 +27,6 @@ const Tag = ({ text, count }: Props) => {
             <span>&nbsp;</span>
           </span>
         </div>
-
       </div>
     </Link>
   )

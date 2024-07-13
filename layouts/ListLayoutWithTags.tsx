@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 'use client'
 
-import BlogCard from '@/components/BlogCard'
-import Link from '@/components/Link'
+import Link from '@/components/common/atoms/Link'
+import BlogCard from '@/components/posts/BlogCard'
 import SEO from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
