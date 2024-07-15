@@ -1,3 +1,5 @@
+import { ctm } from 'app/utils/style'
+
 const ArrowIcon = ({ color }: { color: string }) => {
   return (
     <svg
@@ -6,7 +8,12 @@ const ArrowIcon = ({ color }: { color: string }) => {
       width="12"
       xmlns="http://www.w3.org/2000/svg"
       id="arrow-horizontal"
-      className={`-translate-x-2 ml-1 mb-1 fill-${color}-500 dark:fill-${color}-400 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:scale-x-105 group-hover:fill-${color}-500`}
+      className={ctm(
+        `-translate-x-2 ml-1 mb-1 transition-all duration-300 ease-out group-hover:translate-x-1 group-hover:scale-x-105 group-hover:fill-primary-50-500`,
+        color === 'primary'
+          ? `fill-primary-500 dark:fill-primary-400`
+          : 'fill-slate-500 dark:fill-slate-400'
+      )}
     >
       <path
         transform="translate(30)"

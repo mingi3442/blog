@@ -12,11 +12,10 @@ function createTypedInstance(el: HTMLElement) {
   })
 }
 
-export function TypedIntroduce() {
+export function TypedIntroduceWrapper() {
   const typedRef = useRef(null)
 
   useEffect(() => {
-    // Typed.js 옵션 설정
     const options = {
       strings: [
         'Hello, Here is my personal blog! 📝',
@@ -30,14 +29,16 @@ export function TypedIntroduce() {
       loop: true,
     }
 
-    // Typed.js 인스턴스 생성
     const typed = new Typed(typedRef.current, options)
 
-    // 컴포넌트가 언마운트될 때 Typed.js 인스턴스 정리
     return () => {
       typed.destroy()
     }
   }, [])
 
-  return <span className="text-xl leading-7 text-gray-500 dark:text-gray-300" ref={typedRef}></span>
+  return (
+    <div className="min-h-42 py-4">
+      <span className="text-xl leading-7 text-gray-500 dark:text-gray-300" ref={typedRef}></span>
+    </div>
+  )
 }
