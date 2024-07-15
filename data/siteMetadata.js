@@ -7,7 +7,7 @@ const siteMetadata = {
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
-  siteRepo: 'https://github.com/mingi/blog',
+  siteRepo: 'https://github.com/mingi/posts',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/banner.jpeg',
   mastodon: 'https://mastodon.social/@mastodonuser',

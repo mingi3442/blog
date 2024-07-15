@@ -33,7 +33,7 @@ export default function PostContainer({
               isArrow={false}
               color="slate"
               title={title}
-              spanClassName="block text-2xl font-semibold text-gray-800 dark:text-white md:text-2xl pb-2"
+              spanClassName="block text-xl font-semibold text-gray-800 dark:text-white md:text-2xl pb-2"
             />
 
             <div className="mt-4 flex flex-wrap">
