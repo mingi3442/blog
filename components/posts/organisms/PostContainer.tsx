@@ -5,7 +5,6 @@ import { PostSummaryTextElement } from '../../common/atoms/PostTextElement'
 import NavigationButton from '../../common/molecules/NavigationButton'
 import PostThumbnailWrapper from '../../common/molecules/PostThumbnailWrapper'
 import PostAuthorSection from '../../common/organisms/PostAuthorSection'
-import { PostTitleTextElement } from '../atoms/PostTextElement'
 
 export default function PostContainer({
   post,
@@ -29,7 +28,13 @@ export default function PostContainer({
 
         <div className="mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
           <div className="flex-1">
-            <PostTitleTextElement title={title} />
+            <NavigationButton
+              href={`/posts/${slug}`}
+              isArrow={false}
+              color="slate"
+              title={title}
+              spanClassName="block text-2xl font-semibold text-gray-800 dark:text-white md:text-2xl pb-2"
+            />
 
             <div className="mt-4 flex flex-wrap">
               {tags.map((tag) => (

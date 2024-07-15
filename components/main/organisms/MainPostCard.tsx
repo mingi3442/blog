@@ -6,7 +6,6 @@ import PostThumbnailWrapper from '@/components/common/molecules/PostThumbnailWra
 import NavigationButton from '../../common/molecules/NavigationButton'
 import PostAuthorSection from '../../common/organisms/PostAuthorSection'
 import Tag from '../../tags/Tag'
-import { MainPostTitleTextElement } from '../atoms/MainTextElement'
 
 interface MainPostCardProps {
   post: CoreContent<Blog>
@@ -27,7 +26,13 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
 
       <div className="mt-2 w-full lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
         <div className="flex-1">
-          <MainPostTitleTextElement title={title} />
+          <NavigationButton
+            href={`/posts/${slug}`}
+            isArrow={false}
+            color="slate"
+            title={title}
+            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-base pb-2"
+          />
 
           <div className="mt-4 flex flex-wrap">
             {tags.map((tag) => (
@@ -42,7 +47,7 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
           href={`/posts/${slug}`}
           isArrow={true}
           color="primary"
-          className="mt-3"
+          buttonClassName="mt-3"
         />
         <PostAuthorSection author={author} date={date} />
       </div>

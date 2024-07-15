@@ -4,7 +4,13 @@ import { CoreContent } from 'pliny/utils/contentlayer'
 import { Fragment } from 'react'
 import MainPostCard from '../organisms/MainPostCard'
 const MAX_DISPLAY = 4
-const LatesPostContainer = ({ posts, author }: { posts: CoreContent<Blog>[]; author: Authors }) => {
+const LatestPostContainer = ({
+  posts,
+  author,
+}: {
+  posts: CoreContent<Blog>[]
+  author: Authors
+}) => {
   return (
     <Fragment>
       <div className="space-y-2 pb-2 pt-4 md:space-y-5">
@@ -32,10 +38,10 @@ const LatesPostContainer = ({ posts, author }: { posts: CoreContent<Blog>[]; aut
         <div className="flex justify-end text-base font-medium leading-6">
           <NavigationButton
             title="All Posts"
-            href="/blog"
+            href="/posts"
             color="primary"
             isArrow={true}
-            className="mt-4"
+            buttonClassName="mt-4"
           />
         </div>
       )}
@@ -43,4 +49,4 @@ const LatesPostContainer = ({ posts, author }: { posts: CoreContent<Blog>[]; aut
   )
 }
 
-export default LatesPostContainer
+export default LatestPostContainer
