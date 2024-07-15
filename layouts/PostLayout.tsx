@@ -119,7 +119,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     </h2>
                     <div className="flex flex-wrap mt-2">
                       {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
+                        <Tag className="pr-2" key={tag} text={tag} />
                       ))}
                     </div>
                   </div>
