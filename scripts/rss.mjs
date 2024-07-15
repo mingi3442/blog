@@ -1,17 +1,17 @@
-import { writeFileSync, mkdirSync } from 'fs'
-import path from 'path'
+import { mkdirSync, writeFileSync } from 'fs'
 import GithubSlugger from 'github-slugger'
-import { escape } from 'pliny/utils/htmlEscaper.js'
-import siteMetadata from '../data/siteMetadata.js'
-import tagData from '../app/tag-data.json' assert { type: 'json' }
-import { allBlogs } from '../.contentlayer/generated/index.mjs'
+import path from 'path'
 import { sortPosts } from 'pliny/utils/contentlayer.js'
+import { escape } from 'pliny/utils/htmlEscaper.js'
+import { allBlogs } from '../.contentlayer/generated/index.mjs'
+import tagData from '../app/tag-data.json' assert { type: 'json' }
+import siteMetadata from '../data/siteMetadata.js'
 
 const generateRssItem = (config, post) => `
   <item>
-    <guid>${config.siteUrl}/blog/${post.slug}</guid>
+    <guid>${config.siteUrl}/post/${post.slug}</guid>
     <title>${escape(post.title)}</title>
-    <link>${config.siteUrl}/blog/${post.slug}</link>
+    <link>${config.siteUrl}/post/${post.slug}</link>
     ${post.summary && `<description>${escape(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>

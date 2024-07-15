@@ -2,7 +2,7 @@
 'use client'
 
 import Link from '@/components/common/atoms/Link'
-import BlogCard from '@/components/posts/BlogCard'
+import PostContainer from '@/components/posts/organisms/PostContainer'
 import SEO from '@/components/SEO'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
@@ -94,7 +94,7 @@ export default function ListLayoutWithTags({
               const { path, date, title, summary, tags } = post
               return (
                 <li key={path} className="py-6 xl:pr-8">
-                  <BlogCard post={post} author={author as Authors} />
+                  <PostContainer post={post} author={author as Authors} />
                 </li>
               )
             })}

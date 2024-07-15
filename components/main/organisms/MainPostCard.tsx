@@ -39,7 +39,7 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
         </div>
         <NavigationButton
           title="Read more"
-          href={`/blog/${slug}`}
+          href={`/posts/${slug}`}
           isArrow={true}
           color="primary"
           className="mt-3"

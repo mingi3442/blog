@@ -21,7 +21,7 @@ const PostThumbnailWrapper = ({
     <div className={ctm('relative overflow-hidden bg-clip-border w-full ', className)}>
       <Link
         className="block relative overflow-hidden bg-clip-border w-auto rounded-xl h-72 bg-white "
-        href={`/blog/${slug}`}
+        href={`/posts/${slug}`}
         aria-label={`Read "${title}"`}
       >
         <Image

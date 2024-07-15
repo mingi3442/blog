@@ -1,12 +1,13 @@
 import Tag from '@/components/tags/Tag'
 import { Authors, Blog } from 'contentlayer/generated'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import { PostSummaryTextElement } from '../common/atoms/PostTextElement'
-import NavigationButton from '../common/molecules/NavigationButton'
-import PostThumbnailWrapper from '../common/molecules/PostThumbnailWrapper'
-import PostAuthorSection from '../common/organisms/PostAuthorSection'
+import { PostSummaryTextElement } from '../../common/atoms/PostTextElement'
+import NavigationButton from '../../common/molecules/NavigationButton'
+import PostThumbnailWrapper from '../../common/molecules/PostThumbnailWrapper'
+import PostAuthorSection from '../../common/organisms/PostAuthorSection'
+import { PostTitleTextElement } from '../atoms/PostTextElement'
 
-export default function BlogCard({
+export default function PostContainer({
   post,
   author,
 }: {
@@ -28,9 +29,7 @@ export default function BlogCard({
 
         <div className="mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
           <div className="flex-1">
-            <p className="block text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">
-              {title}
-            </p>
+            <PostTitleTextElement title={title} />
 
             <div className="mt-4 flex flex-wrap">
               {tags.map((tag) => (
@@ -42,7 +41,7 @@ export default function BlogCard({
             <div className="mt-3">
               <NavigationButton
                 color="primary"
-                href={`/blog/${slug}`}
+                href={`/posts/${slug}`}
                 title={'Read more'}
                 isArrow={true}
               />
