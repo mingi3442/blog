@@ -1,4 +1,4 @@
-const headerNavLinks = [
+export const headerNavLinks = [
   { href: '/', title: 'Home' },
   { href: '/posts', title: 'Posts' },
   { href: '/tags', title: 'Tags' },
@@ -7,4 +7,7 @@ const headerNavLinks = [
   { href: 'https://resume.min71.dev', title: 'Resume' },
 ]
 
-export default headerNavLinks
+export interface HeaderNavLink {
+  href: string
+  title: string
+}

@@ -1,9 +1,9 @@
 'use client'
 /* eslint-disable @next/next/no-img-element */
-import headerNavLinks from '@/data/headerNavLinks'
+import { headerNavLinks } from '@/data/headerNavLinks'
 import siteMetadata from '@/data/siteMetadata'
 import Link from '../../common/atoms/Link'
-import MobileNav from '../../navigation/MobileNav'
+import MobileNav from '../../navigation/organisms/MobileNav'
 import SearchButton from '../molecules/SearchButton'
 import ThemeSwitchWrapper from '../molecules/ThemeSwitchWrapper'
 
