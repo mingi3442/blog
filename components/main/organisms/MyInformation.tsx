@@ -1,26 +1,26 @@
 import Link from 'next/link'
 import InformationCheckIcon from '../atoms/InformationCheckIcon'
-import { InformationText } from '../atoms/MainTextElement'
+import { MainInformationText } from '../atoms/MainTextElement'
 
 export default function MyInformation() {
   return (
     <div className="flex flex-col h-max">
       <Link href="/" className="font-display max-w-sm text-xl font-semibold leading-tight p-4">
-        <InformationText>
+        <MainInformationText>
           <InformationCheckIcon /> Read My Writing 📝
-        </InformationText>
+        </MainInformationText>
       </Link>
       <Link href="/" className="font-display max-w-sm text-xl font-semibold leading-tight p-4 ">
-        <InformationText>
+        <MainInformationText>
           <InformationCheckIcon />
           Who am I? 🧐
-        </InformationText>
+        </MainInformationText>
       </Link>
       <Link href="/" className="font-display max-w-sm text-xl font-semibold leading-tight p-4 ">
-        <InformationText className="link link-underline link-underline-black p-1">
+        <MainInformationText className="link link-underline link-underline-black p-1">
           <InformationCheckIcon />
           Is My Resume 👤
-        </InformationText>
+        </MainInformationText>
       </Link>
     </div>
   )
