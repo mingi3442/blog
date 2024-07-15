@@ -26,7 +26,7 @@ export default function PostContainer({
           imageObjectFit="cover"
         />
 
-        <div className="mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
+        <div className="py-1 mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
           <div className="flex-1">
             <NavigationButton
               href={`/posts/${slug}`}
