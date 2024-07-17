@@ -19,7 +19,7 @@ const LatestPostContainer = ({
         </h1>
       </div>
 
-      <ul className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6 ">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6">
         {!posts.length && 'No posts found.'}
         {posts.slice(0, MAX_DISPLAY).map((post, index) => {
           const { slug } = post
@@ -27,7 +27,7 @@ const LatestPostContainer = ({
           return (
             <li
               key={slug}
-              className={`${isLastElement ? 'hidden md:block lg:block xl:hidden' : ''}`}
+              className={`${isLastElement ? 'hidden sm:block lg:block xl:hidden' : ''}`}
             >
               <MainPostCard post={post} author={author} />
             </li>

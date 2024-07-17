@@ -24,13 +24,13 @@ const NavigationButton = ({
   return (
     <button
       className={ctm(
-        'btn group flex items-center bg-transparent tracking-widest text-base font-medium leading-6 justify-start',
+        'btn group flex items-center bg-transparent tracking-widest font-medium justify-start',
         buttonClassName
       )}
     >
       <span
         className={ctm(
-          `relative pb-1text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0  after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100`,
+          `relative pb-1text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 leading-6`,
           isArrow ? 'pr-2' : 'pr-0',
           color === 'primary' ? `after:bg-primary-500` : `after:bg-slate-500`,
           spanClassName
@@ -39,7 +39,6 @@ const NavigationButton = ({
         <Link
           href={href}
           className={`text-${color}-500 hover:text-${color}-600 dark:hover:text-${color}-400`}
-          aria-label={`Read "${title}"`}
         >
           {children ? children : title}
         </Link>

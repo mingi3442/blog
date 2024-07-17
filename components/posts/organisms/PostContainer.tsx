@@ -23,7 +23,7 @@ export default function PostContainer({
           slug={slug}
           image={Array.isArray(images) ? images[0] : '/static/images/banner.jpeg'}
           className="lg:mx-6 lg:w-1/2 rounded-xl h-72 border-gray-300/40 border-[0.5px]"
-          imageObjectFit="cover"
+          imageObjectFit="contain"
         />
 
         <div className="py-1 mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
@@ -33,14 +33,9 @@ export default function PostContainer({
               isArrow={false}
               color="slate"
               title={title}
-              spanClassName="block text-xl font-semibold text-gray-800 dark:text-white md:text-2xl pb-2"
+              spanClassName="block text-xl font-semibold text-gray-800 dark:text-white md:text-2xl"
+              buttonClassName="tracking-normal"
             />
-
-            <div className="mt-4 flex flex-wrap">
-              {tags.map((tag) => (
-                <Tag className="mr-2 my-1" key={tag} text={tag} />
-              ))}
-            </div>
 
             <PostSummaryTextElement summary={summary ?? ''} />
             <div className="mt-3">
@@ -51,6 +46,11 @@ export default function PostContainer({
                 isArrow={true}
               />
             </div>
+          </div>
+          <div className="mt-4 flex flex-wrap">
+            {tags.map((tag) => (
+              <Tag className="mr-2 my-1" key={tag} text={tag} />
+            ))}
           </div>
           <PostAuthorSection author={author} date={date} />
         </div>

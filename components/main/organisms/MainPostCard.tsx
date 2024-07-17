@@ -24,31 +24,32 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
         imageObjectFit="contain"
       />
 
-      <div className="mt-2 w-full lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
+      <div className="mt-2 w-full lg:mt-0 h-60 md:h-72 flex flex-col items-start justify-start min-h-max">
         <div className="flex-1">
           <NavigationButton
             href={`/posts/${slug}`}
             isArrow={false}
             color="slate"
             title={title}
-            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-base pb-2"
+            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-lg md:py-1 leading-4"
+            buttonClassName="tracking-normal"
           />
-
-          <div className="mt-4 flex flex-wrap">
-            {tags.map((tag) => (
-              <Tag className="mr-2 my-1" key={tag} text={tag} />
-            ))}
-          </div>
 
           <PostSummaryTextElement summary={summary ?? ''} />
         </div>
-        <NavigationButton
+
+        <div className="mt-8 flex flex-wrap">
+          {tags.map((tag) => (
+            <Tag className="mr-2 my-1" key={tag} text={tag} />
+          ))}
+        </div>
+        {/* <NavigationButton
           title="Read more"
           href={`/posts/${slug}`}
           isArrow={true}
           color="primary"
           buttonClassName="mt-3"
-        />
+        /> */}
         <PostAuthorSection author={author} date={date} />
       </div>
     </div>
