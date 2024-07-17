@@ -9,9 +9,9 @@ import siteMetadata from '../data/siteMetadata.js'
 
 const generateRssItem = (config, post) => `
   <item>
-    <guid>${config.siteUrl}/post/${post.slug}</guid>
+    <guid>${config.siteUrl}/posts/${post.slug}</guid>
     <title>${escape(post.title)}</title>
-    <link>${config.siteUrl}/post/${post.slug}</link>
+    <link>${config.siteUrl}/posts/${post.slug}</link>
     ${post.summary && `<description>${escape(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>

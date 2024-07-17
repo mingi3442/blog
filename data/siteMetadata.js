@@ -7,10 +7,10 @@ const siteMetadata = {
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
-  siteRepo: 'https://github.com/mingi/posts',
+  siteRepo: 'https://github.com/mingi3442/blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/banner.jpeg',
-  mastodon: 'https://mastodon.social/@mastodonuser',
+  // mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'mingi3442@gmail.com',
   linkedin: 'https://www.linkedin.com/in/min71',
   github: 'https://github.com/mingi3442',
