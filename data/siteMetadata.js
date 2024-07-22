@@ -2,7 +2,7 @@
 const siteMetadata = {
   title: 'Min71 Dev Blog',
   author: 'Lee MinGi',
-  headerTitle: 'Min71 Dev',
+  headerTitle: 'Min71 Dev Blog',
   description: 'Step by step, but Steadily and Consistently 📝',
   language: 'en-us',
   theme: 'system', // system, dark or light
