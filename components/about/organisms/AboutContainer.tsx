@@ -4,9 +4,11 @@ import { TranslateButton } from '../../common/atoms/TranslateButton'
 import AboutContentSection from '../molecules/AboutContentSection'
 
 export default function AboutContainer() {
-  const [language, setLanguage] = React.useState<'ko' | 'en'>(() => {
-    return localStorage.getItem('lang') === 'en' ? 'en' : 'ko'
-  })
+  const [language, setLanguage] = React.useState<'ko' | 'en'>('ko')
+
+  React.useEffect(() => {
+    setLanguage(localStorage.getItem('lang') === 'en' ? 'en' : 'ko')
+  }, [])
 
   React.useEffect(() => {
     localStorage.setItem('lang', language)
