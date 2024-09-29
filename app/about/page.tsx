@@ -1,4 +1,4 @@
-import AboutContent from '@/components/about/AboutContent'
+import AboutContainer from '@/components/about/organisms/AboutContainer'
 import AuthorLayout from '@/layouts/AuthorLayout'
 import { genPageMetadata } from 'app/seo'
 import { Authors, allAuthors } from 'contentlayer/generated'
@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <>
       <AuthorLayout content={mainContent}>
-        <AboutContent />
+        <AboutContainer />
         <MDXLayoutRenderer code={author.body.code} />
       </AuthorLayout>
     </>
