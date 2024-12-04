@@ -1,13 +1,12 @@
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import Link from 'next/link'
-import Hits from '../atoms/Hits'
 
 export default function Footer() {
   return (
     <footer>
       <div className="mt-16 flex flex-col items-center">
-        <Hits />
+        {/* <Hits /> */}
         <div className="my-3 flex space-x-4">
           <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
           <SocialIcon kind="github" href={siteMetadata.github} size={6} />

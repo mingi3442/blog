@@ -8,7 +8,6 @@ import SearchButton from '../molecules/SearchButton'
 import ThemeSwitchWrapper from '../molecules/ThemeSwitchWrapper'
 
 import { headerNavLinks } from '@/data/nav'
-import Hits from '../../common/atoms/Hits'
 import NavigationButton from '../../common/molecules/NavigationButton'
 import LogoIcon from '../atoms/LogoIcon'
 
@@ -19,7 +18,7 @@ const Header = () => {
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <LogoIcon />
-            {typeof siteMetadata.headerTitle === 'string' ? (
+            {/* {typeof siteMetadata.headerTitle === 'string' ? (
               <div className="hidden sm:flex flex-col">
                 <div className="hidden h-6 text-xl font-semibold sm:block ">
                   {siteMetadata.headerTitle}
@@ -28,7 +27,8 @@ const Header = () => {
               </div>
             ) : (
               siteMetadata.headerTitle
-            )}
+            )} */}
+            siteMetadata.headerTitle
           </div>
         </Link>
       </div>
