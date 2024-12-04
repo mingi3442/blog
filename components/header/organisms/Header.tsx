@@ -28,7 +28,7 @@ const Header = () => {
             ) : (
               siteMetadata.headerTitle
             )} */}
-            siteMetadata.headerTitle
+            {siteMetadata.headerTitle}
           </div>
         </Link>
       </div>
