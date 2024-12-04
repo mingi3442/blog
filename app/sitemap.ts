@@ -14,5 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date().toISOString().split('T')[0],
   }))
 
-  return [...routes, ...blogRoutes]
+  const allRoutes = [...routes, ...blogRoutes]
+
+  return allRoutes.map((route) => ({
+    url: route.url,
+    lastModified: route.lastModified,
+  }))
 }
