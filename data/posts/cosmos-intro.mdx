@@ -9,7 +9,7 @@ images: ['/static/images/thumbnail/cosmos.png']
 canonicalUrl: 'https://min71.dev/posts/cosmos-intro'
 ---
 
-![](/static/images/cosmos.png)
+![cosmos-bft](/static/images/cosmos.png)
 
 # Introduction
 
@@ -75,17 +75,17 @@ _각 체인은 기본적으로 다른 체인의 Light Client를 실행 하여 �
 
 #### Bonding
 
-_체인 A에서 토큰을 전송하기 위해 IBC 전송이 시작되면 `✪Token`을 Bonding 상태로 잠금 처리_ ![](https://v1.cosmos.network/images/intro/05-ibc-01.svg)
+_체인 A에서 토큰을 전송하기 위해 IBC 전송이 시작되면 `✪Token`을 Bonding 상태로 잠금 처리_ ![cosmos-bonding](https://v1.cosmos.network/images/intro/05-ibc-01.svg)
 
 #### Proof Relay
 
-_그 후 10개의 `✪Token`이 결합되어 있다는 **Proof**가 체인 A에서 체인 B로 전달_ ![](https://v1.cosmos.network/images/intro/05-ibc-02.svg)
+_그 후 10개의 `✪Token`이 결합되어 있는 **Proof**가 체인 A에서 체인 B로 전달_ ![cosmos-proof-relay](https://v1.cosmos.network/images/intro/05-ibc-02.svg)
 
 #### Validation
 
-_증명은 체인 B에서 체인 A의 헤더에 대해 검증되며, 유효하면 체인 B에서 10개의 `✪Token`바우처를 생성_ ![](https://v1.cosmos.network/images/intro/05-ibc-04.svg)
+_증명은 체인 B에서 체인 A의 헤더에 대해 검증되며, 유효하면 체인 B에서 10개의 `✪Token`바우처를 생성_ ![cosmos-validation](https://v1.cosmos.network/images/intro/05-ibc-04.svg)
 
-> 𖤐𖤐 체인 B에 생성된 **✪Token**은 체인 A에만 존재하기 때문에 실제 체인 B의 **✪Token**이 아니며 체인B에 대한 체인A**✪Token**이 체인A에 동결되어 있다는 증명으로 사용
+> 𖤐𖤐 체인 B에 생성된 **✪Token**은 체인 A에만 존재하기 때문에 실제 체인 B의 **✪Token**이 아니며 체인B에 대한 체인A**✪Token**이 체인A에 동결되어 있는다는 증명으로 사용
 > **✪Token**이 원래 체인으로 돌아올 때 역시 유사한 메커니즘을 사용하여 **✪Token**의 잠금을 해제하고 체인 B의 **✪Token**을 소각
 
 ## Cosmos SDK (Software Develop Kit)

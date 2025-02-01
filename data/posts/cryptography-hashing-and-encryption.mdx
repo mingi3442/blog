@@ -91,7 +91,7 @@ $M$ : `Message` , $H()$ : `Hash function`, $H(M)$ : `Digest`
 
 ⤷*송신자 인증까지는 가능하지만 `Key`가 노출될 위험이 있을 수 있습니다.*
 
-> ![](/static/images/cryptography/mac.png)
+> ![mac](/static/images/cryptography/mac.png)
 >
 > 송신자는 **Message**와 **Key**를 이용해 해싱한 **MDC**와 **Message**를 보내며 수신자는 자신이 갖고 있는 **Key**를 이용해 **Message**와 해싱하여 **받은 **DMC**와 수신자 본인이 해싱한 **DMC**가 같은 지를 검증하여 무결성과 송신자가 맞는지를 증명합니다.**
 
@@ -99,7 +99,7 @@ $M$ : `Message` , $H()$ : `Hash function`, $H(M)$ : `Digest`
 
 **NIST에서 사용하는 <u>표준 MAC</u>입니다.**
 
-> ![](/static/images/cryptography/hmac.png)
+> ![hmac](/static/images/cryptography/hmac.png)
 >
 > 송신자는 **Message**, **Key**, **ipad**를 이용해 해싱한 값을 다시한번 **key**와 **opad**를 이용해 해싱한 **HMDC**와 **Message**를 수신자에게 보내며 수신자는 동일한 방법으로 검증합니다.
 
