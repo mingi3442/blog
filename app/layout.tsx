@@ -25,17 +25,19 @@ export const metadata: Metadata = {
     template: `%s | ${siteMetadata.title}`,
   },
   description: siteMetadata.description,
+  keywords: ['Blog', 'Development', 'Programming', 'Web Development', 'Software Engineering'],
+  authors: [{ name: siteMetadata.author }],
   openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
-    url: './',
+    url: siteMetadata.siteUrl,
     siteName: siteMetadata.title,
     images: [siteMetadata.socialBanner],
-    locale: 'en_US',
+    locale: 'ko_KR',
     type: 'website',
   },
   alternates: {
-    canonical: './',
+    canonical: siteMetadata.siteUrl,
     types: {
       'application/rss+xml': `${siteMetadata.siteUrl}/feed.xml`,
     },
@@ -79,7 +81,7 @@ export default function RootLayout({
       <meta name="msapplication-TileColor" content="#000000" />
       <meta
         httpEquiv="Content-Security-Policy"
-        content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com"
+        content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com https://www.googletagmanager.com"
       />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
@@ -87,7 +89,7 @@ export default function RootLayout({
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
         <meta
           httpEquiv="Content-Security-Policy"
-          content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://www.googletagmanager.com;"
+          content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com https://www.googletagmanager.com"
         />
 
         <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
