@@ -40,8 +40,8 @@ Bech32 주소는 **프리픽스(Prefix), 구분자(“1”), 데이터 필드**�
 ```
 
 - Prefix: `cosmos`, `osmosis` 등 각 체인 별로 다르게 사용
-- Separator: `1`을 사용하면 prefix와 data를 구분하기 위한 용도로 사용
-- Bech32 Encoded Data: 공개 키를 해싱한 결과
+- Separator: 비트 단위 인코딩에서 혼동을 줄이기 위해 prefix와 data사이에 `1`을 사용
+- Bech32 Encoded Data: 공개 키로부터 변환된 바이트 배열 데이터를 Bech32 방식으로 인코딩한 값
 
 ## 2. Account Address
 
@@ -67,7 +67,7 @@ Validator Consensus Address는 검증인이 블록 검증을 위해 서명 등�
 cosmosvalcons1...
 ```
 
-## 5. Account Address를 통해 Validator Operator Address 변환
+## 5. Account Address를 통해 Validator Operator Address 변환 ✅
 
 Cosmos SDK에서는 Bech32 Address를 바이트코드로 변환하는 함수와 바이트코드를 각 Account, Validator Operator, Validator Consensus Address로 변환하는 함수가 있습니다.
 
