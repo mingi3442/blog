@@ -21,6 +21,8 @@ canonicalUrl: 'https://min71.dev/posts/opstra-trouble-shooting/'
 
 ![node-role](/static/images/opstra/node-role.png)
 
+그러나 해당 노드들을 처음부터 셋업을 진행하면서 도중에 여러 가지 에러를 만나게 되었고, 해당 에러들에 대한 해결 과정을 정리해 보았습니다.
+
 ## DeliverTx Panic: 제네시스 검증 오류
 
 Cosmos 기반의 커스텀 네트워크를 구성중 각 벨리데이터 노드로부터 `genTx()`를 생성 후 수집하여 첫 번째 노드에서 `genesis collect`를 통해 `genesis.json`을 만들었고, 이후 노드를 시작할때 아래와 같은 `DeliverTx` 관련 `Panic Error`가 발생했습니다.
