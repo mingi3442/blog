@@ -1,16 +1,15 @@
 import ListLayout from '@/layouts/ListLayoutWithTags'
 // import ListLayout from '@/layouts/ListLayout'
-import { genPageMetadata } from 'app/seo'
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+import { genPageMetadata } from '../seo'
 
 const POSTS_PER_PAGE = 5
 
-import siteMetadata from '@/data/siteMetadata'
-
 export const metadata = genPageMetadata({
   title: 'Blog',
-  url: siteMetadata.siteUrl + '/posts',
+  description: '블로그 포스트 모음',
+  slug: 'posts',
 })
 
 export default function BlogPage() {

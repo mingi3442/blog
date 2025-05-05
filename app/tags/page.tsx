@@ -1,13 +1,13 @@
 import Tag from '@/components/tags/Tag'
-import { genPageMetadata } from 'app/seo'
-import tagData from 'app/tag-data.json'
+import { genPageMetadata } from '../seo'
+import tagData from '../tag-data.json'
 
 import siteMetadata from '@/data/siteMetadata'
 
 export const metadata = genPageMetadata({
   title: 'Tags',
-  description: 'Things I blog about',
-  url: siteMetadata.siteUrl + '/tags',
+  description: '블로그 태그 모음',
+  slug: 'tags',
 })
 
 export default async function Page() {

@@ -1,15 +1,14 @@
 import AboutContainer from '@/components/about/organisms/AboutContainer'
-import siteMetadata from '@/data/siteMetadata'
 import AuthorLayout from '@/layouts/AuthorLayout'
-import { genPageMetadata } from 'app/seo'
 import { Authors, allAuthors } from 'contentlayer/generated'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { coreContent } from 'pliny/utils/contentlayer'
+import { genPageMetadata } from '../seo'
 
 export const metadata = genPageMetadata({
   title: 'About',
   description: '소개',
-  url: siteMetadata.siteUrl + '/about',
+  slug: 'about',
 })
 
 export default function Page() {
