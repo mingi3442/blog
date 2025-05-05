@@ -1,11 +1,10 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Min71 Dev Blog',
-  author: 'Lee MinGi',
-  headerTitle: 'Min71 Dev Blog',
-  description: 'Step by step, but Steadily and Consistently 📝',
-  language: 'ko',
-  locale: 'ko-KR',
+  title: 'Next.js Starter Blog',
+  author: 'Tails Azimuth',
+  headerTitle: 'Dev Blog',
+  description: 'A blog created with Next.js and Tailwind.css',
+  language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi3442/blog',
@@ -69,7 +68,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'ko',
+      lang: 'en',
     },
   },
   search: {

@@ -17,12 +17,7 @@ export function TypedIntroduceWrapper() {
 
   useEffect(() => {
     const options = {
-      strings: [
-        'Hello, Here is my personal blog! 📝',
-        `I've been working as a Web developer for 2 years 💻`,
-        'I am interested in blockchain network and web3.0 🔗',
-        'I am interested in Web Service and Web Application 🌐',
-      ],
+      strings: ['Hello, Here is my personal blog! 📝'],
       typeSpeed: 50,
       backSpeed: 30,
       backDelay: 1000,
