@@ -1,4 +1,3 @@
-import SEO from '@/components/SEO'
 import { Authors, Blog } from 'contentlayer/generated'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Fragment } from 'react'
@@ -14,7 +13,6 @@ export default function MainPage({
 }) {
   return (
     <>
-      <SEO />
       <Fragment>
         <IntroduceContainer />
         <LatestPostContainer posts={posts} author={author} />
