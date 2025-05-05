@@ -4,7 +4,8 @@ const siteMetadata = {
   author: 'Lee MinGi',
   headerTitle: 'Min71 Dev Blog',
   description: 'Step by step, but Steadily and Consistently 📝',
-  language: 'en-us',
+  language: 'ko',
+  locale: 'ko-KR',
   theme: 'system', // system, dark or light
   siteUrl: 'https://min71.dev',
   siteRepo: 'https://github.com/mingi3442/blog',
@@ -32,9 +33,9 @@ const siteMetadata = {
     // posthogAnalytics: {
     //   posthogProjectApiKey: '', // e.g. 123e4567-e89b-12d3-a456-426614174000
     // },
-    // googleAnalytics: {
-    //   googleAnalyticsId: '', // e.g. G-XXXXXXX
-    // },
+    googleAnalytics: {
+      googleAnalyticsId: process.env.NEXT_PUBLIC_GOOGLE_ID, // e.g. G-XXXXXXX
+    },
   },
   newsletter: {
     // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
@@ -68,7 +69,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'en',
+      lang: 'ko',
     },
   },
   search: {

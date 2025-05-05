@@ -1,10 +1,15 @@
-import AboutContent from '@/components/about/AboutContent'
+import AboutContainer from '@/components/about/organisms/AboutContainer'
 import AuthorLayout from '@/layouts/AuthorLayout'
-import { genPageMetadata } from 'app/seo'
 import { Authors, allAuthors } from 'contentlayer/generated'
+import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { coreContent } from 'pliny/utils/contentlayer'
+import { genPageMetadata } from '../seo'
 
-export const metadata = genPageMetadata({ title: 'About' })
+export const metadata = genPageMetadata({
+  title: 'About',
+  description: 'About me',
+  slug: 'about',
+})
 
 export default function Page() {
   const author = allAuthors.find((p) => p.slug === 'default') as Authors
@@ -13,8 +18,8 @@ export default function Page() {
   return (
     <>
       <AuthorLayout content={mainContent}>
-        <AboutContent />
-        {/* <MDXLayoutRenderer code={author.body.code} /> */}
+        <AboutContainer />
+        <MDXLayoutRenderer code={author.body.code} />
       </AuthorLayout>
     </>
   )

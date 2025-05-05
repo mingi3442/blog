@@ -9,6 +9,8 @@ images: ['/static/images/thumbnail/ignite.png']
 canonicalUrl: 'https://min71.dev/posts/ignite-blog-express-tutorial/'
 ---
 
+![ignite](/static/images/thumbnail/ignite.png)
+
 # Intro
 
 Ignite CLI Tutorial중 `Hello World`, `Blog Express Tutorial`에 대한 내용 실습 및 정리 글입니다.
@@ -48,7 +50,7 @@ cd hello
 ignite scaffold qeury say-hello name --response name
 ```
 
-![](/static/images/ignite/tutorial-1/create-hello-world.png)
+![create-hello-world](/static/images/ignite/tutorial-1/create-hello-world.png)
 
 > 명령어가 정상적으로 실행되면 위의 화면이 출력됩니다.
 
@@ -108,7 +110,7 @@ ignite chain serve
 hellod q hello say-hello world
 ```
 
-![](/static/images/ignite/tutorial-1/query-hello-world.png)
+![query-hello-world](/static/images/ignite/tutorial-1/query-hello-world.png)
 
 > 명령어가 정상적으로 실행되면 위의 화면이 출력됩니다.
 
@@ -140,7 +142,7 @@ cd blog
 ignite scaffold list post title body
 ```
 
-![](/static/images/ignite/tutorial-1/express-tutorial-create.png)
+![create-post](/static/images/ignite/tutorial-1/express-tutorial-create.png)
 
 > 명령어를 실행하면 위의 파일들이 만들어 집니다.
 
@@ -189,7 +191,7 @@ ignite chain serve
 blogd tx blog create-post 'Hello, World!' 'This is a blog post' --from alice --chain-id blog
 ```
 
-![](/static/images/ignite/tutorial-1/express-tutorial-create-post.png)
+![create-post](/static/images/ignite/tutorial-1/express-tutorial-create-post.png)
 
 > 명령어가 정상적으로 실행되면 위의 화면이 출력됩니다.
 
@@ -215,7 +217,7 @@ _사용 가능한 계정 목록은 `config.yml`파일에서 확인 가능합니�
 blogd q blog list-post
 ```
 
-![](/static/images/ignite/tutorial-1/express-tutorial-get-posts.png)
+![get-posts](/static/images/ignite/tutorial-1/express-tutorial-get-posts.png)
 
 > 명령어가 정상적으로 실행되면 위의 화면이 출력됩니다.
 
@@ -225,11 +227,11 @@ blogd q blog list-post
 blogd tx blog update-post 0 'Hello, World!' 'This is a blog post from Alice' --from alice --chain-id blog
 ```
 
-![](/static/images/ignite/tutorial-1/express-tutorial-update-post.png)
+![update-post](/static/images/ignite/tutorial-1/express-tutorial-update-post.png)
 
 > 명령어가 정상적으로 실행되면 위의 화면이 출력됩니다.
 
-![](/static/images/ignite/tutorial-1/express-tutorial-update-result.png)
+![update-result](/static/images/ignite/tutorial-1/express-tutorial-update-result.png)
 
 > 수정 후 조회 결과
 
@@ -241,7 +243,7 @@ blogd tx blog update-post 0 'Hello, World!' 'This is a blog post from Alice' --f
 blogd tx blog delete-post 0 --from bob --chain-id blog
 ```
 
-> ![](/static/images/ignite/tutorial-1/express-tutorial-delete-bob.png)
+> ![delete-bob](/static/images/ignite/tutorial-1/express-tutorial-delete-bob.png)
 
 > 명령어가 정상적으로 실행되었으나, 여전히 삭제는 되지 않았습니다.
 
@@ -251,7 +253,7 @@ blogd tx blog delete-post 0 --from bob --chain-id blog
 blogd tx blog delete-post 0 --from alice --chain-id blog
 ```
 
-![](/static/images/ignite/tutorial-1/express-tutorial-delete-alice.png)
+![delete-alice](/static/images/ignite/tutorial-1/express-tutorial-delete-alice.png)
 
 > 명령어가 정상적으로 실행되었으며, 삭제도 정상적으로 되었습니다.
 

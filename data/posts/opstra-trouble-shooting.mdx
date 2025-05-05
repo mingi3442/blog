@@ -1,0 +1,151 @@
+---
+title: 'CosmosSDK Testnet 구성 트러블슈팅'
+date: '2025-04-09'
+lastmod: '2025-04-09'
+tags: ['Validator', 'COSMOS-SDK', 'Trouble-shooting']
+draft: false
+summary: 'Cosmos SDK를 이용한 커스텀 네트워크 프로젝트의 테스트 넷을 구성하는 과정에서 발생한 트러블 슈팅들과 해결과정을 정리해 보았습니다.'
+images: ['/static/images/thumbnail/cosmos.png']
+canonicalUrl: 'https://min71.dev/posts/opstra-trouble-shooting/'
+---
+
+# Troubleshooting Cosmos SDK Testnet Setup
+
+![cosmos](/static/images/thumbnail/cosmos.png)
+
+## Intro
+
+현재 회사에서 Cosmos 기반의 블록체인 노드 개발을 진행중입니다.
+해당 프로젝트가 시작한지 오래 되지는 않아서, 먼저 사내 PC를 통해 테스트 네트워크를 구성하던 중 발생한 트러블 슈팅에 대해서 작성한 글입니다.
+각 6개의 PC는 아래와 같은 노드로 구성할 예정이었습니다.
+
+![node-role](/static/images/opstra/node-role.png)
+
+그러나 해당 노드들을 처음부터 셋업을 진행하면서 도중에 여러 가지 에러를 만나게 되었고, 해당 에러들에 대한 해결 과정을 정리해 보았습니다.
+
+## DeliverTx Panic: 제네시스 검증 오류
+
+Cosmos 기반의 커스텀 네트워크를 구성중 각 벨리데이터 노드로부터 `genTx()`를 생성 후 수집하여 첫 번째 노드에서 `genesis collect`를 통해 `genesis.json`을 만들었고, 이후 노드를 시작할때 아래와 같은 `DeliverTx` 관련 `Panic Error`가 발생했습니다.
+
+```bash
+panic: failed to execute DeliverTx for '{"body":{"messages":[{"@type":"/cosmos.staking.v1beta1.MsgCreateValidator","description":{"moniker":"opusm-2","identity":"","website":"","security_contact":"","details":""},"commission":{"rate":"0.100000000000000000","max_rate":"0.200000000000000000","max_change_rate":"0.010000000000000000"},"min_self_delegation":"1","delegator_address":"opstra1dr6w9y3tskvxxkfal83tr0j473znt0gagnungn","validator_address":"opstravaloper1dr6w9y3tskvxxkfal83tr0j473znt0gak8lecq","pubkey":{"@type":"/cosmos.crypto.ed25519.PubKey","key":"3NASVaM3xRIuQEKJzIQAb02qXO/BCru3WkWo/f0/JCE="},"value":{"denom":"uopstra","amount":"1000000"}}],"memo":"5669666560f1ae5721f2c81f6bcd7c9e87bf6db9@192.168.100.59:26656","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[{"public_key":{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A+45zJ6Sbqin3pvwvAOioEtz6qcYW1JJqa3QiCd/d7L1"},"mode_info":{"single":{"mode":"SIGN_MODE_DIRECT"}},"sequence":"0"}],"fee":{"amount":[],"gas_limit":"200000","payer":"","granter":""},"tip":null},"signatures":["aJSAtMYugvT2vcG5otNRR/zObdUOrLO7o01C+OmAKQNxw3eNEf2CqDWqv/ULA83hSzOhA4DfpBny7uUp6Hv4Ug=="]}': signature verification failed; please verify account number (0) and chain-id (opstra-testnet-1): (unable to verify single signer signature): unauthorized
+```
+
+### 원인 분석
+
+에러가 발생했을 때 아래와 같은 진행 방법을 사용하였습니다.
+
+1. `genesis.json`을 벨리데이터를 담당할 1~4 번 노드에서 생성 후 account를 추가 한 뒤 `genTx`를 생성
+2. 이후 각 벨리노드들이 생성한 `genTx`를 모아서 1번 노드에서 `genesis collect`을 이용하여 업데이트
+3. 5,6번 노드 account 추가
+4. 업데이트 된 `genesis.json`을 각 노드에 공유
+
+위와 같은 방법으로 진행 하다보니 1번 노드의 `genesis.json`에는 다른 2~4번 노드들의 account 및 token 할당이 되지 않았기 때문에 위와 같이 `DeliverTx`가 실패한 것으로 추측됩니다.
+
+## 제네시스 생성 방식 개선: 계정 추가 누락 방지
+
+이번에는 다음과 같은 순서로 진행했습니다.
+
+1. 1번 노드에서 `init`을 통해 `genesis.json`을 다시 생성
+2. 1번 노드에서 다른 노드들의 account 및 token 할당 이후 해당 `genesis.json`을 공유
+3. 각 공유 받은 노드들 중 벨리데이터 Role을 가진 노드들은 `genTx`를 생성
+4. `genTx`를 생성한 각 노드들은 1번 노드에게 공유
+5. 1번 노드에서 `genTx`를 합쳐 `genesis.json`을 업데이트 한 뒤 각 노드에 공유
+
+방법이 더 길어졌지만 여전히 다음과 같은 오류가 발생했습니다.
+
+```bash
+panic: failed to execute DeliverTx for '{"body":{"messages":[{"@type":"/cosmos.staking.v1beta1.MsgCreateValidator","description":{"moniker":"opusm-2","identity":"","website":"","security_contact":"","details":""},"commission":{"rate":"0.100000000000000000","max_rate":"0.200000000000000000","max_change_rate":"0.010000000000000000"},"min_self_delegation":"1","delegator_address":"opstra1dr6w9y3tskvxxkfal83tr0j473znt0gagnungn","validator_address":"opstravaloper1dr6w9y3tskvxxkfal83tr0j473znt0gak8lecq","pubkey":{"@type":"/cosmos.crypto.ed25519.PubKey","key":"3NASVaM3xRIuQEKJzIQAb02qXO/BCru3WkWo/f0/JCE="},"value":{"denom":"uopstra","amount":"1000000"}}],"memo":"5669666560f1ae5721f2c81f6bcd7c9e87bf6db9@192.168.100.59:26656","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[{"public_key":{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"A+45zJ6Sbqin3pvwvAOioEtz6qcYW1JJqa3QiCd/d7L1"},"mode_info":{"single":{"mode":"SIGN_MODE_DIRECT"}},"sequence":"0"}],"fee":{"amount":[],"gas_limit":"200000","payer":"","granter":""},"tip":null},"signatures":["aJSAtMYugvT2vcG5otNRR/zObdUOrLO7o01C+OmAKQNxw3eNEf2CqDWqv/ULA83hSzOhA4DfpBny7uUp6Hv4Ug=="]}': signature verification failed; please verify account number (0) and chain-id (opstra-testnet-1): (unable to verify single signer signature): unauthorized
+```
+
+### 원인 분석
+
+다른 오류가 아닌 같은 오류가 발생하므로, `.opstrad/data` 내부에 있는 이전 데이터들로 인한 오류로 추측됩니다.
+
+## 데이터 디렉토리 초기화: 오류 메시지 변화
+
+추측한 원인을 근거로 `.opstrad/data`내부에 있는 `priv_validator_state.json`을 초기화 및 `priv_validator_state.json`을 제외한 데이터들을 모두 삭제 후 다시 실행했습니다.
+이후 오류 메시지가 아래와 같이 변경된 것을 확인했습니다.
+
+```bash
+failed to execute message; message index: 0: invalid coin denomination: got uopstra, expected stake: invalid request
+```
+
+### 원인 분석
+
+네트워크의 denom은 `uopstra`로 설정 했었고, token 할당 및 `genTx`에서도 validator 등록을 위한 denom을 `uopstra`로 했었는데 `stake`라는 단위를 기대한다는 것을 보아 `genesis.json` 혹은 코드 상의 문제로 추측됩니다.
+
+## bond_denom 수정: staking 오류 해결
+
+먼저 `genesis.json`을 다시 확인 해보았습니다.
+
+```json
+ "staking": {
+      "params": {
+        "unbonding_time": "1814400s",
+        "max_validators": 100,
+        "max_entries": 7,
+        "historical_entries": 10000,
+        "bond_denom": "stake",
+        "min_commission_rate": "0.000000000000000000"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": [],
+      "validators": [],
+      "delegations": [],
+      "unbonding_delegations": [],
+      "redelegations": [],
+      "exported": false
+ }
+```
+
+위처럼 `app_state.staking.params.bond_denom`에 `stake`로 되어 있었기 때문에 모든 노드의 `genesis.json`에서 `stake`를 `uopstra`로 변경했습니다.
+
+### 원인 분석
+
+이는 제가 최초의 `init`시에 `--default-denom`을 설정하지 않아서 발생한 문제로 확인 됩니다.
+![init-flag](/static/images/opstra/init-flag.png)
+
+## P2P 연결 실패: 방화벽 설정 확인
+
+이후 각 노드들이 잘 실행 되고 있었으나, 아래와 같이 p2p연결이 안되는 것을 확인했습니다.
+![p2p-error](/static/images/opstra/p2p-error.png)
+
+### 원인 분석
+
+원인을 찾아보니 각 노드들의 p2p를 위해 설정되어 있던 26656번 포트가 방화벽설정을 하면서 닫아져있었고, 아래 명령어를 통해 해당 포트를 연 뒤 정상 적으로 연결되는 것을 확인 했습니다.
+
+```bash
+sudo ufw allow 26656/tcp   # P2P Config Port
+```
+
+```bash
+curl -sS http://127.0.0.1:26657/net_info | jq | egrep "n_peers|moniker|is_outbound"
+    "n_peers": "4",
+          "moniker": "opusm-3",
+        "is_outbound": false,
+          "moniker": "opusm-4",
+        "is_outbound": false,
+          "moniker": "opusm-5",
+        "is_outbound": false,
+          "moniker": "opusm-2",
+        "is_outbound": false,
+```
+
+## Outro
+
+Cosmos SDK 기반의 커스텀 네트워크를 처음부터 직접 구성해보면서, 문서로는 쉽게 지나쳤던 부분들이 실제 운영 환경에서는 얼마나 중요한 변수로 작용하는지 체감할 수 있었습니다.
+
+특히나 이번 트러블 슈팅에서 체감한 것은 다음과 같습니다.
+
+- **체인의 Genesis 세팅**: `genesis.json`의 `genTx`를 어떤 순서로 쌓아가는지에 대한 논리적인 흐름에 대해 고민하고 알게 되었습니다.
+- **Genesis와 `/data`**: 노드는 기동 시점에 genesis.json이 아닌, 이미 로컬에 저장된 data 디렉토리의 상태가 존재할 경우 이를 체인의 기준 데이터로 간주하고, 이후의 블록 유효성 및 합의 절차를 이에 기반해 검증한다는 구조적 특성을 실감했습니다.
+- **P2P 통신 오류**: 노드 간 연결이 되지 않을 때는 애플리케이션 레벨보다 먼저, 포트 열림 상태, 방화벽 정책, IP 접근성 등을 점검하는 것이 최우선이며, 이 과정에서 26657은 RPC 통신용, 1317은 REST API, 9090은 gRPC 등 Cosmos 노드에서 사용하는 포트들의 기본값과 용도를 명확히 이해하게 되었습니다.
+- **init 명령어의 플래그 설정**: 체인 ID, 기본 denom 등은 최초 init 시에 명확히 설정해야 하며, 이를 명시하지 않을 경우 genesis.json의 기본 파라미터(예: bond_denom)가 의도치 않게 설정되어 이후 validator 등록이나 staking 단계에서 오류로 이어지는 사례에 대해 충분히 실감했습니다.
+- **Staking denom**: 네트워크에서 사용될 staking 토큰 단위는 genesis.json 내 `staking.params.bond_denom`에서 정의되며, 이는 토큰 분배 및 validator 등록과 긴밀히 연결되기 때문에 일관되게 설정되지 않으면 트랜잭션 실패로 이어질 수 있음을 명확히 이해하게 되었습니다.
+
+결론적으로, 단순히 노드를 띄우는 것이 아니라 **체인 전체 상태를 일관되게 설계하고 관리**하는 것이 네트워크 구성에서 제일 중요한 부분이라는 생각이 들었습니다.
+
+이번 트러블슈팅은 작은 테스트 환경에서의 경험이었지만, 실제 운영 이전에 꼭 한 번은 겪고 넘어가야 할 중요한 과정이라고 생각합니다.
+
+이번 기록이 저희 팀뿐만 아니라 Cosmos SDK 기반의 블록체인을 처음 세팅하는 다른 개발자들에게도 작은 도움이 되길 바랍니다. 🙂

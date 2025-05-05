@@ -1,6 +1,6 @@
 'use client'
 
-import { headerNavLinks } from '@/data/headerNavLinks'
+import { headerNavLinks } from '@/data/nav'
 import { ctm } from 'app/utils/style'
 import { useState } from 'react'
 import CloseIcon from '../atoms/CloseIcon'

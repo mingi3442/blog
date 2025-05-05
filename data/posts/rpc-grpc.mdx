@@ -44,7 +44,7 @@ HTTP/2는 HTTP 프로토콜의 두 번 째 버전으로 HTTP/1의 다음과 같�
 ### RPC 구조
 
 gRPC의 구조는 크게 애플리케이션 레벨, 프레임워크 레벨, 전송 계층으로 나눌 수 있으며, 각 계층은 특정한 역할과 책임을 가집니다. 이러한 계층 구조와 HTTP/2 기반 통신은 gRPC의 효율성과 성능을 극대화합니다.
-![](/static/images/grpc/grpc-structure.png)
+![gRPC structure](/static/images/grpc/grpc-structure.png)
 
 **애플리케이션 레벨**
 
@@ -69,7 +69,7 @@ gRPC의 구조는 크게 애플리케이션 레벨, 프레임워크 레벨, 전�
 ### Stub
 
 스텁은 RPC의 핵심 개념으로 매개변수 객체를 Message로 Mashalling(변환) / Unmarshalling(역 변환)하는 레이어로 클라이언트의 스텁과 서버의 스텁으로 나눠집니다.
-![](/static/images/grpc/rpc-stub.png)
+![rpc-stub](/static/images/grpc/rpc-stub.png)
 
 ### ProtoBuf
 
@@ -81,14 +81,14 @@ Interchain 스택에서 Protobuf는 개발자가 메시지 형식을 설명하�
 ### gRPC 채널
 
 gRPC는 여러 서브채널을 열어서 통신합니다. 이러한 채널을 재사용함으로써 통신비용을 절약 가능합니다.
-![](/static/images/grpc/grpc-channel.png)
+![grpc-channel](/static/images/grpc/grpc-channel.png)
 
 ### RPC 작동 원리
 
 일반적으로 원격 프로시저 호출이 호출되면 프로시저 매개변수가 네트워크를 통해 프로시저가 실행되는 실행 환경으로 전송됩니다.
 완료되면 호출된 프로시저 호출의 결과가 호출 환경으로 전송되며,
 그 후 다음 일반 로컬 프로시저 호출에서와 마찬가지로 호출 환경에서 실행이 다시 시작됩니다.
-![](/static/images/grpc/rpc.png)
+![rpc-workflow](/static/images/grpc/rpc.png)
 단계별 RPC 요청은 아래와 같습니다.
 
 > **1. 클라이언트는 RPC 중에 클라이언트와 서버 간에 전달되는 매개 변수를 변환하는 코드 조각인 클라이언트 Stub을 호출합니다.**

@@ -16,7 +16,7 @@ export default function PostContainer({
   const { slug, date, title, summary, tags, images } = post
 
   return (
-    <div className="container">
+    <article className="container">
       <div className="lg:-mx-6 lg:flex lg:items-center">
         <PostThumbnailWrapper
           title={title}
@@ -42,8 +42,9 @@ export default function PostContainer({
               <NavigationButton
                 color="primary"
                 href={`/posts/${slug}`}
-                title={'Read more'}
+                title={`Read more`}
                 isArrow={true}
+                aria-label={`Read more about ${title}`}
               />
             </div>
           </div>
@@ -55,6 +56,6 @@ export default function PostContainer({
           <PostAuthorSection author={author} date={date} />
         </div>
       </div>
-    </div>
+    </article>
   )
 }

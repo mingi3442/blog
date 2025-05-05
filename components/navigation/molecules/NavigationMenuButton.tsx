@@ -1,4 +1,4 @@
-import { HeaderNavLink } from '@/data/headerNavLinks'
+import { HeaderNavLink } from '@/data/nav'
 import Link from 'next/link'
 
 const NavigationMenuButton = ({
