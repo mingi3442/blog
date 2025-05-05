@@ -8,7 +8,7 @@ const POSTS_PER_PAGE = 5
 
 export const metadata = genPageMetadata({
   title: 'Blog',
-  description: '블로그 포스트 모음',
+  description: 'Collection of blog posts',
   slug: 'posts',
 })
 

@@ -2,11 +2,9 @@ import Tag from '@/components/tags/Tag'
 import { genPageMetadata } from '../seo'
 import tagData from '../tag-data.json'
 
-import siteMetadata from '@/data/siteMetadata'
-
 export const metadata = genPageMetadata({
   title: 'Tags',
-  description: '블로그 태그 모음',
+  description: 'Things I blog about',
   slug: 'tags',
 })
 

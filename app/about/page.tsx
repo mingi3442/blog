@@ -7,7 +7,7 @@ import { genPageMetadata } from '../seo'
 
 export const metadata = genPageMetadata({
   title: 'About',
-  description: '소개',
+  description: 'About me',
   slug: 'about',
 })
 
