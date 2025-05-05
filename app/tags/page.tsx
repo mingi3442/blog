@@ -2,7 +2,13 @@ import Tag from '@/components/tags/Tag'
 import { genPageMetadata } from 'app/seo'
 import tagData from 'app/tag-data.json'
 
-export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
+import siteMetadata from '@/data/siteMetadata'
+
+export const metadata = genPageMetadata({
+  title: 'Tags',
+  description: 'Things I blog about',
+  url: siteMetadata.siteUrl + '/tags',
+})
 
 export default async function Page() {
   const tagCounts = tagData as Record<string, number>

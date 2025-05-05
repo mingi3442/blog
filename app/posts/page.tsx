@@ -1,13 +1,17 @@
 import ListLayout from '@/layouts/ListLayoutWithTags'
 // import ListLayout from '@/layouts/ListLayout'
-import { Authors, allAuthors } from 'contentlayer/generated'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
-import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
+import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 
 const POSTS_PER_PAGE = 5
 
-export const metadata = genPageMetadata({ title: 'Blog' })
+import siteMetadata from '@/data/siteMetadata'
+
+export const metadata = genPageMetadata({
+  title: 'Blog',
+  url: siteMetadata.siteUrl + '/posts',
+})
 
 export default function BlogPage() {
   const author = allAuthors.find((p) => p.slug === 'default') as Authors
