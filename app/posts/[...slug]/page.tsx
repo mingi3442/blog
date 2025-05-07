@@ -7,7 +7,6 @@ import siteMetadata from '@/data/siteMetadata'
 import PostBanner from '@/layouts/PostBanner'
 import PostLayout from '@/layouts/PostLayout'
 import PostSimple from '@/layouts/PostSimple'
-import { genPageMetadata } from 'app/seo'
 import type { Authors, Blog } from 'contentlayer/generated'
 import { allAuthors, allBlogs } from 'contentlayer/generated'
 import { Metadata } from 'next'
@@ -50,17 +49,25 @@ export async function generateMetadata({
     featuredImage = imageList[0]
   }
 
-  return genPageMetadata({
+  return {
     title: post.title,
     description: post.summary,
-    image: featuredImage,
-    slug: post.slug,
     openGraph: {
+      title: post.title,
+      description: post.summary,
+      url: `${siteMetadata.siteUrl}/${post.slug}`,
+      images: [featuredImage],
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
       authors: authors.length > 0 ? authors : [siteMetadata.author],
+      type: 'article',
     },
-  })
+    twitter: {
+      title: post.title,
+      card: 'summary_large_image',
+      images: [featuredImage],
+    },
+  }
 }
 export const generateStaticParams = async () => {
   const paths = allBlogs.map((p) => ({ slug: p.slug.split('/') }))

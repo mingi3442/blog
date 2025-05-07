@@ -20,10 +20,7 @@ const space_grotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
-  title: {
-    default: siteMetadata.title,
-    template: `%s | ${siteMetadata.title}`,
-  },
+  title: siteMetadata.title,
   description: siteMetadata.description,
   keywords: ['Blog', 'Development', 'Programming', 'Web Development', 'Software Engineering'],
   authors: [{ name: siteMetadata.author }],
@@ -86,14 +83,13 @@ export default function RootLayout({
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+      <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="49768dc7-9d09-41de-8b65-38049ca7d81d"
+      ></script>
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com https://www.googletagmanager.com"
-        />
-
-        <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
-
         <ThemeProviders>
           <Analytics />
           <GoogleAnalytics />

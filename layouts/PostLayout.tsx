@@ -9,11 +9,6 @@ import siteMetadata from '@/data/siteMetadata'
 import type { Authors, Blog } from 'contentlayer/generated'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { ReactNode } from 'react'
-// import SEO from '@/components/SEO'
-
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {
   weekday: 'long',
@@ -36,11 +31,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
 
   return (
     <SectionContainer>
-      {/* <SEO
-        title={title}
-        description={summary}
-        ogImage={images ? images[0] : '/static/images/banner.jpeg'}
-      /> */}
       <ScrollTopAndComment />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
@@ -58,7 +48,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               </dl>
               <div>
                 <PageTitle>{title}</PageTitle>
-                <title>{title}</title>
               </div>
             </div>
           </header>
