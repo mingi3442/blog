@@ -6,13 +6,12 @@ on:
     branches:
       - main
 
-# PR 브랜치 푸시 권한 부여
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  filter-data-directory:
+  filter-directories:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     steps:
@@ -23,21 +22,18 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Reset data directory changes
+      - name: Reset protected directories changes
         run: |
-          # 메인 브랜치의 data/ 디렉토리 상태를 가져옴
           git fetch origin main:main
 
-          # data 디렉토리의 변경사항 되돌리기
           git checkout main -- data/
+          git checkout main -- public/
 
-          # 변경사항이 있는지 확인
           if [[ -n "$(git status --porcelain)" ]]; then
-            # 변경사항 있으면 커밋
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
-            git commit -am "🤖 Automatically exclude data/ directory changes"
+            git commit -am "🤖 Automatically exclude data/ and public/ directory changes"
             git push
           else
-            echo "No changes in data/ directory, nothing to do."
+            echo "No changes in protected directories, nothing to do."
           fi
