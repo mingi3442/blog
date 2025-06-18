@@ -18,14 +18,17 @@ export function TypedIntroduceWrapper() {
   useEffect(() => {
     const options = {
       strings: [
-        'Hello, Here is my personal blog! 📝',
-        `I've been working as a Web developer for 2 years 💻`,
-        'I am interested in blockchain network and web3.0 🔗',
-        'I am interested in Web Service and Web Application 🌐',
+        'Sharing insights from real-world projects and continuous learning.',
+        'Building scalable web and blockchain solutions, one step at a time.',
+        'Exploring clean architecture, DDD, and modern design patterns.',
+        'From React & Next.js to Node.js and Cosmos blockchain.',
+        'Documenting growth, challenges, and practical solutions.',
+        'Believing in open knowledge, effective communication, and team synergy.',
+        'Striving to add real value to every project and team.',
       ],
-      typeSpeed: 50,
-      backSpeed: 30,
-      backDelay: 1000,
+      typeSpeed: 40,
+      backSpeed: 20,
+      backDelay: 3000,
       loop: true,
     }
 
@@ -37,8 +40,11 @@ export function TypedIntroduceWrapper() {
   }, [])
 
   return (
-    <div className="min-h-42 py-4">
-      <span className="text-xl leading-7 text-gray-500 dark:text-gray-300" ref={typedRef}></span>
+    <div className="min-h-42 py-10">
+      <span
+        className="text-lg leading-7 italic text-gray-700 dark:text-gray-100"
+        ref={typedRef}
+      ></span>
     </div>
   )
 }
