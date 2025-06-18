@@ -36,10 +36,10 @@ const CustomTOC: React.FC<CustomTOCProps> = ({ toc, exclude = '', maxDepth = 3 }
 
   return (
     <div className="toc-container">
-      <h2 className="text-xs font-bold mb-2 uppercase tracking-wider text-gray-600 dark:text-gray-400">
+      <h2 className="text-xs font-bold pb-2 uppercase tracking-wider text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
         On This Page
       </h2>
-      <ul className="space-y-1 text-sm">
+      <ul className="pt-2 space-y-1 text-sm">
         {filteredToc.map((heading) => (
           <li
             key={heading.url}
