@@ -70,26 +70,31 @@ export default function RootLayout({
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
-      <link rel="manifest" href="/static/favicons/site.webmanifest" />
-      <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
-      <meta name="msapplication-TileColor" content="#000000" />
-      <meta
-        httpEquiv="Content-Security-Policy"
-        content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com https://www.googletagmanager.com"
-      />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
-      <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
-      <meta name="google-site-verification" content="BmBwdNWRqcNIxTL4GvqckRWEP1JS-Z7_2xVDhaCdYNE" />
-      <script
-        defer
-        src="https://cloud.umami.is/script.js"
-        data-website-id="49768dc7-9d09-41de-8b65-38049ca7d81d"
-      />
+      <head>
+        <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
+        <link rel="manifest" href="/static/favicons/site.webmanifest" />
+        <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+        <meta name="msapplication-TileColor" content="#000000" />
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is https://va.vercel-scripts.com https://www.googletagmanager.com"
+        />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+        <meta name="naver-site-verification" content="e81e6e126603dd692215c6a310f910212f74c463" />
+        <meta
+          name="google-site-verification"
+          content="BmBwdNWRqcNIxTL4GvqckRWEP1JS-Z7_2xVDhaCdYNE"
+        />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="49768dc7-9d09-41de-8b65-38049ca7d81d"
+        />
+      </head>
 
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
         <ThemeProviders>

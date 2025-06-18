@@ -1,0 +1,542 @@
+---
+title: 'Vercel과 AWS, 왜 나는 Vercel을 쓸까?'
+date: '2025-06-18'
+lastmod: '2025-06-18'
+tags: ['Vercel', 'AWS', 'CloudFront', 'Frontend']
+draft: false
+summary: ' AWS와 Vercel의 정적 웹사이트 배포 방식을 비교해 각각의 특징과 차이를 쉽게 정리해봅니다.'
+images: ['/static/images/thumbnail/vercel-and-aws.jpeg']
+canonicalUrl: 'https://min71.dev/posts/vercel-and-aws/'
+---
+
+# 1. Introduction
+
+현재 개인 프로젝트로 블로그와 이력서를 운영하고 있는데, 둘 다 Vercel을 사용해서 배포하고 있습니다. 무료이기도 하고, Git에 푸시만 하면 자동으로 배포되는 게 너무 편해서 자연스럽게 선택했습니다.
+
+그런데 얼마 전 회사에서 백엔드 개발자 동료와 프론트엔드 배포에 대해 이야기를 나누다가,
+
+> _"Vercel이랑 AWS CloudFront로 배포하는 것이 정확히 무슨 차이예요?"_
+
+라는 질문을 받았습니다.
+
+순간 당황해서 "Vercel이 더 편하고, 개인 프로젝트에는 무료라서 사용한다"는 피상적인 답변만 늘어놓으며 얼버무렸습니다. 사실 저도 정확히는 잘 모르고 있었습니다.
+
+생각해보면 S3와 CloudFront는 직접 설정해본 경험이 있어서 대략적으로 동작 방식을 알고 있었지만, Vercel은 단순히 "편하다"는 이유만으로 사용해왔던 것 같습니다.
+
+그래서 이번 기회에 제대로 알고 넘어가야겠다고 생각했습니다.
+
+아래 시나리오를 기준으로 AWS의 전통적인 방식부터 차근차근 이해하고, Vercel이 이런 복잡한 과정을 어떻게 추상화했는지 비교해보려고 합니다.
+
+> _이 글에서는 개인 도메인이 있다는 가정으로, 정적 웹사이트를 빌드해서 CDN으로 전 세계에 배포하고, 커스텀 도메인과 SSL 인증서를 연결해서 웹사이트를 만듭니다_
+
+# 2. Amazon Web Service
+
+AWS로 위의 시나리오를 호스팅하려면 여러 서비스를 조합해야 합니다.
+사용할 서비스는 아래와 같습니다
+
+- Amazon S3
+- Amazon CloudFront
+- Amazon Route53
+- AWS Certificate Manager (ACM)
+
+위의 AWS 서비스를 이용한 아키텍처는 다음과 같습니다.
+
+```
+[사용자] → [Route53 DNS] → [CloudFront CDN] → [S3 버킷]
+                          ↗ [ACM SSL 인증서]
+```
+
+**데이터 흐름:**
+
+1. 사용자가 `myblog.com` 접속
+2. Route53이 CloudFront 배포 주소로 DNS 해석
+3. CloudFront가 SSL 인증서로 HTTPS 연결 설정
+4. CloudFront가 캐시 확인 후 필요시 S3에서 파일 가져옴
+5. 사용자에게 콘텐츠 전달
+
+## 2-1. S3 + CloudFront 구성
+
+**Amazon S3는 파일을 저장하고 웹에서 접근할 수 있게 해주는 저장소 서비스**이며, **CloudFront는 전 세계 400여 개 엣지 로케이션을 통해 콘텐츠를 빠르게 전달하는 CDN 서비스**입니다.
+
+먼저 S3를 통해 호스팅을 하는 방법을 살펴 보겠습니다.
+
+### S3 정적 웹사이트 호스팅 설정
+
+S3는 단순한 파일 저장소가 아니라 정적 웹사이트 호스팅 기능도 제공합니다. HTML, CSS, JavaScript 파일들을 업로드하면 웹사이트로 서빙할 수 있습니다.
+
+**버킷 생성 및 설정**
+
+먼저 웹사이트 파일들을 저장할 S3 버킷을 생성하고, 정적 웹사이트 호스팅을 활성화해야 합니다. 이때 메인 페이지와 에러 페이지를 지정합니다.
+
+```bash
+# 1. S3 버킷 생성
+aws s3 mb s3://my-blog-bucket
+
+# 2. 정적 웹사이트 호스팅 활성화
+aws s3 website s3://my-blog-bucket \
+  --index-document index.html \
+  --error-document 404.html
+```
+
+**버킷 정책 설정 (퍼블릭 읽기 권한)**
+웹사이트로 접근하려면 모든 사용자가 파일을 읽을 수 있어야 합니다. 버킷 정책을 통해 퍼블릭 읽기 권한을 부여합니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-blog-bucket/*"
+    }
+  ]
+}
+```
+
+**파일 업로드**
+로컬에서 빌드한 정적 파일들을 S3 버킷에 업로드합니다. `--delete` 옵션을 사용하면 로컬에 없는 파일은 S3에서도 삭제되어 동기화됩니다.
+
+```bash
+# 빌드된 파일들을 S3에 업로드
+aws s3 sync ./build s3://my-blog-bucket --delete
+```
+
+이후 S3 웹사이트 엔드포인트로 접속하면 정적 사이트가 정상적으로 표시됩니다.
+
+S3만으로도 정적 사이트 호스팅이 가능하지만, 다음과 같은 한계가 있습니다.
+
+- **HTTPS 지원이 제한적**: 기본적으로 HTTP만 지원하며, HTTPS를 적용하려면 별도 설정이 필요합니다.
+- **단일 리전 서비스**: 한 리전에서만 콘텐츠가 제공되어, 전 세계 사용자에게는 속도 차이가 발생할 수 있습니다.
+- **커스텀 도메인 연결의 복잡성**: 개인 도메인을 연결하려면 별도의 설정 과정이 필요합니다.
+- **캐싱 제어 한계**: 세밀한 캐싱 정책 적용이 어렵습니다.
+- **DDoS 등 보안 취약점**: 기본적으로 DDoS 방어 기능이 부족합니다.
+
+이러한 한계 때문에 CloudFront를 함께 사용하면, 아래와 같은 주요 이점을 얻을 수 있습니다.
+
+- **글로벌 캐싱**: 전 세계 엣지에서 빠른 콘텐츠 제공
+- **HTTPS 지원 및 DDoS 방어**: SSL 인증서와 AWS Shield로 보안 강화
+- **비용 절감**: 캐시 덕분에 S3 요청 및 데이터 전송 비용 감소
+- **추가 기능**: 커스텀 에러 페이지, 자동 압축, HTTP/2 지원 등
+
+### CloudFront 배포 설정
+
+위의 이점을 얻기 위해서는 CloudFront를 설정을 해봅니다.
+
+**기본 배포 생성**
+
+CloudFront 배포를 생성할 때는 오리진과 캐시 동작을 정의해야 합니다. S3 웹사이트 엔드포인트를 오리진으로 설정하고, HTTPS로 리다이렉트하도록 구성합니다.
+
+```json
+{
+  "CallerReference": "my-blog-distribution",
+  "Origins": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "Id": "S3-my-blog-bucket",
+        "DomainName": "my-blog-bucket.s3-website-us-east-1.amazonaws.com",
+        "CustomOriginConfig": {
+          "HTTPPort": 80,
+          "HTTPSPort": 443,
+          "OriginProtocolPolicy": "http-only"
+        }
+      }
+    ]
+  },
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "S3-my-blog-bucket",
+    "ViewerProtocolPolicy": "redirect-to-https",
+    "CachePolicyId": "managed-caching-optimized",
+    "Compress": true
+  },
+  "Comment": "Blog distribution",
+  "Enabled": true
+}
+```
+
+**캐시 정책 설정**
+
+정적 사이트에서는 파일 타입별로 다른 캐시 전략이 필요합니다. HTML 파일은 콘텐츠 업데이트가 즉시 반영되도록 캐시하지 않고, CSS/JS/이미지 같은 정적 자산은 오래 캐시해서 성능을 최적화합니다.
+
+```json
+{
+  "CacheBehaviors": [
+    {
+      "PathPattern": "*.html",
+      "TTL": 0, // HTML은 캐시하지 않아 즉시 업데이트 반영
+      "ViewerProtocolPolicy": "redirect-to-https"
+    },
+    {
+      "PathPattern": "/static/*",
+      "TTL": 31536000, // CSS, JS, 이미지는 1년 캐시
+      "ViewerProtocolPolicy": "redirect-to-https"
+    }
+  ]
+}
+```
+
+**캐시 무효화**
+
+새로운 내용을 배포한 후에는 CloudFront 엣지 로케이션에 캐시된 이전 버전을 제거해야 합니다. 이를 위해 캐시 무효화(Invalidation)를 수행합니다.
+
+```bash
+# 새로운 배포 후 캐시 무효화 필수
+aws cloudfront create-invalidation \
+  --distribution-id E1234567890123 \
+  --paths "/*"
+
+# 특정 파일만 무효화
+aws cloudfront create-invalidation \
+  --distribution-id E1234567890123 \
+  --paths "/index.html" "/about.html"
+```
+
+### GitHub Actions를 통한 배포 자동화
+
+수동으로 매번 빌드하고 S3에 업로드하는 것은 번거로우니, GitHub Actions를 통해 자동화할 수 있습니다. `main` 브랜치에 푸시할 때마다 자동으로 빌드하고 배포하도록 설정해보겠습니다.
+
+```yaml
+name: Deploy to AWS S3 + CloudFront
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./build s3://{{ secrets.S3_BUCKET_NAME }} --delete
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+```
+
+> 만약 브랜치별 임시 서버(스테이징/테스트 환경 등)를 운영해야 한다면,  
+> AWS에서는 S3 버킷, CloudFront 배포, 도메인(DNS) 설정 등을 브랜치마다 별도로 직접 구축해야 합니다.  
+> 또한, 각 브랜치마다 자동 배포가 이뤄지도록 하려면  
+> CI/CD 스크립트(yaml 파일)도 브랜치별로 추가 구성하거나,  
+> 인프라를 동적으로 생성·삭제하는 로직을 별도로 구현해야 합니다.
+
+## 2-2. ACM + Route53 도메인 연결
+
+이제 배포를 완료 했으니 도메인을 연결합니다.
+**AWS Certificate Manager(ACM)는 SSL/TLS 인증서를 무료로 발급하고 자동 갱신해주는 서비스**이고, **Route53은 도메인 이름을 실제 서버 주소로 연결해주는 DNS 서비스**입니다. 커스텀 도메인으로 HTTPS 사이트를 운영하려면 이 두 서비스가 필수입니다.
+
+### ACM에서 SSL 인증서 발급
+
+먼저 HTTPS를 위한 SSL 인증서를 발급받아야 합니다. ACM은 AWS 서비스와 연동할 때 무료로 인증서를 제공하며, 자동 갱신까지 처리해줍니다.
+
+**인증서 요청**
+CloudFront에서 사용할 인증서는 반드시 `us-east-1` 리전에서 발급받아야 합니다. 메인 도메인과 www 서브도메인을 모두 포함해서 요청합니다.
+
+```bash
+aws acm request-certificate \
+  --domain-name "myblog.com" \
+  --subject-alternative-names "www.myblog.com" \
+  --validation-method DNS \
+  --region us-east-1
+```
+
+**DNS 검증 레코드 확인**
+인증서 요청 후, AWS가 도메인 소유권을 확인하기 위한 DNS 검증 레코드를 제공합니다. 이 레코드를 Route53에 추가해야 인증서가 발급됩니다.
+
+```bash
+aws acm describe-certificate \
+  --certificate-arn "arn:aws:acm:us-east-1:123456789:certificate/12345678-1234-1234-1234-123456789012" \
+  --region us-east-1
+```
+
+### Route53 DNS 설정
+
+이제 도메인의 DNS를 Route53으로 관리하도록 설정합니다.
+
+**호스팅 영역 생성**
+도메인을 Route53에서 관리하기 위해 호스팅 영역을 생성합니다. 이때 네임서버 정보가 생성되는데, 도메인 등록업체에서 이 네임서버로 변경해야 합니다.
+
+```bash
+aws route53 create-hosted-zone \
+  --name "myblog.com" \
+  --caller-reference "$(date +%s)"
+```
+
+**A 레코드 생성 (CloudFront 배포 연결)**
+도메인 접속 시 CloudFront 배포로 연결되도록 A 레코드를 생성합니다. Alias 레코드를 사용하면 IP 주소 대신 AWS 리소스와 직접 연결할 수 있습니다.
+
+```json
+{
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "myblog.com",
+        "Type": "A",
+        "AliasTarget": {
+          "DNSName": "d123456789.cloudfront.net",
+          "EvaluateTargetHealth": false,
+          "HostedZoneId": "Z2FDTNDATAQYW2"
+        }
+      }
+    }
+  ]
+}
+```
+
+### CloudFront에 커스텀 도메인 및 SSL 적용
+
+마지막으로 CloudFront 배포에 커스텀 도메인과 SSL 인증서를 연결합니다. 이제 사용자가 `myblog.com`으로 접속하면 HTTPS로 안전하게 사이트에 접근할 수 있습니다.
+
+```json
+{
+  "Aliases": {
+    "Quantity": 2,
+    "Items": ["myblog.com", "www.myblog.com"]
+  },
+  "ViewerCertificate": {
+    "ACMCertificateArn": "arn:aws:acm:us-east-1:123456789:certificate/12345678-1234-1234-1234-123456789012",
+    "SSLSupportMethod": "sni-only",
+    "MinimumProtocolVersion": "TLSv1.2_2021"
+  }
+}
+```
+
+설정이 완료되면 DNS 전파 시간을 기다린 후 커스텀 도메인으로 접속할 수 있습니다.
+
+## 2-3. AWS 방식 정리
+
+AWS를 이용한 정적 사이트 호스팅은 여러 서비스를 조합해서 구축하는 방식입니다.
+이 과정에서 관리해야 할 구성 요소가 상당히 많습니다.
+
+### 관리해야 하는 구성 요소들
+
+- **S3 버킷**: 정적 웹사이트 호스팅 설정, 퍼블릭 읽기 권한 관리
+- **CloudFront**: 배포 생성, 파일 타입별 캐시 정책 설정
+- **ACM**: SSL 인증서 발급 및 자동 갱신 확인 (us-east-1 리전 필수)
+- **Route53**: DNS 레코드 관리
+- **GitHub Actions**: 자동 배포 워크플로우 설정
+
+### AWS 방식의 특징
+
+- 각 서비스가 독립적으로 동작해, 서비스별로 개별 설정이 필요합니다.
+- 특히, CloudFront에서 사용할 SSL 인증서는 반드시 `us-east-1` 리전에서 발급받아야 합니다.
+- 콘텐츠 업데이트 후에는 캐시 무효화를 수동으로 실행해야 변경 사항이 즉시 반영됩니다.
+- 여러 서비스가 연결되어 있어, 설정 실수가 발생하면 원인 파악이 복잡할 수 있습니다.
+
+하지만 이런 복잡함 대신 각 서비스를 세밀하게 제어할 수 있고, AWS의 글로벌 인프라를 활용해 높은 성능과 안정성을 얻을 수 있다는 장점이 있습니다.
+
+# 3. Vercel
+
+## 3-1. 빌드 및 글로벌 배포 구성 (S3 + CloudFront + GitHub Actions 역할)
+
+### 정적 파일 저장 및 호스팅 (S3)
+
+Vercel에서는 별도의 버킷 생성이나 권한 설정 없이, 빌드된 정적 파일이 자동으로 저장되고 글로벌 엣지 네트워크로 업로드되어 전 세계에 빠르게 배포됩니다.
+
+### 글로벌 CDN 배포 (CloudFront)
+
+Vercel Edge Network를 통해 전 세계 119개 PoP에서 콘텐츠가 자동으로 캐싱되고 서빙되며, 캐시 정책이나 오리진 설정, 캐시 무효화 같은 별도의 작업 없이도 배포가 완료될 때마다 프로덕션 및 프리뷰용 고유 URL이 자동으로 생성됩니다.
+
+### 배포 트리거 및 자동화 (GitHub Actions)
+
+저장소(GitHub, GitLab, Bitbucket 등)와 연동하면 브랜치에 커밋이나 푸시가 발생할 때마다 자동으로 빌드와 배포가 이루어집니다.
+또한, Vercel CLI를 사용하면 로컬에서 직접 프리뷰 또는 프로덕션 배포를 손쉽게 실행할 수 있고, 환경 변수나 빌드 옵션도 CLI에서 직접 지정할 수 있습니다. 대시보드에서는 Deploy 버튼을 눌러 수동으로 배포하거나, 프로젝트 설정·환경 변수·빌드 로그를 시각적으로 관리할 수 있어 전체 배포 과정을 직관적으로 컨트롤할 수 있습니다.
+
+```bash
+# 프리뷰 배포
+vercel
+# 프로덕션 배포
+vercel --prod
+```
+
+> 대시보드 UI
+> ![vercel-new-project](/static/images/vercel-and-aws/vercel-new-project.png)
+
+> Vercel은 저장소 연동만 하면 정적 파일 저장, 글로벌 CDN 배포, 자동화된 빌드·배포까지 모든 과정을 한 번에 처리합니다.
+>
+> 별도의 인프라 설정이나 복잡한 스크립트 없이, 코드 푸시만으로 전 세계에 최적화된 배포가 즉시 이루어집니다.
+
+## 3-2. 프리뷰/스테이징 환경
+
+브랜치나 PR을 생성하면 별도의 설정 없이 자동으로 프리뷰 배포 환경이 만들어집니다. 예를 들어, `feature/login` 브랜치를 푸시하면 `https://myproj-git-feature-login-username.vercel.app`와 같은 고유 프리뷰 URL이 생성되고, Pull Request를 만들면 이 프리뷰 링크가 PR에 자동으로 등록됩니다. 병합이나 브랜치 삭제 시에는 해당 프리뷰 환경이 자동으로 정리되며, 각 커밋마다 불변의 URL이 발급되어 실제 배포 환경과 동일하게 코드 리뷰 및 협업이 가능합니다.
+
+```bash
+# 브랜치 생성 및 푸시 시 자동 프리뷰
+$ git checkout feature/new-header
+$ git push
+# 자동 프리뷰 URL 예시:
+# https://my-project-git-feature-new-header-username.vercel.app
+```
+
+> AWS에서는 브랜치별 테스트/스테이징 환경을 만들려면 S3, CloudFront, 별도 버킷·배포·도메인·CI/CD 스크립트 등 여러 리소스를 직접 추가로 구성해야 합니다.
+>
+> 그러나 Vercel은 브랜치나 PR마다 프리뷰 배포 환경이 자동으로 생성되어, 별도의 인프라 작업 없이도 실시간으로 각 기능별 테스트 환경을 운영할 수 있습니다.
+
+---
+
+## 3-3. 환경 변수 관리
+
+환경 변수는 대시보드에서 production, preview, development 등 환경별로 분리해 등록·수정할 수 있습니다. CLI를 통해서도 `vercel env add` 명령어로 환경 변수를 손쉽게 주입할 수 있으며, 빌드 및 런타임 시점에 `VERCEL=1`, `VERCEL_ENV`, `VERCEL_URL`, `VERCEL_GIT_COMMIT_SHA` 등 다양한 시스템 환경 변수가 자동으로 주입됩니다. 전체 시스템 변수 목록은 Vercel 공식 문서에서 확인할 수 있습니다.
+
+> 자세한 시스템 환경 변수 목록은 [Vercel 공식 문서](https://vercel.com/docs/environment-variables/system-environment-variables)를 참고하시면 됩니다!
+
+> 대시보드 UI
+> ![vercel-env](/static/images/vercel-and-aws/vercel-env.png)
+
+---
+
+## 3-4. 프레임워크 자동 감지 및 빌드 설정
+
+Vercel은 Next.js, React, Vue 등 주요 프레임워크를 자동으로 감지해 Build Command, Output Directory, Install Command 등을 알아서 설정해줍니다. 별도의 추가 설정 없이도 대부분의 프로젝트가 바로 배포 가능하며, 필요하다면 대시보드나 CLI에서 빌드 명령어나 출력 디렉토리 등을 자유롭게 커스터마이징할 수 있습니다.
+
+자세한 빌드 설정 방법은 [Vercel 공식 문서](https://vercel.com/docs/deployments/configure-a-build)를 참고하시면 됩니다!
+
+---
+
+## 3-5. 도메인 연결 및 SSL (ACM + Route53)
+
+### • 도메인 연결 (Route53)
+
+대시보드에서 원하는 도메인을 추가하고, 안내받은 DNS 레코드(A, CNAME 등)를 등록하면 별도의 DNS 서비스 없이도 도메인 연결이 간편하게 완료됩니다. 서브도메인, 커스텀 도메인, apex 도메인 모두 지원합니다.
+
+- 예시:
+  ```
+  Type: A      Name: @    Value: 76.76.19.61
+  Type: CNAME  Name: www  Value: cname.vercel-dns.com
+  ```
+
+### • SSL 인증서 자동 발급 및 적용 (ACM)
+
+인증서는 도메인을 추가하면 별도의 설정이나 관리 없이 자동으로 발급·적용됩니다. HTTPS 리다이렉트, 인증서 갱신, 보안 헤더 설정 등 주요 보안 작업도 모두 자동으로 처리되어, 운영자가 신경 쓸 부분이 거의 없습니다. CLI로 ​vercel domains add myblog.com 명령어를 실행하면 도메인 추가와 인증서 발급이 한 번에 이루어집니다.
+
+```bash
+vercel domains add myblog.com
+# 인증서 자동 발급/갱신, HTTPS 리다이렉트 자동 설정
+```
+
+모든 HTTP 요청은 자동으로 HTTPS로 리다이렉트되고, 보안 헤더도 기본적으로 적용되며, 인증서 갱신 역시 사용자 개입 없이 자동으로 이루어집니다.
+
+> 대시보드 UI
+> ![vercel-add-domains](/static/images/vercel-and-aws/vercel-add-domains.png)
+
+---
+
+## 3-6. Vercel 방식 정리
+
+### 관리해야 하는 구성 요소들
+
+- **저장소 연동**: 최초 한 번만 연결하면 이후 자동으로 연동 유지
+- **자동 빌드/배포**: Git push, CLI, 대시보드 등 다양한 방식 지원
+- **프레임워크 감지/설정**: 주요 프레임워크 자동 인식, 필요시 커스터마이징 가능
+- **도메인 연결**: 대시보드 또는 CLI에서 추가, DNS 레코드만 등록하면 끝
+- **SSL 인증서**: 발급·갱신·적용 모두 자동, HTTPS도 기본 적용
+- **임시/프리뷰 환경**: 브랜치·PR마다 자동 생성 및 정리, 실시간 테스트 환경 제공
+- **환경 변수**: 환경별로 대시보드와 CLI에서 손쉽게 관리
+
+### Vercel 방식의 특징
+
+- 모든 과정이 완전히 자동화되어 인프라 관리 부담이 없습니다.
+- 빌드, 배포, CDN, SSL, 도메인 연결까지 한 번에 처리할 수 있습니다.
+- 브랜치나 PR마다 임시(프리뷰) 배포 환경이 자동으로 생성되어, 실시간 테스트와 협업이 매우 편리합니다.
+- 대시보드와 CLI를 모두 지원해, 시각적인 관리와 자동화된 워크플로우를 자유롭게 선택할 수 있습니다.
+- 복잡한 인프라 설정 없이 코드와 서비스 개발에만 집중할 수 있습니다.
+
+# 4. 비교 및 정리
+
+## 4-1. 설정 복잡도 비교
+
+| 단계        | AWS                                    | Vercel            |
+| ----------- | -------------------------------------- | ----------------- |
+| 초기 설정   | S3, CloudFront, ACM, Route53 개별 설정 | Git 저장소 연결   |
+| SSL 인증서  | ACM에서 수동 발급, us-east-1 제약      | 자동 발급 및 갱신 |
+| 배포 자동화 | GitHub Actions 직접 구성               | 기본 제공         |
+| 도메인 연결 | Route53 + CloudFront 설정              | DNS 레코드 추가만 |
+| 캐시 관리   | 수동 무효화 필요                       | 자동 처리         |
+
+## 4-2. 환경 변수 관리 비교
+
+<u>**AWS**</u>에서는 환경 변수를 사용하려면 GitHub Actions의 Secrets에 값을 등록하고, 워크플로우에서
+직접 주입해줘야 합니다. 환경마다 별도로 관리해야 하며, 빌드 및 배포 과정에서 수동으로 값을 넘겨주는
+방식이 일반적입니다.
+
+```yaml
+# GitHub Actions Secrets에 저장
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_ID }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.API_URL }}
+```
+
+<u>**Vercel**</u>에서는 웹 대시보드에서 클릭 몇 번만으로 환경 변수를 추가하거나 수정할 수 있습니다.
+Development, Preview, Production 등 환경별로 자동으로 구분되어 관리되며, 빌드 시점에 별도의 스크립트
+없이 자동으로 주입됩니다.
+
+## 4-3. 각 방식의 장단점
+
+<u>**AWS**</u>를 사용할 때는 `S3`, `CloudFront`, `ACM`, `Route53` 등 여러 서비스를 각각 개별적으로
+설정해야 하고, 배포 자동화를 위해 `GitHub Actions` 워크플로우도 직접 작성해야 합니다. 또한, SSL
+인증서는 특정 리전(us-east-1)에서만 발급 가능하며, 캐시 무효화나 보안 설정 역시 매번 직접 관리해야
+하는 번거로움이 있습니다.
+
+반면 <u>**Vercel**</u>은 Git 저장소만 연동하면 프레임워크 최적화, SSL 인증서 발급/갱신, 글로벌 CDN 배포, 프리뷰 배포 환경 생성 등 모든 과정이 자동으로 처리됩니다. 개발자는 인프라 관리에 신경 쓰지 않고 오직 코드와 서비스 개발에 집중할 수 있습니다.
+
+## 4-4. 언제 어떤 것을 선택할까?
+
+<u>**AWS**</u> S3 + CloudFront는 기존에 AWS 인프라와의 연동이 필요하거나, 캐시 정책을 세밀하게 제어해야
+하고, 대용량 트래픽에서 비용 최적화가 중요한 경우, 또는 인프라 설정을 직접 컨트롤하고 싶은 상황에 적합합니다.
+
+반면 <u>**Vercel**</u>은 빠른 프로토타이핑이 필요하거나, 팀 협업에서 프리뷰 배포가 중요한 경우, 프론트엔드 개발에만 집중하고 싶을 때, 그리고 Next.js 기반 프로젝트를 운영할 때 가장 큰 장점을 발휘합니다.
+
+# 5. Conclusion
+
+Vercel을 단순히 "편하니까" 써왔지만, 이번에 AWS와 직접 비교해보면서
+그 편리함의 본질이 어디에 있는지 더 명확히 알 수 있었습니다.
+
+AWS는 파일 저장, 글로벌 배포, 도메인 연결, 보안, 자동화 등
+모든 과정을 각 서비스별로 세밀하게 설계하고 직접 관리해야 합니다.
+반면, Vercel은 Git 저장소만 연동하면 이 모든 과정을 자동으로 처리해줍니다.
+
+특히 브랜치마다 별도의 프리뷰 환경이 자동 제공되고,
+빌드·배포·SSL·CDN·환경 변수 관리까지 한 번에 해결되는 경험은
+개발 생산성과 협업 효율 모두에서 큰 차이를 만들어냅니다.
+
+이제는 단순히 "편리하다"는 이유만으로 Vercel을 선택하는 것이 아니라,
+내 프로젝트와 팀에 필요한 요구사항을 바탕으로
+AWS와 Vercel 각각의 특성과 장단점을 제대로 이해하고
+현명하게 선택하는 것이 중요하다는 점을 다시 한 번 느꼈습니다.
+
+---
+
+### Reference
+
+- [AWS S3 Static Website Hosting](https://docs.aws.amazon.com/s3/latest/userguide/WebsiteHosting.html)
+- [AWS CloudFront Developer Guide](https://docs.aws.amazon.com/cloudfront/)
+- [AWS Certificate Manager User Guide](https://docs.aws.amazon.com/acm/)
+- [Vercel Documentation](https://vercel.com/docs)
+- [Vercel Build Step](https://vercel.com/docs/concepts/deployments/build-step)

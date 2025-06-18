@@ -7,7 +7,7 @@ import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 import { allAuthors, type Authors, type Blog } from 'contentlayer/generated'
 import { usePathname } from 'next/navigation'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 
 interface PaginationProps {
   totalPages: number

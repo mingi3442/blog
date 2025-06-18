@@ -7,7 +7,7 @@ import ScrollTopAndComment from '@/components/posts/organisms/ScrollTopAndCommen
 import siteMetadata from '@/data/siteMetadata'
 import type { Blog } from 'contentlayer/generated'
 import Bleed from 'pliny/ui/Bleed'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { ReactNode } from 'react'
 
 interface LayoutProps {

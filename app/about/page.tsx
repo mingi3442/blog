@@ -2,7 +2,7 @@ import AboutContainer from '@/components/about/organisms/AboutContainer'
 import AuthorLayout from '@/layouts/AuthorLayout'
 import { Authors, allAuthors } from 'contentlayer/generated'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import { coreContent } from 'pliny/utils/contentlayer'
+import { coreContent } from 'pliny/utils/contentlayer.js'
 import { genPageMetadata } from '../seo'
 
 export const metadata = genPageMetadata({

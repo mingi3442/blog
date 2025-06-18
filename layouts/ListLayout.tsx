@@ -5,7 +5,7 @@ import Tag from '@/components/tags/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import type { Blog } from 'contentlayer/generated'
 import { usePathname } from 'next/navigation'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { formatDate } from 'pliny/utils/formatDate'
 import { useState } from 'react'
 

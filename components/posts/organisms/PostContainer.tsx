@@ -1,6 +1,6 @@
 import Tag from '@/components/tags/Tag'
 import { Authors, Blog } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { PostSummaryTextElement } from '../../common/atoms/PostTextElement'
 import NavigationButton from '../../common/molecules/NavigationButton'
 import PostThumbnailWrapper from '../../common/molecules/PostThumbnailWrapper'

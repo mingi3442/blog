@@ -1,6 +1,6 @@
 import NavigationButton from '@/components/common/molecules/NavigationButton'
 import { Authors, Blog } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { Fragment } from 'react'
 import MainPostCard from '../organisms/MainPostCard'
 const MAX_DISPLAY = 4

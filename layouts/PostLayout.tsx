@@ -7,7 +7,7 @@ import ScrollTopAndComment from '@/components/posts/organisms/ScrollTopAndCommen
 import Tag from '@/components/tags/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import type { Authors, Blog } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { ReactNode } from 'react'
 
 const postDateTemplate: Intl.DateTimeFormatOptions = {

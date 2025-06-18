@@ -1,5 +1,5 @@
 import { Authors, Blog } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 
 import { PostSummaryTextElement } from '@/components/common/atoms/PostTextElement'
 import PostThumbnailWrapper from '@/components/common/molecules/PostThumbnailWrapper'
@@ -31,8 +31,8 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
             isArrow={false}
             color="slate"
             title={title}
-            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-lg md:py-1 leading-4"
-            buttonClassName="tracking-normal"
+            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-lg md:py-1 leading-6 line-clamp-2 break-words"
+            buttonClassName="tracking-normal w-full"
           />
 
           <PostSummaryTextElement summary={summary ?? ''} />

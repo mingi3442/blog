@@ -30,7 +30,7 @@ const NavigationButton = ({
     >
       <span
         className={ctm(
-          `relative pb-1text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 leading-6`,
+          `relative pb-1 text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 leading-6 break-words`,
           isArrow ? 'pr-2' : 'pr-0',
           color === 'primary' ? `after:bg-primary-500` : `after:bg-slate-500`,
           spanClassName

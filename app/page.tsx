@@ -1,6 +1,6 @@
 import MainPage from '@/components/main/pages/MainPage'
 import { Authors, allAuthors, allBlogs } from 'contentlayer/generated'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 
 export default async function Page() {
   const sortedPosts = sortPosts(allBlogs)

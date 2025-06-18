@@ -11,7 +11,7 @@ import type { Authors, Blog } from 'contentlayer/generated'
 import { allAuthors, allBlogs } from 'contentlayer/generated'
 import { Metadata } from 'next'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
-import { allCoreContent, coreContent, sortPosts } from 'pliny/utils/contentlayer'
+import { allCoreContent, coreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 
 const defaultLayout = 'PostLayout'
 const layouts = {

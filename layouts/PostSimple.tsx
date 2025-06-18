@@ -5,7 +5,7 @@ import Comments from '@/components/posts/organisms/Comments'
 import ScrollTopAndComment from '@/components/posts/organisms/ScrollTopAndComment'
 import siteMetadata from '@/data/siteMetadata'
 import type { Blog } from 'contentlayer/generated'
-import { CoreContent } from 'pliny/utils/contentlayer'
+import { CoreContent } from 'pliny/utils/contentlayer.js'
 import { formatDate } from 'pliny/utils/formatDate'
 import { ReactNode } from 'react'
 
