@@ -2,6 +2,7 @@ import Image from '@/components/common/atoms/Image'
 import Link from '@/components/common/atoms/Link'
 import PageTitle from '@/components/common/atoms/PageTitle'
 import SectionContainer from '@/components/common/atoms/SectionContainer'
+import CustomTOC from '@/components/posts/molecules/CustomTOC'
 import Comments from '@/components/posts/organisms/Comments'
 import ScrollTopAndComment from '@/components/posts/organisms/ScrollTopAndComment'
 import Tag from '@/components/tags/Tag'
@@ -138,14 +139,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </div>
                 )}
               </div>
-              {/* <img
-                alt="Hits"
-                src="https://hits.sh/min71.dev.svg?view=today-total&style=flat-square&label=Visitors&extraCount=1671&color=3b82f6"
-                style={{ width: '100px', height: 'auto' }}
-                width={100}
-                height={25}
-              /> */}
-              <div className="pt-4 xl:pt-8">
+              <div className="sticky top-28 z-10">
+                <CustomTOC toc={content.toc!} exclude="Introduction" maxDepth={3} />
+              </div>
+              {/* <div className="pt-4 xl:pt-8">
                 <Link
                   href={`/${basePath}`}
                   className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
@@ -153,7 +150,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 >
                   &larr; Back to the blog
                 </Link>
-              </div>
+              </div> */}
             </footer>
           </div>
         </div>
