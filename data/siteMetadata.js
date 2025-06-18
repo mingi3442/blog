@@ -1,8 +1,8 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Min71 Dev Blog',
+  title: 'Min71 Tech Blog',
   author: 'Lee MinGi',
-  headerTitle: 'Min71 Dev Blog',
+  headerTitle: 'Min71 Tech Blog',
   description: 'Step by step, but Steadily and Consistently 📝',
   language: 'ko',
   locale: 'ko-KR',

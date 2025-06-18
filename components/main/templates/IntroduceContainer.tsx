@@ -2,7 +2,7 @@ import GreetingTextWrapper from '../molecules/GreetingTextWrapper'
 import IntroduceTextWrapper from '../molecules/IntroduceTextWrapper'
 import { TypedIntroduceWrapper } from '../organisms/TypedIntroduceWrapper'
 
-const INTERESTED_TECH_TAGS = ['cosmos-network', 'Cryptography']
+const INTERESTED_TECH_TAGS = ['cosmos-network']
 
 const IntroduceContainer = () => {
   return (
