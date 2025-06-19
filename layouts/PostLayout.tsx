@@ -139,7 +139,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </div>
                 )}
               </div>
-              <div className="sticky top-28 z-10">
+              <div className="sticky top-8 z-10">
                 <CustomTOC toc={content.toc!} exclude="Introduction" maxDepth={3} />
               </div>
               {/* <div className="pt-4 xl:pt-8">
