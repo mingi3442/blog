@@ -32,10 +32,12 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
                 <div className="aspect-[2/1] w-full relative">
                   <Image
                     src={displayImage}
-                    alt={title}
-                    priority={true}
                     fill
-                    className="object-cover"
+                    priority={true}
+                    fetchPriority="high"
+                    alt={title}
+                    style={{ objectFit: 'cover' }}
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
               </Bleed>

@@ -25,10 +25,13 @@ const PostThumbnailWrapper = ({
         aria-label={`Read "${title}"`}
       >
         <Image
-          className="absolute inset-0 w-full h-full object-cover"
           src={image}
           alt={slug}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          fetchPriority="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
           style={{ objectFit: imageObjectFit }}
         />
       </Link>

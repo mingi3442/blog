@@ -65,8 +65,19 @@ module.exports = () => {
     eslint: {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
+    swcMinify: true,
+    compiler: {
+      removeConsole:
+        process.env.NODE_ENV === 'production'
+          ? {
+              exclude: ['error', 'warn'],
+            }
+          : false,
+    },
+    poweredByHeader: false,
     images: {
-      domains: ['picsum.photos', 'hits.sh'],
+      formats: ['image/avif', 'image/webp'],
+      domains: ['hits.sh'],
       remotePatterns: [
         {
           protocol: 'https',
