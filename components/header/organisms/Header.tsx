@@ -25,7 +25,7 @@ const Header = () => {
         </Link>
       </div>
       <nav
-        className="flex items-center leading-5 space-x-4 sm:space-x-6"
+        className="flex items-center leading-5 gap-x-4 sm:gap-x-6"
         role="navigation"
         aria-label="main-navigation"
       >

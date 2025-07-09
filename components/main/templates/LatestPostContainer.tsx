@@ -19,7 +19,10 @@ const LatestPostContainer = ({
         </h1>
       </div>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6">
+      <ul
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 pt-6"
+        aria-label="latest-posts"
+      >
         {!posts.length && 'No posts found.'}
         {posts.slice(0, MAX_DISPLAY).map((post, index) => {
           const { slug } = post
