@@ -59,14 +59,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  params: { lang },
+  params,
 }: {
   children: React.ReactNode
   params: { lang: string }
 }) {
   return (
     <html
-      lang={lang}
+      lang={params.lang ?? 'ko'}
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
