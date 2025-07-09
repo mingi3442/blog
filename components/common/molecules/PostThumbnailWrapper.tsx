@@ -30,6 +30,7 @@ const PostThumbnailWrapper = ({
           src={image}
           alt={slug}
           layout="fill"
+          priority={true}
           style={{ objectFit: imageObjectFit }}
         />
       </Link>

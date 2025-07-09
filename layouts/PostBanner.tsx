@@ -23,7 +23,6 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
 
   return (
     <SectionContainer>
-      {/* <SEO title={title} description={summary} ogImage={images[0]} /> */}
       <ScrollTopAndComment />
       <article>
         <div>
@@ -31,7 +30,13 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
             <div className="w-full">
               <Bleed>
                 <div className="aspect-[2/1] w-full relative">
-                  <Image src={displayImage} alt={title} fill className="object-cover" />
+                  <Image
+                    src={displayImage}
+                    alt={title}
+                    priority={true}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </Bleed>
             </div>

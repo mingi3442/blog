@@ -104,12 +104,33 @@ export default async function Page({ params }: { params: { slug: string[]; local
   })
   const mainContent = coreContent(post)
   const jsonLd = post.structuredData
+
+  // JSON-LD 구조화된 데이터 개선
+  jsonLd['@context'] = 'https://schema.org'
+  jsonLd['@type'] = 'BlogPosting'
+  jsonLd['mainEntityOfPage'] = {
+    '@type': 'WebPage',
+    '@id': `${siteMetadata.siteUrl}/${post.slug}`,
+  }
+  jsonLd['headline'] = post.title
+  jsonLd['description'] = post.summary
+  jsonLd['image'] = post.images || siteMetadata.socialBanner
+  jsonLd['datePublished'] = new Date(post.date).toISOString()
+  jsonLd['dateModified'] = new Date(post.lastmod || post.date).toISOString()
   jsonLd['author'] = authorDetails.map((author) => {
     return {
       '@type': 'Person',
       name: author.name,
     }
   })
+  jsonLd['publisher'] = {
+    '@type': 'Organization',
+    name: siteMetadata.author,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteMetadata.siteUrl}/static/images/logo.png`,
+    },
+  }
   const Layout = layouts[post.layout || defaultLayout]
 
   return (

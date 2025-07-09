@@ -71,6 +71,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* LCP 최적화를 위한 사전 연결 및 사전 로드 */}
+        <link rel="preconnect" href={siteMetadata.siteUrl} />
+        <link rel="preconnect" href="https://min71.dev" />
+        <link rel="preload" href="/css/tailwind.css" as="style" />
+        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
+        <link
+          rel="preload"
+          href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
+        {/* 파비콘 및 기본 메타 태그 */}
         <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
@@ -89,11 +103,13 @@ export default function RootLayout({
           name="google-site-verification"
           content="BmBwdNWRqcNIxTL4GvqckRWEP1JS-Z7_2xVDhaCdYNE"
         />
-        <script
+        {/* 분석 스크립트는 성능 향상을 위해 비활성화됨 */}
+        {/* <script
+          async
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="49768dc7-9d09-41de-8b65-38049ca7d81d"
-        />
+        /> */}
       </head>
 
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
