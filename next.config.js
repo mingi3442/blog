@@ -74,6 +74,9 @@ module.exports = () => {
             }
           : false,
     },
+    experimental: {
+      optimizeCss: true,
+    },
     poweredByHeader: false,
     images: {
       formats: ['image/avif', 'image/webp'],
@@ -115,6 +118,7 @@ module.exports = () => {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
       })
+      config.optimization.minimize = true
 
       return config
     },
