@@ -22,7 +22,19 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
   title: siteMetadata.title,
   description: siteMetadata.description,
-  keywords: ['Blog', 'Development', 'Programming', 'Web Development', 'Software Engineering'],
+  keywords: [
+    '개발',
+    'Blog',
+    'Development',
+    'Programming',
+    'Web Development',
+    'Software Engineering',
+    'Tech Blog',
+    'React',
+    'Next.js',
+    'JavaScript',
+    'TypeScript',
+  ],
   authors: [{ name: siteMetadata.author }],
   openGraph: {
     title: siteMetadata.title,
@@ -96,7 +108,52 @@ export default function RootLayout({
           name="google-site-verification"
           content="BmBwdNWRqcNIxTL4GvqckRWEP1JS-Z7_2xVDhaCdYNE"
         />
-        {/* 분석 스크립트는 성능 향상을 위해 비활성화됨 */}
+
+        {/* 구조화된 데이터 - WebSite 스키마 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: siteMetadata.title,
+              description: siteMetadata.description,
+              url: siteMetadata.siteUrl,
+              author: {
+                '@type': 'Person',
+                name: siteMetadata.author,
+                email: siteMetadata.email,
+                url: siteMetadata.siteUrl,
+              },
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate: `${siteMetadata.siteUrl}/search?q={search_term_string}`,
+                },
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
+
+        {/* 구조화된 데이터 - Organization 스키마 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: siteMetadata.title,
+              url: siteMetadata.siteUrl,
+              logo: `${siteMetadata.siteUrl}${siteMetadata.siteLogo}`,
+              description: siteMetadata.description,
+              sameAs: [siteMetadata.github, siteMetadata.twitter, siteMetadata.linkedin].filter(
+                Boolean
+              ),
+            }),
+          }}
+        />
         {/* <script
           async
           defer
