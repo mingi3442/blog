@@ -26,11 +26,9 @@ const PostThumbnailWrapper = ({
       >
         <Image
           className="absolute inset-0 w-full h-full object-cover"
-          sizes="auto"
           src={image}
           alt={slug}
-          layout="fill"
-          priority={true}
+          fill
           style={{ objectFit: imageObjectFit }}
         />
       </Link>

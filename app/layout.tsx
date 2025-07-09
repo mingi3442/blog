@@ -74,15 +74,6 @@ export default function RootLayout({
         {/* LCP 최적화를 위한 사전 연결 및 사전 로드 */}
         <link rel="preconnect" href={siteMetadata.siteUrl} />
         <link rel="preconnect" href="https://min71.dev" />
-        <link rel="preload" href="/css/tailwind.css" as="style" />
-        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
-        <link
-          rel="preload"
-          href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
 
         {/* 파비콘 및 기본 메타 태그 */}
         <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png" />
