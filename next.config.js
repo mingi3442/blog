@@ -74,9 +74,7 @@ module.exports = () => {
             }
           : false,
     },
-    experimental: {
-      optimizeCss: true,
-    },
+
     poweredByHeader: false,
     images: {
       formats: ['image/avif', 'image/webp'],
