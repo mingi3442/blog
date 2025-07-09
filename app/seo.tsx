@@ -12,19 +12,26 @@ interface PageSEOProps {
 }
 
 function generateKeywords(tags?: string[], title?: string): string[] {
-  const baseKeywords = ['Blog', 'Development', 'Programming', 'Web Development', 'Software Engineering', 'Tech Blog']
+  const baseKeywords = [
+    'Blog',
+    'Development',
+    'Programming',
+    'Web Development',
+    'Software Engineering',
+    'Tech Blog',
+  ]
   const tagKeywords = tags || []
-  const titleKeywords = title ? title.split(' ').filter(word => word.length > 2) : []
-  
+  const titleKeywords = title ? title.split(' ').filter((word) => word.length > 2) : []
+
   return [...baseKeywords, ...tagKeywords, ...titleKeywords].slice(0, 10)
 }
 
 function optimizeDescription(description: string, maxLength: number = 155): string {
   if (description.length <= maxLength) return description
-  
+
   const truncated = description.substring(0, maxLength - 3)
   const lastSpace = truncated.lastIndexOf(' ')
-  
+
   return lastSpace > 0 ? truncated.substring(0, lastSpace) + '...' : truncated + '...'
 }
 
@@ -37,9 +44,11 @@ export function genPageMetadata({
   ...rest
 }: PageSEOProps): Metadata {
   const pageUrl = slug ? `${siteMetadata.siteUrl}/${slug}` : siteMetadata.siteUrl
-  const optimizedDescription = description ? optimizeDescription(description) : siteMetadata.description
+  const optimizedDescription = description
+    ? optimizeDescription(description)
+    : siteMetadata.description
   const keywords = generateKeywords(tags, title)
-  
+
   return {
     title: {
       absolute: title,
