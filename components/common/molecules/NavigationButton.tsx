@@ -30,7 +30,7 @@ const NavigationButton = ({
     >
       <span
         className={ctm(
-          `relative pb-1 text-white after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 leading-6 break-words`,
+          `relative pb-1 after:transition-transform after:duration-500 after:ease-out after:absolute after:bottom-0 after:left-0 after:block after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:content-[''] after:group-hover:origin-bottom-left after:group-hover:scale-x-100 leading-6 max-w-full overflow-hidden`,
           isArrow ? 'pr-2' : 'pr-0',
           color === 'primary' ? `after:bg-primary-500` : `after:bg-slate-500`,
           spanClassName
@@ -38,7 +38,12 @@ const NavigationButton = ({
       >
         <Link
           href={href}
-          className={`text-${color}-500 hover:text-${color}-600 dark:hover:text-${color}-400`}
+          className={`${
+            color === 'slate'
+              ? 'text-slate-700 hover:text-slate-800 dark:text-white'
+              : `text-${color}-500 hover:text-${color}-600 dark:text-${color}-400`
+          } dark:hover:text-${color}-400 truncate block`}
+          title={typeof children === 'string' ? children : typeof title === 'string' ? title : ''}
         >
           {children ? children : title}
         </Link>

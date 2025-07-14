@@ -24,14 +24,14 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
         imageObjectFit="contain"
       />
 
-      <div className="mt-2 w-full lg:mt-0 h-60 md:h-72 flex flex-col items-start justify-start min-h-max">
-        <div className="flex-1">
+      <div className="mt-2 w-full lg:mt-0 h-60 md:h-72 flex flex-col items-start justify-start min-h-max overflow-hidden">
+        <div className="flex-1 w-full overflow-hidden">
           <NavigationButton
             href={`/posts/${slug}`}
             isArrow={false}
             color="slate"
             title={title}
-            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-lg md:py-1 leading-6 line-clamp-2 break-words"
+            spanClassName="text-lg font-semibold text-gray-800 dark:text-white md:text-lg md:py-1 leading-6 line-clamp-2 overflow-hidden text-ellipsis"
             buttonClassName="tracking-normal w-full"
           />
 

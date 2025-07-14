@@ -16,7 +16,7 @@ export default function PostContainer({
   const { slug, date, title, summary, tags, images } = post
 
   return (
-    <article className="container">
+    <article className="container overflow-hidden max-w-7xl mx-auto">
       <div className="lg:-mx-6 lg:flex lg:items-center">
         <PostThumbnailWrapper
           title={title}
@@ -26,19 +26,21 @@ export default function PostContainer({
           imageObjectFit="contain"
         />
 
-        <div className="py-1 mt-2 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start min-h-full">
-          <div className="flex-1">
+        <div className="py-1 mt-2 lg:mx-6 lg:w-1/2 lg:mt-0 lg:h-72 flex flex-col items-start justify-start overflow-hidden">
+          <div className="flex-1 w-full overflow-hidden max-w-full">
             <NavigationButton
               href={`/posts/${slug}`}
               isArrow={false}
               color="slate"
               title={title}
-              spanClassName="block text-xl font-semibold text-gray-800 dark:text-white md:text-2xl"
-              buttonClassName="tracking-normal"
+              spanClassName="text-xl font-semibold text-gray-800 dark:text-white md:text-2xl leading-6 line-clamp-2 overflow-hidden text-ellipsis"
+              buttonClassName="tracking-normal w-full"
             />
 
-            <PostSummaryTextElement summary={summary ?? ''} />
-            <div className="mt-3">
+            <div className="overflow-hidden max-h-20">
+              <PostSummaryTextElement summary={summary ?? ''} />
+            </div>
+            <div className="mt-3 overflow-hidden">
               <NavigationButton
                 color="primary"
                 href={`/posts/${slug}`}
@@ -48,7 +50,7 @@ export default function PostContainer({
               />
             </div>
           </div>
-          <div className="mt-4 flex flex-wrap">
+          <div className="mt-4 flex flex-wrap overflow-hidden">
             {tags.map((tag) => (
               <Tag className="mr-2 my-1" key={tag} text={tag} />
             ))}
