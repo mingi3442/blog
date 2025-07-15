@@ -40,7 +40,7 @@ const MainPostCard = ({ post, author }: MainPostCardProps) => {
 
         <div className="mt-8 flex flex-wrap">
           {tags.map((tag) => (
-            <Tag className="mr-2 my-1" key={tag} text={tag} />
+            <Tag className="mr-1 my-1" key={tag} text={tag} />
           ))}
         </div>
         {/* <NavigationButton
