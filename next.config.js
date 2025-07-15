@@ -52,6 +52,11 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=()',
   },
+  // X-Robots-Tag to explicitly allow indexing
+  {
+    key: 'X-Robots-Tag',
+    value: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+  },
 ]
 
 /**

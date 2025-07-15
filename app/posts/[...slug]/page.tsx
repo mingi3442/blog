@@ -49,15 +49,34 @@ export async function generateMetadata({
     featuredImage = imageList[0]
   }
 
+  // 포스트에서 키워드 추출
+  const keywords = post.tags || []
+  const postUrl = `${siteMetadata.siteUrl}/${post.slug}`
   return {
     title: {
       absolute: post.title,
     },
     description: post.summary,
+    keywords: keywords.join(', '),
+    alternates: {
+      canonical: postUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
     openGraph: {
       title: post.title,
       description: post.summary,
-      url: `${siteMetadata.siteUrl}/${post.slug}`,
+      url: postUrl,
       images: [featuredImage],
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
@@ -108,15 +127,21 @@ export default async function Page({ params }: { params: { slug: string[]; local
   const jsonLd = post.structuredData
 
   // JSON-LD 구조화된 데이터 개선
+  const postUrl = `${siteMetadata.siteUrl}/${post.slug}`
   jsonLd['@context'] = 'https://schema.org'
   jsonLd['@type'] = 'BlogPosting'
   jsonLd['mainEntityOfPage'] = {
     '@type': 'WebPage',
-    '@id': `${siteMetadata.siteUrl}/${post.slug}`,
+    '@id': postUrl,
   }
   jsonLd['headline'] = post.title
   jsonLd['description'] = post.summary
-  jsonLd['image'] = post.images || siteMetadata.socialBanner
+  jsonLd['keywords'] = post.tags ? post.tags.join(', ') : ''
+  jsonLd['image'] = post.images
+    ? Array.isArray(post.images)
+      ? post.images.map((img) => (typeof img === 'string' ? img : ''))
+      : [post.images]
+    : [siteMetadata.socialBanner]
   jsonLd['datePublished'] = new Date(post.date).toISOString()
   jsonLd['dateModified'] = new Date(post.lastmod || post.date).toISOString()
   jsonLd['author'] = authorDetails.map((author) => {
@@ -128,10 +153,17 @@ export default async function Page({ params }: { params: { slug: string[]; local
   jsonLd['publisher'] = {
     '@type': 'Organization',
     name: siteMetadata.author,
+    url: siteMetadata.siteUrl,
     logo: {
       '@type': 'ImageObject',
       url: `${siteMetadata.siteUrl}/static/images/logo.png`,
+      width: '192',
+      height: '192',
     },
+  }
+  jsonLd['url'] = postUrl
+  if (post.tags && post.tags.length > 0) {
+    jsonLd['articleSection'] = post.tags[0]
   }
   const Layout = layouts[post.layout || defaultLayout]
 
