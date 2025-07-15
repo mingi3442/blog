@@ -20,7 +20,10 @@ const space_grotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
-  title: siteMetadata.title,
+  title: {
+    default: siteMetadata.title,
+    template: '%s',
+  },
   description: siteMetadata.description,
   keywords: [
     '개발',

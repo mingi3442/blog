@@ -1,16 +1,17 @@
-import { slug } from 'github-slugger'
-import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithTags'
-import { allBlogs } from 'contentlayer/generated'
 import tagData from 'app/tag-data.json'
-import { genPageMetadata } from 'app/seo'
+import { allBlogs } from 'contentlayer/generated'
+import { slug } from 'github-slugger'
 import { Metadata } from 'next'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 
 export async function generateMetadata({ params }: { params: { tag: string } }): Promise<Metadata> {
   const tag = decodeURI(params.tag)
-  return genPageMetadata({
-    title: tag,
+  return {
+    title: {
+      absolute: tag, // absolute 속성을 사용하여 템플릿 무시
+    },
     description: `${siteMetadata.title} ${tag} tagged content`,
     alternates: {
       canonical: './',
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: { tag: string } }):
         'application/rss+xml': `${siteMetadata.siteUrl}/tags/${tag}/feed.xml`,
       },
     },
-  })
+  }
 }
 
 export const generateStaticParams = async () => {
