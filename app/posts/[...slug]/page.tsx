@@ -49,9 +49,8 @@ export async function generateMetadata({
     featuredImage = imageList[0]
   }
 
-  // 포스트에서 키워드 추출
   const keywords = post.tags || []
-  const postUrl = `${siteMetadata.siteUrl}/${post.slug}`
+  const postUrl = `${siteMetadata.siteUrl}/posts/${post.slug}`
   return {
     title: {
       absolute: post.title,
@@ -127,7 +126,7 @@ export default async function Page({ params }: { params: { slug: string[]; local
   const jsonLd = post.structuredData
 
   // JSON-LD 구조화된 데이터 개선
-  const postUrl = `${siteMetadata.siteUrl}/${post.slug}`
+  const postUrl = `${siteMetadata.siteUrl}/posts/${post.slug}`
   jsonLd['@context'] = 'https://schema.org'
   jsonLd['@type'] = 'BlogPosting'
   jsonLd['mainEntityOfPage'] = {
