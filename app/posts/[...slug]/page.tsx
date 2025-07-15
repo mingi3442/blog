@@ -138,15 +138,21 @@ export default async function Page({ params }: { params: { slug: string[]; local
   jsonLd['keywords'] = post.tags ? post.tags.join(', ') : ''
   jsonLd['image'] = post.images
     ? Array.isArray(post.images)
-      ? post.images.map((img) => (typeof img === 'string' ? img : ''))
-      : [post.images]
-    : [siteMetadata.socialBanner]
+      ? post.images.map((img) => {
+          if (typeof img === 'string') {
+            return img.startsWith('http') ? img : `${siteMetadata.siteUrl}${img}`
+          }
+          return ''
+        })
+      : [post.images.startsWith('http') ? post.images : `${siteMetadata.siteUrl}${post.images}`]
+    : [`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`]
   jsonLd['datePublished'] = new Date(post.date).toISOString()
   jsonLd['dateModified'] = new Date(post.lastmod || post.date).toISOString()
   jsonLd['author'] = authorDetails.map((author) => {
     return {
       '@type': 'Person',
       name: author.name,
+      url: siteMetadata.siteUrl,
     }
   })
   jsonLd['publisher'] = {
