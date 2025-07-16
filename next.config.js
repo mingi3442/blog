@@ -78,10 +78,6 @@ module.exports = () => {
               exclude: ['error', 'warn'],
             }
           : false,
-      // 모던 브라우저만 지원하도록 JavaScript 트랜스파일링 최적화
-      browsersListForSwc: true,
-      swcMinify: true,
-      legacyBrowsers: false,
     },
 
     poweredByHeader: false,
