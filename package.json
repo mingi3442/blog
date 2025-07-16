@@ -87,5 +87,12 @@
   "packageManager": "yarn@3.6.1",
   "engines": {
     "node": ">=18.0.0 <20.0.0"
-  }
+  },
+  "browserslist": [
+    "defaults and supports es6-module",
+    "maintained node versions",
+    "not IE 11",
+    "not op_mini all",
+    "not dead"
+  ]
 }
