@@ -99,10 +99,6 @@ export default function RootLayout({
         <link rel="manifest" href="/static/favicons/site.webmanifest" />
         <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com *.googletagmanager.com *.gstatic.com giscus.app analytics.umami.is https://va.vercel-scripts.com *.vercel-insights.com; connect-src 'self' *.google-analytics.com *.googletagmanager.com *.gstatic.com vitals.vercel-insights.com vercel.com *.vercel-insights.com; img-src 'self' data: *.google.com *.googleusercontent.com; style-src 'self' 'unsafe-inline' *.googleapis.com; font-src 'self' *.gstatic.com *.googleapis.com; frame-src giscus.app;"
-        />
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f1f1" />
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
