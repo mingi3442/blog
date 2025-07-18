@@ -3578,9 +3578,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"Min71-Dev-blog@workspace:.":
+"Min71-Tech-Blog@workspace:.":
   version: 0.0.0-use.local
-  resolution: "Min71-Dev-blog@workspace:."
+  resolution: "Min71-Tech-Blog@workspace:."
   dependencies:
     "@next/bundle-analyzer": 13.5.3
     "@svgr/webpack": ^8.0.1
