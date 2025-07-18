@@ -20,7 +20,7 @@ const Header = () => {
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <LogoIcon />
-            <span className="ml-2 ">{siteMetadata.headerTitle}</span>
+            <span>{siteMetadata.headerTitle}</span>
           </div>
         </Link>
       </div>
