@@ -20,12 +20,12 @@ const Header = () => {
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <LogoIcon />
-            <span className="ml-2">{siteMetadata.headerTitle}</span>
+            <span className="ml-2 ">{siteMetadata.headerTitle}</span>
           </div>
         </Link>
       </div>
       <nav
-        className="flex items-center leading-5 gap-x-4 sm:gap-x-6"
+        className="flex items-center leading-5 gap-x-8"
         role="navigation"
         aria-label="main-navigation"
       >
