@@ -25,7 +25,7 @@ const GoogleAnalytics = () => {
               page_path: window.location.pathname,
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure',
-              cookie_domain: 'min71.dev',
+              cookie_domain: 'lapidix.dev',
               forceSSL: true
             });
           `,

@@ -88,7 +88,7 @@ export default function RootLayout({
       <head>
         {/* LCP 최적화를 위한 사전 연결 및 사전 로드 */}
         <link rel="preconnect" href={siteMetadata.siteUrl} />
-        <link rel="preconnect" href="https://min71.dev" />
+        <link rel="preconnect" href="https://lapidix.dev" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://giscus.app" crossOrigin="anonymous" />

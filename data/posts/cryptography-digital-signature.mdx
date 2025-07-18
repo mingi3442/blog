@@ -6,7 +6,7 @@ tags: ['Cryptography', 'Digital-Signature', 'RSA', 'ECC']
 draft: false
 summary: '전자 문서의 데이터 무결성과 출처 증명을 위한 암호화 알고리즘인 Digital Signature에 대해 알아봅니다. 🤔'
 images: ['/static/images/thumbnail/cryptography.png']
-canonicalUrl: 'https://min71.dev/posts/cryptography-digital-signature'
+canonicalUrl: 'https://lapidix.dev/posts/cryptography-digital-signature'
 ---
 
 ## Digital Signature
@@ -47,11 +47,11 @@ canonicalUrl: 'https://min71.dev/posts/cryptography-digital-signature'
 
 ### 키 생성방법 🔑
 
-**✓ _키 생성방법은 전에 정리한[RSA 알고리즘](https://min71.dev/posts/cryptography-asymmetric-key#rsa-%ED%82%A4-%EC%83%9D%EC%84%B1%EA%B3%BC-%EB%B3%B5%ED%98%B8%ED%99%94-%EA%B3%BC%EC%A0%95)의 키 생성방법과 동일합니다!_ 😏**
+**✓ _키 생성방법은 전에 정리한[RSA 알고리즘](https://lapidix.dev/posts/cryptography-asymmetric-key#rsa-%ED%82%A4-%EC%83%9D%EC%84%B1%EA%B3%BC-%EB%B3%B5%ED%98%B8%ED%99%94-%EA%B3%BC%EC%A0%95)의 키 생성방법과 동일합니다!_ 😏**
 
 ### 검증 🧐
 
-**_검증부분 역시 [RSA 검증](https://min71.dev/posts/cryptography-asymmetric-key#rsa-%EC%A0%95%ED%99%95%EC%84%B1-%EC%A6%9D%EB%AA%85%EA%B3%BC-%EC%98%88%EC%8B%9C) 부분과 비슷합니다._**🥲
+**_검증부분 역시 [RSA 검증](https://lapidix.dev/posts/cryptography-asymmetric-key#rsa-%EC%A0%95%ED%99%95%EC%84%B1-%EC%A6%9D%EB%AA%85%EA%B3%BC-%EC%98%88%EC%8B%9C) 부분과 비슷합니다._**🥲
 
 > $S$ : Signature
 > $M$ : Message
@@ -62,7 +62,7 @@ canonicalUrl: 'https://min71.dev/posts/cryptography-digital-signature'
 - $S^e = M^{ed}  mod  n= M^{k × φ⒩ + 1}  mod  n$
 - $S^e = M^{k × φ⒩ + 1}  mod  n = M  mod  n$
 
-  ⤷ 𖤐 [φ⒩ 오일러의 정리](https://min71.dev/posts/cryptography-mathematics-in-cryptography#eulers-theorem) 마지막 부분 😉
+  ⤷ 𖤐 [φ⒩ 오일러의 정리](https://lapidix.dev/posts/cryptography-mathematics-in-cryptography#eulers-theorem) 마지막 부분 😉
 
 ---
 
