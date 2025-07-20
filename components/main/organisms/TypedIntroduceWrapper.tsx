@@ -18,6 +18,7 @@ export function TypedIntroduceWrapper() {
   useEffect(() => {
     const options = {
       strings: [
+        'Getting better every day. Consistency over perfection, process over results.',
         'Sharing insights from real-world projects and continuous learning.',
         'Building scalable web and blockchain solutions, one step at a time.',
         'Exploring clean architecture, DDD, and modern design patterns.',

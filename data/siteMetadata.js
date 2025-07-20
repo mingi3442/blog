@@ -3,7 +3,8 @@ const siteMetadata = {
   title: 'Lapidix Dev',
   author: 'Lee MinGi',
   headerTitle: 'Lapidix Dev',
-  description: 'Step by step, but Steadily and Consistently 📝',
+  description:
+    'Technical blog by Lee MinGi covering Cosmos blockchain development, modern web technologies, and software engineering best practices.',
   language: 'ko',
   locale: 'ko-KR',
   theme: 'system', // system, dark or light
