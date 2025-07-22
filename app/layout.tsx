@@ -157,12 +157,11 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* <script
-          async
+        <script
           defer
           src="https://cloud.umami.is/script.js"
           data-website-id="49768dc7-9d09-41de-8b65-38049ca7d81d"
-        /> */}
+        ></script>
       </head>
 
       <body className="bg-white text-black antialiased dark:bg-gray-800 dark:text-white">
