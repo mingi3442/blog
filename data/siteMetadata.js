@@ -16,7 +16,7 @@ const siteMetadata = {
   email: 'mingi3442@gmail.com',
   linkedin: 'https://www.linkedin.com/in/lapidix',
   github: 'https://github.com/lapidix',
-  twitter: 'https://twitter.com/min_71_dev',
+  twitter: 'https://twitter.com/lapidix_dev',
   facebook: 'https://facebook.com',
   // youtube: 'https://youtube.com',
   analytics: {
